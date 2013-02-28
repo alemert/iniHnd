@@ -33,15 +33,16 @@ int main( int argc, const char** argv )
   int sysRc = NO_ERROR ;
 
   // -------------------------------------------------------
-  // some test 
+  // no file found
   // -------------------------------------------------------
 #if(1)
-  doIntTest( "general call", \
-          0             , \
+  doIntTest( "no file found", \
+          1             , \
           iniReader     , \
-          "test/cfg/t_000.ini" ) ;
+          "test/cfg/does_not_exists.ini" ) ;
 #endif
 
+      //  "test/cfg/t_000.ini" ) ;
 _door:
   return sysRc ;
 }

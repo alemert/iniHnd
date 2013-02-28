@@ -1,2 +1,2 @@
-# TEST START iniReader  >>general call        << test/src/t_reader_000.c(0042)
-# TEST OK    iniReader  >>general call        << test/src/t_reader_000.c(0042)
+# TEST START iniReader  >>no file found       << test/src/t_reader_000.c(0042)
+# TEST OK    iniReader  >>no file found       << test/src/t_reader_000.c(0042)
