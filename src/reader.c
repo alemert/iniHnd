@@ -14,6 +14,8 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
+#include <msgcat/lgstd.h>
+#include <ctl.h>
 
 /******************************************************************************/
 /*   G L O B A L S                                                            */
@@ -44,6 +46,7 @@ int iniReader( const char* fileName )
 
   if( (ini = fopen( fileName, "r" ) ) == NULL )
   {
+    logger( LSTD_OPEN_FILE_FAILED, fileName ) ;
     sysRc = 1 ;
     goto _door ;
   }
