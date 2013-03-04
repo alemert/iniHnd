@@ -1,2 +1,4 @@
-# TEST START iniReader  >>no file found       << test/src/t_reader_000.c(0042)
-# TEST OK    iniReader  >>no file found       << test/src/t_reader_000.c(0042)
+# TEST START iniReader  >>no file found       << test/src/t_reader_000.c(0047)
+# TEST OK    iniReader  >>no file found       << test/src/t_reader_000.c(0047)
+# TEST START iniReader  >>file open ok        << test/src/t_reader_000.c(0057)
+# TEST OK    iniReader  >>file open ok        << test/src/t_reader_000.c(0057)
