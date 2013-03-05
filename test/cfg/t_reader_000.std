@@ -1,4 +1,8 @@
-# TEST START iniReader  >>no file found       << test/src/t_reader_000.c(0047)
-# TEST OK    iniReader  >>no file found       << test/src/t_reader_000.c(0047)
-# TEST START iniReader  >>file open ok        << test/src/t_reader_000.c(0057)
-# TEST OK    iniReader  >>file open ok        << test/src/t_reader_000.c(0057)
+# TEST START iniReader  >>no file found       << test/src/t_reader_000.c(0050)
+# TEST OK    iniReader  >>no file found       << test/src/t_reader_000.c(0050)
+# TEST START iniReader  >>file open ok        << test/src/t_reader_000.c(0060)
+# TEST OK    iniReader  >>file open ok        << test/src/t_reader_000.c(0060)
+>>   ª<<
+# TEST START iniReader  >>file open ok        << test/src/t_reader_000.c(0072)
+# TEST OK    iniReader  >>file open ok        << test/src/t_reader_000.c(0072)
+>>< qmgr >   name = ADMT01   <channel>     name = ADMT01.GATEWAT01   </channel> < /qmgr > <<

@@ -21,7 +21,7 @@ DBGOPT = -g
 SOURCES = reader.c
 
 AROWN = 
-LSOWN = msgcat
+LSOWN = msgcat sogen
 
 # ------------------------------------------------------------------------------
 # main source

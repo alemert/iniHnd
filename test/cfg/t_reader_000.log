@@ -1,2 +1,2 @@
-2013-03-01 20:33:15  17841 00110 ERR failed to open file test/cfg/does_not_exists.ini
-                                     iniReader() in src/reader.c (line: 00049)
+2013-03-05 16:08:30   8891 00110 ERR failed to open file test/cfg/does_not_exists.ini
+                                     iniReader() in src/reader.c (line: 00058)
