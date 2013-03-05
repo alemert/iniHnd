@@ -156,6 +156,42 @@ int main( int argc, const char** argv )
   free( iniMem ) ;
 #endif
   
+  // -------------------------------------------------------
+  // unexpected < found
+  // -------------------------------------------------------
+#if(1)
+  iniReader( "test/cfg/t_reader_000_008.ini", &iniMem ) ;
+  doIntTest( "wrong char found"   , \
+              3                   , \
+              ini2cfg             , \
+              iniMem              ) ;
+  free( iniMem ) ;
+#endif
+  
+  // -------------------------------------------------------
+  // unexpected / found
+  // -------------------------------------------------------
+#if(1)
+  iniReader( "test/cfg/t_reader_000_009.ini", &iniMem ) ;
+  doIntTest( "wrong char found"   , \
+              3                   , \
+              ini2cfg             , \
+              iniMem              ) ;
+  free( iniMem ) ;
+#endif
+  
+  // -------------------------------------------------------
+  // unexpected / found
+  // -------------------------------------------------------
+#if(1)
+  iniReader( "test/cfg/t_reader_000_010.ini", &iniMem ) ;
+  doIntTest( "wrong char found"   , \
+              0                   , \
+              ini2cfg             , \
+              iniMem              ) ;
+  free( iniMem ) ;
+#endif
+  
 _door:
   return sysRc ;
 }

@@ -11,6 +11,7 @@
 // ---------------------------------------------------------
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // ---------------------------------------------------------
 // own 
@@ -98,7 +99,7 @@ int iniReader( const char* fileName, char **_iniMem )
   }                                              //
   *(iniMem+memSize) = '\0' ;                     // set the end of ini file flag
                                                  //
-  for( p=iniMem; *p!='\0'; p++ )                // replace '\n' with blanks
+  for( p=iniMem; *p!='\0'; p++  )                // replace '\n' with blanks
   {                                              //
     if( *p == '\n' ) *p = ' ' ;                  //
   }                                              //
@@ -121,38 +122,66 @@ int ini2cfg( char* iniMem )
 
   char *p = iniMem ;
 
-  while( *p != '<' )        // find start of the opening tag
-  {                         //
-    switch( *p )            //
-    {                       //
-      case ' ' : break ;    // ignore blank
-      default  :            //
-        sysRc = 1 ;         // anything but '<' or ' ' is an error
-        goto _door ;        //
-    }                       //
-    p++ ;                   //
-  }                         //
-  p++ ;      //
-                            //
-  loop = 1 ;                //
-  while( loop )             // 
-  {                         // 
-    switch( *p )            //
-    {                       // find char not eq to
-      case ' '  : break ;   // blank 
-      case '<'  :           // '<'
-      case '>'  :           // '>'
-      case '/'  :           // '/'
-      case '\0' :           // end of memory
-        sysRc = 2  ;        //
-        goto _door ;        //
-      default :             //
-        loop = 0 ;          //
-    }                       //
-    p++ ;                   //
-  }                         //
-  p-- ;                     //
-                            //
+  char *tagNameP ;
+  char tagName[16] ;
+
+  int lng ;
+
+  while( *p != '<' )              // find start of the opening tag
+  {                               //
+    switch( *p )                  //
+    {                             //
+      case ' ' : break ;          // ignore blank
+      default  :                  //
+        sysRc = 1 ;               // anything but '<' or ' ' is an error
+        goto _door ;              //
+    }                             //
+    p++ ;                         //
+  }                               //
+  p++ ;                           //
+                                  //
+  loop = 1 ;                      //
+  while( loop )                   // 
+  {                               // 
+    switch( *p )                  //
+    {                             // find char not eq to
+      case ' '  : break ;         // blank 
+      case '<'  :                 // '<'
+      case '>'  :                 // '>'
+      case '/'  :                 // '/'
+      case '\0' :                 // end of memory
+        sysRc = 2  ;              //
+        goto _door ;              //
+      default :                   //
+        loop = 0 ;                //
+    }                             //
+    p++ ;                         //
+  }                               //
+  p-- ;                           //
+  tagNameP = p ;                  //
+                                  //
+  loop = 1 ;                      //
+  while( loop )                   // search for tag name
+  {                               //
+    switch( *p )                  //
+    {                             // stop if blank
+      case  ' '  :                //
+      case '>'   :                // 
+        loop = 0 ;                //
+        break    ;                //
+      case '<'   :                // some chars -> error
+      case '/'   :                //
+      case '\0'  :                //
+        sysRc = 3 ;               //
+        goto _door ;              //
+      default : break ;           //
+    }                             //
+    p++ ;                         //
+  }                               //
+                                  //
+  lng = p-tagNameP ;
+  memcpy( tagName, tagNameP, lng ) ;
+  tagName[lng-1] = '\0' ;
 
 _door :
   return sysRc ;
