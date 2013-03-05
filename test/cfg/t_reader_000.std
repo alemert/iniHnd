@@ -6,3 +6,9 @@
 # TEST START iniReader  >>file open ok        << test/src/t_reader_000.c(0072)
 # TEST OK    iniReader  >>file open ok        << test/src/t_reader_000.c(0072)
 >>< qmgr >   name = ADMT01   <channel>     name = ADMT01.GATEWAT01   </channel> < /qmgr > <<
+# TEST START ini2cfg    >>ini stating with <  << test/src/t_reader_000.c(0083)
+# TEST OK    ini2cfg    >>ini stating with <  << test/src/t_reader_000.c(0083)
+# TEST START ini2cfg    >>ini stating with blank<< test/src/t_reader_000.c(0095)
+# TEST OK    ini2cfg    >>ini stating with blank<< test/src/t_reader_000.c(0095)
+# TEST START ini2cfg    >>wrong char found    << test/src/t_reader_000.c(0107)
+# TEST OK    ini2cfg    >>wrong char found    << test/src/t_reader_000.c(0107)

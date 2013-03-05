@@ -1,5 +1,5 @@
 /******************************************************************************/
-/* ini file handler - ini file reader            */
+/* ini file handler - ini file reader                                         */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -15,6 +15,8 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
+#include <inihnd.h>
+
 #include <msgcat/lgstd.h>
 #include <ctl.h>
 
@@ -40,6 +42,16 @@
 /*                                                                            */
 /*   F U N C T I O N S                                                        */
 /*                                                                            */
+/******************************************************************************/
+
+/******************************************************************************/
+/*  ini file reader                                                           */
+/*                                                                            */
+/*  read ini file in memomry as one line                                      */
+/*  return code:                                                              */
+/*    ok:     0                                                               */
+/*    error:  i.g. errno                                                      */
+/*            if error occures *_iniMem = NULL                                */
 /******************************************************************************/
 int iniReader( const char* fileName, char **_iniMem )
 {
@@ -67,7 +79,7 @@ int iniReader( const char* fileName, char **_iniMem )
     sysRc = -memSize ;                           // if memSize < 0 then 
     goto _door ;                                 //   errno = -memSize 
   }                                              //
-  memSize++ ;            // increase memSize for '\0'
+  memSize++ ;                                    // increase memSize for '\0'
                                                  //
   iniMem = (char*) malloc(memSize*sizeof(char)); // alloc memory in size 
   if( iniMem == NULL )                           //   of the ini-file
@@ -98,3 +110,55 @@ _door :
 
   return sysRc ;
 }
+
+/******************************************************************************/
+/* ini memory to config                                                       */
+/******************************************************************************/
+int ini2cfg( char* iniMem )
+{
+  int sysRc = 0 ;
+  int loop ;
+
+  char *p = iniMem ;
+
+  while( *p != '<' )        // find start of the opening tag
+  {                         //
+    switch( *p )            //
+    {                       //
+      case ' ' : break ;    // ignore blank
+      default  :            //
+        sysRc = 1 ;         // anything but '<' or ' ' is an error
+        goto _door ;        //
+    }                       //
+    p++ ;                   //
+  }                         //
+  p++ ;      //
+                            //
+  loop = 1 ;                //
+  while( loop )             // 
+  {                         // 
+    switch( *p )            //
+    {                       // find char not eq to
+      case ' '  : break ;   // blank 
+      case '<'  :           // '<'
+      case '>'  :           // '>'
+      case '/'  :           // '/'
+      case '\0' :           // end of memory
+        sysRc = 2  ;        //
+        goto _door ;        //
+      default :             //
+        loop = 0 ;          //
+    }                       //
+    p++ ;                   //
+  }                         //
+  p-- ;                     //
+                            //
+
+_door :
+  return sysRc ;
+}
+
+/******************************************************************************/
+/* find opening tag    */
+/******************************************************************************/
+//char* findOpenTag( char* iniMem )
