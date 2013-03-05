@@ -115,7 +115,7 @@ _door :
 /******************************************************************************/
 /* ini memory to config                                                       */
 /******************************************************************************/
-int ini2cfg( char* iniMem )
+int ini2cfg( char* iniMem, tIniNode* iniCfg )
 {
   int sysRc = 0 ;
   int loop ;
@@ -127,61 +127,66 @@ int ini2cfg( char* iniMem )
 
   int lng ;
 
-  while( *p != '<' )              // find start of the opening tag
-  {                               //
-    switch( *p )                  //
-    {                             //
-      case ' ' : break ;          // ignore blank
-      default  :                  //
-        sysRc = 1 ;               // anything but '<' or ' ' is an error
-        goto _door ;              //
-    }                             //
-    p++ ;                         //
-  }                               //
-  p++ ;                           //
-                                  //
-  loop = 1 ;                      //
-  while( loop )                   // 
-  {                               // 
-    switch( *p )                  //
-    {                             // find char not eq to
-      case ' '  : break ;         // blank 
-      case '<'  :                 // '<'
-      case '>'  :                 // '>'
-      case '/'  :                 // '/'
-      case '\0' :                 // end of memory
-        sysRc = 2  ;              //
-        goto _door ;              //
-      default :                   //
-        loop = 0 ;                //
-    }                             //
-    p++ ;                         //
-  }                               //
-  p-- ;                           //
-  tagNameP = p ;                  //
-                                  //
-  loop = 1 ;                      //
-  while( loop )                   // search for tag name
-  {                               //
-    switch( *p )                  //
-    {                             // stop if blank
-      case  ' '  :                //
-      case '>'   :                // 
-        loop = 0 ;                //
-        break    ;                //
-      case '<'   :                // some chars -> error
-      case '/'   :                //
-      case '\0'  :                //
-        sysRc = 3 ;               //
-        goto _door ;              //
-      default : break ;           //
-    }                             //
-    p++ ;                         //
-  }                               //
-                                  //
-  lng = p-tagNameP ;
-  memcpy( tagName, tagNameP, lng ) ;
-  tagName[lng-1] = '\0' ;
+  while( *p != '<' )                  // find start of the opening tag
+  {                                   //
+    switch( *p )                      //
+    {                                 //
+      case ' ' : break ;              // ignore blank
+      default  :                      //
+        sysRc = 1 ;                   // anything but '<' or ' ' is an error
+        goto _door ;                  //
+    }                                 //
+    p++ ;                             //
+  }                                   //
+  p++ ;                               //
+                                      //
+  loop = 1 ;                          //
+  while( loop )                       // 
+  {                                   // 
+    switch( *p )                      //
+    {                                 // find char not eq to
+      case ' '  : break ;             // blank 
+      case '<'  :                     // '<'
+      case '>'  :                     // '>'
+      case '/'  :                     // '/'
+      case '\0' :                     // end of memory
+        sysRc = 2  ;                  //
+        goto _door ;                  //
+      default :                       //
+        loop = 0 ;                    //
+    }                                 //
+    p++ ;                             //
+  }                                   //
+  p-- ;                               //
+  tagNameP = p ;                      //
+                                      //
+  loop = 1 ;                          //
+  while( loop )                       // search for tag name
+  {                                   //
+    switch( *p )                      //
+    {                                 // stop if blank
+      case  ' '  :                    //
+      case '>'   :                    // 
+        loop = 0 ;                    //
+        break    ;                    //
+      case '<'   :                    // some chars -> error
+      case '/'   :                    //
+      case '\0'  :                    //
+        sysRc = 3 ;                   //
+        goto _door ;                  //
+      default : break ;               //
+    }                                 //
+    p++ ;                             //
+  }                                   //
+                                      //
+  lng = p-tagNameP ;                  //
+  memcpy( tagName, tagNameP, lng ) ;  //
+  tagName[lng-1] = '\0' ;             //
+                                      //
+
+//printf(">-%c-<\n",*p) ;
+
+//while( 1 ) 
 
 _door :
   return sysRc ;
