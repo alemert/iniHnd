@@ -116,18 +116,17 @@ _door :
 /******************************************************************************/
 /* ini memory to config                                                       */
 /******************************************************************************/
-int ini2cfg( char* iniMem, tIniNode* iniCfg )
+int ini2cfgHandleTag( char* iniMem, tIniNode* iniCfg, char *endP )
 {
   int sysRc = 0 ;
   int loop ;
 
-  char *p = iniMem ;
+  char *p   = iniMem ;
+       endP = iniMem ;
 
   char *startP ;
 
   tIniNode *node ;
-  
-
 
   while( *p != '<' )                  // find start of the opening tag
   {                                   //
@@ -215,12 +214,9 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
         goto _door ;                  //
     }                                 //
     p++ ;                             //
-  }      //
+  }                                   //
                                       //
-
-//printf(">-%c-<\n",*p) ;
-
-//while( 1 ) 
+ end = p ;
 
 _door :
   return sysRc ;

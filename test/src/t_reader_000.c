@@ -85,7 +85,7 @@ int main( int argc, const char** argv )
 #if(1)
   doIntTest( "ini stating with <"   , \
               0              , \
-              ini2cfg        , \
+              ini2cfgHandleTag        , \
               iniMem, iniAnchor ) ;
   free( iniMem ) ;
 #endif
@@ -97,7 +97,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_002.ini", &iniMem ) ;
   doIntTest( "ini stating with blank"   , \
               0                , \
-              ini2cfg          , \
+              ini2cfgHandleTag          , \
               iniMem, iniAnchor         ) ;
   free( iniMem ) ;
 #endif
@@ -109,7 +109,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_003.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               1                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   free( iniMem ) ;
 #endif
@@ -121,7 +121,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_004.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               2                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   free( iniMem ) ;
 #endif
@@ -133,7 +133,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_005.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               2                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   free( iniMem ) ;
 #endif
@@ -145,7 +145,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_006.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               2                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   free( iniMem ) ;
 #endif
@@ -157,7 +157,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_007.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               2                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   free( iniMem ) ;
 #endif
@@ -169,7 +169,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_008.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               3                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   free( iniMem ) ;
 #endif
@@ -181,7 +181,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_009.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               3                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   free( iniMem ) ;
 #endif
@@ -193,7 +193,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_010.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               0                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   if( strcmp( iniAnchor->tag, "qmgr" ) )
   {
@@ -212,7 +212,7 @@ int main( int argc, const char** argv )
   iniReader( "test/cfg/t_reader_000_011.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               4                   , \
-              ini2cfg             , \
+              ini2cfgHandleTag             , \
               iniMem, iniAnchor  ) ;
   free( iniMem ) ;
 #endif
