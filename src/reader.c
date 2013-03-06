@@ -97,7 +97,7 @@ int iniReader( const char* fileName, char **_iniMem )
     sysRc = 1 ;                                  //
     goto _door ;                                 //
   }                                              //
-  *(iniMem+memSize) = '\0' ;                     // set the end of ini file flag
+  *(iniMem+realSize) = '\0' ;                    // set the end of ini file flag
                                                  //
   for( p=iniMem; *p!='\0'; p++  )                // replace '\n' with blanks
   {                                              //
@@ -123,9 +123,10 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
   char *p = iniMem ;
 
   char *startP ;
-  char *tagName =NULL  ;
 
-  int lng ;
+  tIniNode *node ;
+  
+
 
   while( *p != '<' )                  // find start of the opening tag
   {                                   //
@@ -158,7 +159,7 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
     p++ ;                             //
   }                                   //
   p-- ;                               //
-  startP = p ;                      //
+  startP = p ;                        //
                                       //
   loop = 1 ;                          //
   while( loop )                       // search for tag name
@@ -179,13 +180,33 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
     p++ ;                             //
   }                                   //
                                       //
-#if(0)
-  iniCfg->nextNode = (tIniNode*) malloc( sizeof(tIniNode) ) ;
-  if( iniCfg 
-  
+#if(0)                                //
+                                      //
+  node = initIniNode( ) ;             //
+  if( node == NULL )                  //
+  {                                   //
+    sysRc = 4 ;                       //
+    goto _door ;                      //
+  }                                   //
+  iniCfg->nextNode = node ;           //
+                                      //
+#else                                 //
+                                      //
+  node = iniCfg ;                     //
+                                      //
+#endif                                //
+                                      //
+  sysRc = setIniTagName( node, startP, p-startP ) ;     
+  if( sysRc != 0 )                    //
+  {                                   //
+    sysRc = 5 ;                       //
+    goto _door ;                      //
+  }                                   //
+                                      //
+#if(0)  
   lng = p-startP ;                    //
-  tagName = (char*) malloc( lng     * sizeof(char) ) ;
-  memcpy( tagName, startP, lng ) ;  //
+  tagName = (char*) malloc( lng* sizeof(char) ) ;
+  memcpy( tagName, startP, lng ) ;    //
   tagName[lng-1] = '\0' ;             //
                                       //
   while( *p != '>' )
