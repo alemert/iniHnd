@@ -14,7 +14,9 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
+#include <initypes.h>
 #include <inihnd.h>
+
 #include <genlib.h>
 
 #include <msgcat/lgstd.h>
@@ -70,22 +72,27 @@ int setIniTagName( tIniNode *node, const char* tag, int lng )
 {
   int sysRc = 0 ;
 
-  if( lng < 0 ) 
-    lng   = strlen( tag ) ;
-
-  errno = 0 ;
-
-  node->tag = (char*) malloc( lng * sizeof(char) ) ;
-  if( node->tag == NULL )
-  {
-    logger( LSTD_MEM_ALLOC_ERROR ) ;
-    sysRc = errno ;
-    goto _door ;
-  } 
-
-  memcpy( node->tag, tag, lng ) ;
-  node->tag[lng-1] = '\0' ;
-
+  if( lng < 0 )                        // tag ends with '\0' if lng<0 
+    lng   = strlen( tag ) + 1 ;        //
+                                       //
+  errno = 0 ;                          //
+                                       //
+  if( node->tag != NULL )              // if node already set 
+  {                                    //   free memory
+    free( node->tag ) ;                //
+  }                                    //
+                                       //
+  node->tag = (char*) malloc( lng * sizeof(char) ) ;      
+  if( node->tag == NULL )              // alloc memory 
+  {                                    //  & handle error
+    logger( LSTD_MEM_ALLOC_ERROR ) ;   //
+    sysRc = errno ;                    //
+    goto _door ;                       //
+  }                                    //
+                                       //
+  memcpy( node->tag, tag, lng ) ;      // copy to struct
+  node->tag[lng-1] = '\0' ;            // set end of string
+                                       //
 _door:
   return sysRc ;
 }

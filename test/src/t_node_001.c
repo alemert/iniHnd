@@ -23,6 +23,7 @@
 // ---------------------------------------------------------
 #include "tutl.h"
 
+#include <initypes.h>
 #include <inihnd.h>
 
 #include <ctl.h>
@@ -46,9 +47,50 @@ int main( int argc, const char** argv )
               0             , \
               setIniTagName ,
               iniAnchor,
-              "hugo    ", 8 ) ;
+              "hugo    ", 4+1 ) ;
+  if( memcmp(iniAnchor->tag,"hugo",5) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, setIniTagName ) ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, iniAnchor ) ;
+#endif
+
+  // -------------------------------------------------------
+  // reinit 
+  // -------------------------------------------------------
+#if(1)
+  doIntTest( "re-set tag name" , \
+              0             , \
+              setIniTagName ,
+              iniAnchor,
+              "hugo1   ", 5+1 ) ;
+  if( memcmp(iniAnchor->tag,"hugo1",6) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, setIniTagName ) ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, iniAnchor ) ;
+#endif
+
+  // -------------------------------------------------------
+  // string with '\0'
+  // -------------------------------------------------------
+#if(1)
+  doIntTest( "real string with \\0" , \
+              0             , \
+              setIniTagName ,
+              iniAnchor,
+              "hugo12", -1 ) ;
+  if( strcmp(iniAnchor->tag,"hugo12") != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, setIniTagName ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, iniAnchor ) ;
+#endif
 
 _door:
-#endif
   return sysRc ;
 }

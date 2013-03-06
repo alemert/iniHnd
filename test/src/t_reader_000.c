@@ -24,6 +24,7 @@
 // ---------------------------------------------------------
 #include <tutl.h>
 
+#include <initypes.h>
 #include <inihnd.h>
 
 #include <ctl.h>
@@ -194,13 +195,20 @@ int main( int argc, const char** argv )
               0                   , \
               ini2cfg             , \
               iniMem, iniAnchor  ) ;
+  if( strcmp( iniAnchor->tag, "qmgr" ) )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfg ) ;
   free( iniMem ) ;
 #endif
   
   // -------------------------------------------------------
   // unexpected / found
   // -------------------------------------------------------
-#if(0)
+#if(1)
   iniReader( "test/cfg/t_reader_000_011.ini", &iniMem ) ;
   doIntTest( "wrong char found"   , \
               4                   , \

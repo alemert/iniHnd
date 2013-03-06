@@ -16,6 +16,7 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
+#include <initypes.h>
 #include <inihnd.h>
 
 #include <msgcat/lgstd.h>
@@ -179,9 +180,10 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
     }                                 //
     p++ ;                             //
   }                                   //
+  p-- ;      //
                                       //
-#if(0)                                //
-                                      //
+#if(0)                                // parent of this node is given as 
+                                      //  function argument
   node = initIniNode( ) ;             //
   if( node == NULL )                  //
   {                                   //
@@ -192,35 +194,30 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
                                       //
 #else                                 //
                                       //
-  node = iniCfg ;                     //
+  node = iniCfg ;                     // node is given as a funxtion argument
                                       //
 #endif                                //
                                       //
-  sysRc = setIniTagName( node, startP, p-startP ) ;     
+  sysRc = setIniTagName( node, startP, p-startP+1 ) ;     
   if( sysRc != 0 )                    //
   {                                   //
     sysRc = 5 ;                       //
     goto _door ;                      //
   }                                   //
                                       //
-#if(0)  
-  lng = p-startP ;                    //
-  tagName = (char*) malloc( lng* sizeof(char) ) ;
-  memcpy( tagName, startP, lng ) ;    //
-  tagName[lng-1] = '\0' ;             //
+  while( *p != '>' )                  // find end of opening tag
+  {                                   //
+    switch( *p )                      //
+    {                                 //
+      case ' ' : break ;              //
+      default  :                      //
+        sysRc = 4 ;                   //
+        goto _door ;                  //
+    }                                 //
+    p++ ;                             //
+  }      //
                                       //
-  while( *p != '>' )
-  {
-    switch( *p )
-    {
-      case ' ' : break ;
-      default  :
-        sysRc = 4 ;
-        goto _door ;
-    }
-    p++ ;
-  }
-#endif
+
 //printf(">-%c-<\n",*p) ;
 
 //while( 1 ) 

@@ -23,6 +23,7 @@
 // ---------------------------------------------------------
 #include "tutl.h"
 
+#include <initypes.h>
 #include <inihnd.h>
 
 #include <ctl.h>
