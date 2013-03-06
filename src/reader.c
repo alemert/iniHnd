@@ -122,8 +122,8 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
 
   char *p = iniMem ;
 
-  char *tagNameP ;
-  char tagName[16] ;
+  char *startP ;
+  char *tagName =NULL  ;
 
   int lng ;
 
@@ -158,7 +158,7 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
     p++ ;                             //
   }                                   //
   p-- ;                               //
-  tagNameP = p ;                      //
+  startP = p ;                      //
                                       //
   loop = 1 ;                          //
   while( loop )                       // search for tag name
@@ -179,11 +179,27 @@ int ini2cfg( char* iniMem, tIniNode* iniCfg )
     p++ ;                             //
   }                                   //
                                       //
-  lng = p-tagNameP ;                  //
-  memcpy( tagName, tagNameP, lng ) ;  //
+#if(0)
+  iniCfg->nextNode = (tIniNode*) malloc( sizeof(tIniNode) ) ;
+  if( iniCfg 
+  
+  lng = p-startP ;                    //
+  tagName = (char*) malloc( lng     * sizeof(char) ) ;
+  memcpy( tagName, startP, lng ) ;  //
   tagName[lng-1] = '\0' ;             //
                                       //
-
+  while( *p != '>' )
+  {
+    switch( *p )
+    {
+      case ' ' : break ;
+      default  :
+        sysRc = 4 ;
+        goto _door ;
+    }
+    p++ ;
+  }
+#endif
 //printf(">-%c-<\n",*p) ;
 
 //while( 1 ) 
