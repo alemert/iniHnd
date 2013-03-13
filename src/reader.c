@@ -1,10 +1,10 @@
 /******************************************************************************/
 /* ini file handler - ini file reader                                         */
-/*                                                            */
-/* functions:                                    */
-/*   - iniReader                  */
-/*   - ini2cfg                */
-/*   - ini2cfgHandleTag                        */
+/*                                                                            */
+/* functions:                                                              */
+/*   - iniReader                                */
+/*   - ini2cfg                                      */
+/*   - ini2cfgHandleTag                                    */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -119,14 +119,49 @@ _door :
 }
 
 /******************************************************************************/
-/* convert memory to cfg      */
+/* find close tag      */
+/******************************************************************************/
+char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
+{
+  int sysRc = 0 ;    // ok return code
+  char *endTag = NULL ;
+
+  char *p ;
+
+  while( *p != '<' )
+  {
+    switch( *p )                      //
+    {                                 //
+      case '\0' : 
+        sysRc = 1 ;                   // anything but '<' or ' ' is an error
+        goto _door ;                  //
+      default  :                      //
+        break ;
+    }                                 //
+    p++ ;                             //
+  }
+
+_door :
+  *rc = sysRc ;
+  return endTag ;
+}
+
+/******************************************************************************/
+/* convert memory to cfg            */
 /******************************************************************************/
 int ini2cfg( char* iniMem, tIniNode* iniCfg )
 {
   int sysRc = 0 ;
+  char *startSubMem ;
+  char *endSubMem ;
 
-#if(0)
-  iniHandleOpenTag
+  startSubMem = iniHandleOpenTag( iniMem, iniCfg, &sysRc ) ;
+  if( sysRc != 0 )
+  {
+    goto _door ;
+  }
+#if(1)
+  endSubMem = iniHandleCloseTag( startSubMem, iniCfg->tag, &sysRc ) ;
 #endif
 
 _door :

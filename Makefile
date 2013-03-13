@@ -52,8 +52,8 @@ include $(MAKE_INCLUDE_PATH)/general.modules.mk
 # ------------------------------------------------------------------------------
 # tests
 # ------------------------------------------------------------------------------
-TEST = t_node_000 t_node_001 \
-       t_reader_000 t_reader_001 
+TEST = t_node_000   t_node_001   \
+       t_reader_000 t_reader_001 t_reader_002 
 
 include $(MAKE_INCLUDE_PATH)/test.mk
 

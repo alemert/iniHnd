@@ -39,16 +39,11 @@ int main( int argc, const char** argv )
   // some test 
   // -------------------------------------------------------
 #if(1)
-  {
-    iniReader( "test/cfg/t_reader_002_000.ini", &iniMem ) ;
-    char *startP = iniHandleOpenTag( iniMem, iniAnchor, &sysRc  ) ;
-    doPointTest( "base test "         , \
-                  RC_IS_NULL          , \
-                  iniHandleCloseTag   , \
-                  startP, iniAnchor->tag, &sysRc ) ;
-    sysRc = 1 ;
-    goto _door ;
-  }
+  iniReader( "test/cfg/t_reader_001_000.ini", &iniMem ) ;
+  doIntTest( "base test "      , \
+             0                 , \
+             ini2cfg           , \
+             iniMem, iniAnchor ) ;
 #endif
 
 _door:
