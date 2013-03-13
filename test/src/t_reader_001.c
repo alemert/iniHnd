@@ -22,7 +22,8 @@
 // own 
 // ---------------------------------------------------------
 #include "tutl.h"
-#include "var/cmdl/src/cmdln.h"
+
+#include <initypes.h>
 
 /******************************************************************************/
 /*   M A I N                                                                  */
@@ -31,10 +32,13 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
+  char *iniMem = NULL ;
+  tIniNode *iniAnchor = initIniNode() ; 
+
   // -------------------------------------------------------
   // some test 
   // -------------------------------------------------------
-#if(0)
+#if(1)
   iniReader( "test/cfg/t_reader_001_000.ini", &iniMem ) ;
   doIntTest( "base test "      , \
              0                 , \

@@ -2,11 +2,11 @@
 /* test c source template                                                     */
 /*                                                                            */
 /* testing file :                                                             */
-/*  reader.c      */
+/*  reader.c                                                                  */
 /*                                                                            */
 /* testing functions :                                                        */
-/*   - iniReader               */
-/*   - iniHandleOpenTag              */
+/*   - iniReader                                                              */
+/*   - iniHandleOpenTag                                                       */
 /*                                                                            */
 /******************************************************************************/
 
