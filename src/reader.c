@@ -1,5 +1,8 @@
 /******************************************************************************/
 /* ini file handler - ini file reader                                         */
+/*                                                */
+/* functions:                                */
+/*   - ini2cfgHandleTag                  */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -116,13 +119,13 @@ _door :
 /******************************************************************************/
 /* ini memory to config                                                       */
 /******************************************************************************/
-int ini2cfgHandleTag( char* iniMem, tIniNode* iniCfg, char *endP )
+char* ini2cfgHandleTag( char* iniMem, tIniNode* iniCfg, int *rc )
 {
   int sysRc = 0 ;
   int loop ;
 
-  char *p   = iniMem ;
-       endP = iniMem ;
+  char *p    = iniMem ;
+  char *endP = NULL ;
 
   char *startP ;
 
@@ -210,16 +213,17 @@ int ini2cfgHandleTag( char* iniMem, tIniNode* iniCfg, char *endP )
     {                                 //
       case ' ' : break ;              //
       default  :                      //
-        sysRc = 4 ;                   //
+        sysRc = 6 ;                   //
         goto _door ;                  //
     }                                 //
     p++ ;                             //
   }                                   //
                                       //
- end = p ;
+ endP = p ;
 
 _door :
-  return sysRc ;
+  *rc = sysRc ;
+  return endP ;
 }
 
 /******************************************************************************/

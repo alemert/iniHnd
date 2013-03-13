@@ -83,10 +83,10 @@ int main( int argc, const char** argv )
   // ini starting with <
   // -------------------------------------------------------
 #if(1)
-  doIntTest( "ini stating with <"   , \
-              0              , \
+  doPointTest( "ini stating with <"   , \
+               RC_NOT_NULL            , \
               ini2cfgHandleTag        , \
-              iniMem, iniAnchor ) ;
+              iniMem, iniAnchor, &sysRc ) ;
   free( iniMem ) ;
 #endif
   
@@ -95,10 +95,10 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_002.ini", &iniMem ) ;
-  doIntTest( "ini stating with blank"   , \
-              0                , \
-              ini2cfgHandleTag          , \
-              iniMem, iniAnchor         ) ;
+  doPointTest( "ini stating with blank"   , \
+                RC_NOT_NULL                , \
+                ini2cfgHandleTag          , \
+                iniMem, iniAnchor, &sysRc         ) ;
   free( iniMem ) ;
 #endif
 
@@ -107,10 +107,17 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_003.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              1                   , \
+  doPointTest( "wrong char found"   , \
+               RC_IS_NULL                   , \
               ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
+              iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 1 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
 
@@ -119,10 +126,17 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_004.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              2                   , \
-              ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
+  doPointTest( "wrong char found"        , \
+              RC_IS_NULL                 , \
+              ini2cfgHandleTag           , \
+              iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 2 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
   
@@ -131,10 +145,17 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_005.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              2                   , \
+  doPointTest( "wrong char found"   , \
+                RC_IS_NULL                   , \
               ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
+              iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 2 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
   
@@ -143,10 +164,17 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_006.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              2                   , \
+  doPointTest( "wrong char found"     , \
+               RC_IS_NULL                   , \
               ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
+              iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 2 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
   
@@ -155,10 +183,17 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_007.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              2                   , \
+  doPointTest( "wrong char found"          , \
+              RC_IS_NULL                   , \
               ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
+              iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 2 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
   
@@ -167,10 +202,17 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_008.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              3                   , \
-              ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
+  doPointTest( "wrong char found"            , \
+                RC_IS_NULL                   , \
+                ini2cfgHandleTag             , \
+                iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 3 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
   
@@ -179,10 +221,17 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_009.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              3                   , \
-              ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
+  doPointTest( "wrong char found"      , \
+               RC_IS_NULL              , \
+              ini2cfgHandleTag         , \
+              iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 3 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
   
@@ -191,17 +240,24 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_010.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              0                   , \
-              ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
-  if( strcmp( iniAnchor->tag, "qmgr" ) )
+  doPointTest( "wrong char found"       , \
+               RC_NOT_NULL              , \
+              ini2cfgHandleTag          , \
+              iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 0 )
   {
-    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
     sysRc = 1 ;
     goto _door ;
   }
-  checkMessage( TEST_OK_TXT, ini2cfg ) ;
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
+  if( strcmp( iniAnchor->tag, "qmgr" ) )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
   
@@ -210,10 +266,17 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_000_011.ini", &iniMem ) ;
-  doIntTest( "wrong char found"   , \
-              4                   , \
-              ini2cfgHandleTag             , \
-              iniMem, iniAnchor  ) ;
+  doPointTest( "wrong char found"        , \
+                RC_IS_NULL               , \
+              ini2cfgHandleTag           , \
+              iniMem, iniAnchor, &sysRc  ) ;
+  if( sysRc != 6 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfgHandleTag ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfgHandleTag ) ;
   free( iniMem ) ;
 #endif
   
