@@ -1,8 +1,10 @@
 /******************************************************************************/
 /* ini file handler - ini file reader                                         */
-/*                                                */
-/* functions:                                */
-/*   - ini2cfgHandleTag                  */
+/*                                                            */
+/* functions:                                    */
+/*   - iniReader                  */
+/*   - ini2cfg                */
+/*   - ini2cfgHandleTag                        */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -117,9 +119,24 @@ _door :
 }
 
 /******************************************************************************/
-/* ini memory to config                                                       */
+/* convert memory to cfg      */
 /******************************************************************************/
-char* ini2cfgHandleTag( char* iniMem, tIniNode* iniCfg, int *rc )
+int ini2cfg( char* iniMem, tIniNode* iniCfg )
+{
+  int sysRc = 0 ;
+
+#if(0)
+  iniHandleOpenTag
+#endif
+
+_door :
+  return sysRc ;  
+}
+
+/******************************************************************************/
+/* find open tag in ini file                                                  */
+/******************************************************************************/
+char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc )
 {
   int sysRc = 0 ;
   int loop ;
@@ -196,7 +213,7 @@ char* ini2cfgHandleTag( char* iniMem, tIniNode* iniCfg, int *rc )
                                       //
 #else                                 //
                                       //
-  node = iniCfg ;                     // node is given as a funxtion argument
+  node = iniCfg ;                     // node is given as a function argument
                                       //
 #endif                                //
                                       //
