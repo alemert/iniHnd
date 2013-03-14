@@ -1,10 +1,11 @@
 /******************************************************************************/
 /* ini file handler - ini file reader                                         */
 /*                                                                            */
-/* functions:                                                              */
-/*   - iniReader                                */
-/*   - ini2cfg                                      */
-/*   - ini2cfgHandleTag                                    */
+/* functions:                                                                 */
+/*   - iniReader                                          */
+/*   - ini2cfg                                              */
+/*   - iniHandleOpenTag                                            */
+/*   - iniHandleCloseTag                              */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -119,28 +120,55 @@ _door :
 }
 
 /******************************************************************************/
-/* find close tag      */
+/* find close tag            */
 /******************************************************************************/
 char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
 {
   int sysRc = 0 ;    // ok return code
   char *endTag = NULL ;
 
-  char *p ;
+  int loop = 0 ;
+  char *endP ;
+  char *p = mem ;
 
-  while( *p != '<' )
-  {
+  while( *p != '<' )                  //
+  {                                   //
     switch( *p )                      //
     {                                 //
-      case '\0' : 
-        sysRc = 1 ;                   // anything but '<' or ' ' is an error
+      case '\0' :                     // early eof
+        sysRc = 1 ;                   // 
         goto _door ;                  //
       default  :                      //
-        break ;
+        break ;                       //
     }                                 //
     p++ ;                             //
-  }
-
+  }                                   //
+  endP = p ;                          // 
+  p++ ;                               //
+                                      //
+  loop = 0 ;                          //
+  while( !loop )                      //
+  {                                   //
+    switch( *p )                      // 
+    {                                 // close tag id
+      case '/' :                      //
+        loop = 1 ;                    //
+        break ;                       //
+      case ' ' : break ;              //
+      case '\0' :                     // early eof
+        sysRc = 2 ;                   //
+        goto _door ;                  //
+      default :                       //
+        endTag = iniHandleCloseTag( p, tag, &sysRc ) ;      //
+        if( sysRc != 0 )              //
+          goto _door ;                //
+        loop = 1 ;                    //
+    }                                 //
+    p++ ;                             //
+  }                                   //
+                                      //
+muss getestet werden
+  memcmp( p, tag, sizeof(char)*strlen(tag) ) ;
 _door :
   *rc = sysRc ;
   return endTag ;
@@ -271,7 +299,7 @@ char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc )
     p++ ;                             //
   }                                   //
                                       //
- endP = p ;
+ endP = p+1 ;
 
 _door :
   *rc = sysRc ;
