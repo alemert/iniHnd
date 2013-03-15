@@ -2,10 +2,10 @@
 /* ini file handler - ini file reader                                         */
 /*                                                                            */
 /* functions:                                                                 */
-/*   - iniReader                                          */
-/*   - ini2cfg                                              */
-/*   - iniHandleOpenTag                                            */
-/*   - iniHandleCloseTag                              */
+/*   - iniReader                                                              */
+/*   - ini2cfg                                                                */
+/*   - iniHandleOpenTag                                                       */
+/*   - iniHandleCloseTag                                                      */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -120,7 +120,7 @@ _door :
 }
 
 /******************************************************************************/
-/* find close tag            */
+/* find close tag                  */
 /******************************************************************************/
 char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
 {
@@ -131,44 +131,57 @@ char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
   char *endP ;
   char *p = mem ;
 
-  while( *p != '<' )                  //
-  {                                   //
-    switch( *p )                      //
-    {                                 //
-      case '\0' :                     // early eof
-        sysRc = 1 ;                   // 
-        goto _door ;                  //
-      default  :                      //
-        break ;                       //
-    }                                 //
-    p++ ;                             //
-  }                                   //
-  endP = p ;                          // 
-  p++ ;                               //
-                                      //
-  loop = 0 ;                          //
-  while( !loop )                      //
-  {                                   //
-    switch( *p )                      // 
-    {                                 // close tag id
-      case '/' :                      //
-        loop = 1 ;                    //
-        break ;                       //
-      case ' ' : break ;              //
-      case '\0' :                     // early eof
-        sysRc = 2 ;                   //
-        goto _door ;                  //
-      default :                       //
-        endTag = iniHandleCloseTag( p, tag, &sysRc ) ;      //
-        if( sysRc != 0 )              //
-          goto _door ;                //
-        loop = 1 ;                    //
-    }                                 //
-    p++ ;                             //
-  }                                   //
-                                      //
-muss getestet werden
-  memcmp( p, tag, sizeof(char)*strlen(tag) ) ;
+  while( *p != '<' )                              // find start of tag (open 
+  {                                               //   or close)
+    switch( *p )                                  //
+    {                                             //
+      case '\0' :                                 // early eof
+        sysRc = 1 ;                               // 
+        goto _door ;                              //
+      default  :                                  //
+        break ;                                   //
+    }                                             //
+    p++ ;                                         //
+  }                                               //
+  endP = p ;                                      // set pointer end of values 
+  p++ ;                                           //   to the start of close tag
+                                                  // 
+  loop = 0 ;                                      // check if it is a close tag
+  while( !loop )                                  //
+  {                                               //
+    switch( *p )                                  // 
+    {                                             // close tag id
+      case '/' :                                  //
+        loop = 1 ;                                //
+        break ;                                   //
+      case ' ' : break ;                          //
+      case '\0' :                                 // early eof
+        sysRc = 2 ;                               //
+        goto _door ;                              //
+      default :                                   // if sub open tag found, call
+        endP = iniHandleCloseTag(p,tag,&sysRc);   //   this function  recrusivly
+        if( sysRc != 0 )                          // handle error 
+        {                                         //   (i.g. to early eof) 
+          sysRc = 3  ;                            //
+          goto _door ;                            //
+        }                                         //
+        loop = 1 ;                                //
+    }                                             //
+    p++ ;                                         //
+  }                                               //
+                                                  //
+  if( memcmp(p,tag,sizeof(char)*strlen(tag))!=0)  // compare open and close 
+  {                                               //   tag name 
+    endP = iniHandleCloseTag( p, tag, &sysRc );   // if open and close name are
+    if( sysRc != 0 )                              //   not the same, go to the
+    {                                             //   next close tag recrusivly
+      sysRc = 4  ;                                //
+      goto _door ;                                //
+    }                                             //
+  }                                               //
+                                                  //
+  endTag = endP ;                                 // set rc pointer to endP
+                                                  //
 _door :
   *rc = sysRc ;
   return endTag ;
