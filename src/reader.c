@@ -188,25 +188,50 @@ _door :
 }
 
 /******************************************************************************/
-/* convert memory to cfg            */
+/* convert memory to cfg                        */
 /******************************************************************************/
-int ini2cfg( char* iniMem, tIniNode* iniCfg )
+tIniNode* ini2cfg( char* iniMem, int *rc )
 {
   int sysRc = 0 ;
   char *startSubMem ;
   char *endSubMem ;
 
-  startSubMem = iniHandleOpenTag( iniMem, iniCfg, &sysRc ) ;
-  if( sysRc != 0 )
+  tIniNode *iniCfg    = initIniNode() ;
+  tIniNode *anchorCfg = iniCfg ;
+
+  char *memP = iniMem ;
+
+  while(1)
   {
-    goto _door ;
+    startSubMem = iniHandleOpenTag( memP, iniCfg, &sysRc ) ;
+    if( sysRc != 0 )           // handle error
+    {                          //
+      goto _door ;             //
+    }                          //
+    if( startSubMem == NULL )  // sysRc == 0; startSubMem == NULL
+    {                          // ok -> eof reached
+      break ;                  //
+    }                          //
+                               // 
+    endSubMem = iniHandleCloseTag( startSubMem, iniCfg->tag, &sysRc ) ;
+    if( sysRc != 0 )           // handle error
+    {                          //
+      goto _door ;             //
+    }                          //
+
+    sysRc = iniHandleValues( startSubMem, endSubMem, iniCfg ) ;
+    if( sysRc != 0 )
+    {
+      goto _door ;
+    }
+
+    for( memP=endSubMem; *memP != '>'; memP++ ) ;
   }
-#if(1)
-  endSubMem = iniHandleCloseTag( startSubMem, iniCfg->tag, &sysRc ) ;
-#endif
+
 
 _door :
-  return sysRc ;  
+  *rc = sysRc ;
+  return anchorCfg ;  
 }
 
 /******************************************************************************/
@@ -229,6 +254,9 @@ char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc )
     switch( *p )                      //
     {                                 //
       case ' ' : break ;              // ignore blank
+      case '\0' :                     // eof file found, stop processing
+        sysRc = 0 ;                   //
+        goto _door ;                  //
       default  :                      //
         sysRc = 1 ;                   // anything but '<' or ' ' is an error
         goto _door ;                  //
@@ -320,6 +348,40 @@ _door :
 }
 
 /******************************************************************************/
-/* find opening tag    */
+/* handle ini node values                       */
 /******************************************************************************/
-//char* findOpenTag( char* iniMem )
+int iniHandleValues( char *startValMem, char *endValMem, tIniNode iniCfg ) 
+{
+  int sysRc = 0 ;
+
+  char *p = startValMem ;
+
+  int subTag = 0 ;
+  int key    = 0 ;
+  int value  = 0 ;
+
+  while(1)
+  {
+    if( subTag == 1 )
+    {
+      if( *p == '>' ) 
+      p++ ;
+      continue ;
+    }
+
+    if( p == endValMem ) end of loop
+    switch( *p )
+    {
+      case ' ' : break ;
+      case '<' : -> handle sub tag
+      case '>' : ->handle sub tag
+      case '\0' : goto _door ;
+      case '=' : goto _door ;
+      default : start of value
+    }
+    
+  }
+
+_door :
+  return sysRc ;
+}

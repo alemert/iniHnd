@@ -1,2 +1,16 @@
-# TEST START ini2cfg    >>base test           << test/src/t_reader_001.c(0046)
-# TEST OK    ini2cfg    >>base test           << test/src/t_reader_001.c(0046)
+# TEST START iniHandleCloseTag >>no close tag        << test/src/t_reader_001.c(0049)
+# TEST OK    iniHandleCloseTag >>no close tag        << test/src/t_reader_001.c(0049)
+# CHECK OK   iniHandleCloseTag >>                    << test/src/t_reader_001.c(0056)
+# TEST START iniHandleCloseTag >>no close tag        << test/src/t_reader_001.c(0071)
+# TEST OK    iniHandleCloseTag >>no close tag        << test/src/t_reader_001.c(0071)
+# CHECK OK   iniHandleCloseTag >>                    << test/src/t_reader_001.c(0078)
+# TEST START iniHandleCloseTag >>no close tag        << test/src/t_reader_001.c(0093)
+# TEST OK    iniHandleCloseTag >>no close tag        << test/src/t_reader_001.c(0093)
+# CHECK OK   iniHandleCloseTag >>                    << test/src/t_reader_001.c(0100)
+# TEST START iniHandleCloseTag >>no close tag        << test/src/t_reader_001.c(0115)
+# TEST OK    iniHandleCloseTag >>no close tag        << test/src/t_reader_001.c(0115)
+# CHECK OK   iniHandleCloseTag >>                    << test/src/t_reader_001.c(0122)
+# TEST START iniHandleCloseTag >>base test           << test/src/t_reader_001.c(0137)
+# TEST OK    iniHandleCloseTag >>base test           << test/src/t_reader_001.c(0137)
+start >>-   name = ADMT01   <channel>     name = ADMT01.GATEWAT01   </channel> < /qmgr > <<-
+end   >>-< /qmgr > <<-

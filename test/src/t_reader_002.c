@@ -33,17 +33,17 @@ int main( int argc, const char** argv )
   int sysRc = NO_ERROR ;
 
   char *iniMem = NULL ;
-  tIniNode *iniAnchor = initIniNode() ; 
+//tIniNode *iniAnchor = initIniNode() ; 
 
   // -------------------------------------------------------
   // some test 
   // -------------------------------------------------------
 #if(1)
-  iniReader( "test/cfg/t_reader_001_000.ini", &iniMem ) ;
-  doIntTest( "base test "      , \
-             0                 , \
-             ini2cfg           , \
-             iniMem, iniAnchor ) ;
+  iniReader( "test/cfg/t_reader_002_000.ini", &iniMem ) ;
+  doPointTest( "base test "      , \
+               RC_NOT_NULL                 , \
+               ini2cfg           , \
+               iniMem, &sysRc ) ;
 #endif
 
 _door:
