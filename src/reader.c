@@ -219,7 +219,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       goto _door ;             //
     }                          //
 
-    sysRc = iniHandleValues( startSubMem, endSubMem, iniCfg ) ;
+    startSubMem = iniHandleValues( startSubMem, endSubMem, iniCfg, &sysRc ) ;
     if( sysRc != 0 )
     {
       goto _door ;
@@ -348,40 +348,182 @@ _door :
 }
 
 /******************************************************************************/
-/* handle ini node values                       */
+/*   handle ini node values                                                   */
+/*                                                                            */
+/*   rc:                                                                      */
+/*    ok rc                                                        */
+/*     -1 if start of next tag found '<'                                 */
+/*      0 if value found and added to iniCfg                            */ 
+/*    error rc                                            */
+/*      1 if end or start of some tag found '>','<'                           */
+/*      2 if unexpected end of file found                          */
+/*      3 if unexpected '='                                  */
+/*      4 if unexpected char                                */
 /******************************************************************************/
-int iniHandleValues( char *startValMem, char *endValMem, tIniNode iniCfg ) 
+char* iniHandleValues( char     *startValMem, 
+                       char     *endValMem  ,
+                       tIniNode *iniCfg     , 
+                       int      *rc         ) 
 {
   int sysRc = 0 ;
 
   char *p = startValMem ;
 
-  int subTag = 0 ;
+#if(0)
   int key    = 0 ;
   int value  = 0 ;
+#endif
 
-  while(1)
-  {
-    if( subTag == 1 )
-    {
-      if( *p == '>' ) 
-      p++ ;
-      continue ;
-    }
-
-    if( p == endValMem ) end of loop
-    switch( *p )
-    {
-      case ' ' : break ;
-      case '<' : -> handle sub tag
-      case '>' : ->handle sub tag
-      case '\0' : goto _door ;
-      case '=' : goto _door ;
-      default : start of value
-    }
-    
-  }
-
-_door :
-  return sysRc ;
+  char *keyStart = NULL ;
+  char *keyEnd   = NULL ;
+                              //
+  while(1)                    // loop until first non-blank
+  {                           //
+    switch( *p )              //
+    {                         //
+      case ' ' : break ;      // ignore blank
+      case '<' :              // start of some tag found (ok)
+        sysRc = -1 ;          //
+        goto _door ;          //
+      case '>' :              // unexpected end of tag found (error)
+        p = NULL ;            //
+        sysRc = 1 ;           //
+        goto _door ;          //
+      case '\0' :             // unexpected end of file (error)
+        p = NULL ;            //
+        sysRc = 2 ;           //
+        goto _door ;          //
+      case '=' :              // early = found (error)
+      {                       //
+        p = NULL ;            //
+        sysRc = 3 ;           //
+        goto _door ;          //
+      }                       //
+      default :               // start of text found (ok break loop)
+        keyStart = p ;        //
+        break ;               //
+    }                         //
+    if( keyStart )            // break loop, start of text found 
+      break ;                 //
+    p++ ;                     //
+  }                           //
+                              //
+  if( keyStart )              // handle key  (key = value)
+  {                           //
+    while( 1 )                //
+    {                         //
+      switch( *p )            //
+      {                       //
+        case ' ' :            // blank after key found key = value
+        case '=' :            // equal afte ke found   key= value
+        {                     //  end of key text found break loop
+          keyEnd = p-1 ;      //
+          break ;             //
+        }                     //
+        case '>' :            // unexpected start or end of tag (error)
+        case '<' :            //
+        {                     //
+          sysRc = 1 ;         //
+          p = NULL ;          //
+          goto _door ;        //
+        }                     //
+        case '\0' :           // unexpected end of file
+          p = NULL ;          //
+          sysRc = 2 ;         //
+          goto _door ;        //
+        default :             // some letter
+          break ;             //
+      }                       //
+      if( keyEnd )            // end of key text found, break the loop
+        break ;               //
+      p++ ;                   //
+    }                         //
+  }                           //
+                              //
+  while( *p != '=' )          // search for '=' in key = value
+  {                           //
+    switch( *p )              //
+    {                         //
+      case ' ' :              //
+      case '=' :              //
+        break  ;              //
+      case '>' :            // unexpected start or end of tag (error)
+      case '<' :            //
+      {                       //
+        sysRc = 1 ;           //
+        p = NULL ;            //
+        goto _door ;          //
+      }                       //
+      case '\0' :             // unexpected end of file
+      {                       //
+        p = NULL ;            //
+        sysRc = 2 ;           //
+        goto _door ;          //
+      }                       //
+      default :               // some letter (somthing but eof, <, >, blank, =
+      {                       //
+        sysRc = 4 ;           //
+        p = NULL ;            //
+        goto _door ;          //
+      }                       //
+    }                         //
+    p++ ;                     //
+  }                           //
+                              //
+  while( 1 )                  // find start of value
+  {                           //
+    switch( *p )              //
+    {                         //
+      case ' ' :              //
+        break  ;              //
+      case '<' :              //
+      case '>' :              //
+      {                       //
+        sysRc = 1 ;           //
+        p = NULL ;            //
+        goto _door ;          //
+      }                       //
+      case '\0' :             // unexpected end of file
+      {                       //
+        p = NULL ;            //
+        sysRc = 2 ;           //
+        goto _door ;          //
+      }                       //
+      default :               //
+        valStart = p ;        //
+        break ;               //
+    }                         //
+    p++ ;                     //
+  }                           //
+                              //
+  while( 1 )                  // find end of value
+  {                           //
+    switch( *p )              //
+    {                         //
+      case ' ' :              //
+      case '<' :              //
+      {                       //
+        valEnd = p-1 ;        //
+        break ;               //
+      }                       //
+      case '\0' :             //
+      {                       //
+        p = NULL ;            //
+        sysRc = 2 ;           //
+        goto _door ;          //
+      }                       //
+      case '=' :              //
+      {                       //
+        p = NULL ;            //
+        sysRc = 3 ;           //
+        goto _door ;          //
+      }                       //
+      default :               //
+        break ;               //
+    }                         //
+    p++ ;        //
+  }                           //
+                              //
+_door :    
+  return p ;
 }

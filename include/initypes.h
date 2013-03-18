@@ -58,7 +58,10 @@ struct tagIniNode
 int iniReader( const char* fileName, char **iniMem ) ;
 char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc ) ;
 char* iniHandleCloseTag( char* iniMem, const char* tagName, int *rc ) ;
-int   iniHandleValues( startSubMem, endSubMem, iniCfg ) ;
+char* iniHandleValues( char    *startSubMem, 
+                       char    *endSubMem  , 
+                       tIniNode *iniCfg    ,
+                       int      *rc       );
 tIniNode* ini2cfg( char* iniMem, int *rc ) ;
 
 // ---------------------------------------------------------
