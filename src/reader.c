@@ -351,14 +351,14 @@ _door :
 /*   handle ini node values                                                   */
 /*                                                                            */
 /*   rc:                                                                      */
-/*    ok rc                                                        */
-/*     -1 if start of next tag found '<'                                 */
-/*      0 if value found and added to iniCfg                            */ 
-/*    error rc                                            */
+/*    ok rc                                                                   */
+/*     -1 if start of next tag found '<'                                      */
+/*      0 if value found and added to iniCfg                                  */
+/*    error rc                                                                */
 /*      1 if end or start of some tag found '>','<'                           */
-/*      2 if unexpected end of file found                          */
-/*      3 if unexpected '='                                  */
-/*      4 if unexpected char                                */
+/*      2 if unexpected end of file found                                     */
+/*      3 if unexpected '='                                                   */
+/*      4 if unexpected char                                                  */
 /******************************************************************************/
 char* iniHandleValues( char     *startValMem, 
                        char     *endValMem  ,
@@ -369,13 +369,10 @@ char* iniHandleValues( char     *startValMem,
 
   char *p = startValMem ;
 
-#if(0)
-  int key    = 0 ;
-  int value  = 0 ;
-#endif
-
   char *keyStart = NULL ;
   char *keyEnd   = NULL ;
+  char *valStart = NULL ;
+  char *valEnd   = NULL ;
                               //
   while(1)                    // loop until first non-blank
   {                           //
@@ -383,16 +380,22 @@ char* iniHandleValues( char     *startValMem,
     {                         //
       case ' ' : break ;      // ignore blank
       case '<' :              // start of some tag found (ok)
+      {                       //
         sysRc = -1 ;          //
         goto _door ;          //
+      }                       //
       case '>' :              // unexpected end of tag found (error)
+      {                       //
         p = NULL ;            //
         sysRc = 1 ;           //
         goto _door ;          //
+      }                       //
       case '\0' :             // unexpected end of file (error)
+      {                       //
         p = NULL ;            //
         sysRc = 2 ;           //
         goto _door ;          //
+      }                       //
       case '=' :              // early = found (error)
       {                       //
         p = NULL ;            //
@@ -408,6 +411,7 @@ char* iniHandleValues( char     *startValMem,
     p++ ;                     //
   }                           //
                               //
+#if(0)
   if( keyStart )              // handle key  (key = value)
   {                           //
     while( 1 )                //
@@ -500,19 +504,19 @@ char* iniHandleValues( char     *startValMem,
   {                           //
     switch( *p )              //
     {                         //
-      case ' ' :              //
+      case ' ' :              // search for blank or start of next tag
       case '<' :              //
       {                       //
         valEnd = p-1 ;        //
         break ;               //
       }                       //
-      case '\0' :             //
+      case '\0' :             // early end of file
       {                       //
         p = NULL ;            //
         sysRc = 2 ;           //
         goto _door ;          //
       }                       //
-      case '=' :              //
+      case '=' :              // late =
       {                       //
         p = NULL ;            //
         sysRc = 3 ;           //
@@ -521,9 +525,11 @@ char* iniHandleValues( char     *startValMem,
       default :               //
         break ;               //
     }                         //
-    p++ ;        //
+    p++ ;                     //
   }                           //
+#endif
                               //
 _door :    
+  *rc = sysRc ;
   return p ;
 }
