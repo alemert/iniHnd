@@ -411,15 +411,14 @@ char* iniHandleValues( char     *startValMem,
     p++ ;                     //
   }                           //
                               //
-#if(0)
   if( keyStart )              // handle key  (key = value)
   {                           //
     while( 1 )                //
     {                         //
       switch( *p )            //
       {                       //
-        case ' ' :            // blank after key found key = value
-        case '=' :            // equal afte ke found   key= value
+        case ' ' :            // blank after key found (key = value)
+        case '=' :            // equal after key found (key= value)
         {                     //  end of key text found break loop
           keyEnd = p-1 ;      //
           break ;             //
@@ -449,10 +448,10 @@ char* iniHandleValues( char     *startValMem,
     switch( *p )              //
     {                         //
       case ' ' :              //
-      case '=' :              //
+  //  case '=' :              // this shuold not occure
         break  ;              //
-      case '>' :            // unexpected start or end of tag (error)
-      case '<' :            //
+      case '>' :              // unexpected start or end of tag (error)
+      case '<' :              //
       {                       //
         sysRc = 1 ;           //
         p = NULL ;            //
@@ -473,6 +472,7 @@ char* iniHandleValues( char     *startValMem,
     }                         //
     p++ ;                     //
   }                           //
+  p++ ;                       //
                               //
   while( 1 )                  // find start of value
   {                           //
@@ -487,6 +487,12 @@ char* iniHandleValues( char     *startValMem,
         p = NULL ;            //
         goto _door ;          //
       }                       //
+      case '='                //
+      {                       //
+        p = NULL ;            //
+        sysRc = 3 ;           //
+        goto _door ;          //
+      }                       //
       case '\0' :             // unexpected end of file
       {                       //
         p = NULL ;            //
@@ -494,12 +500,17 @@ char* iniHandleValues( char     *startValMem,
         goto _door ;          //
       }                       //
       default :               //
+      {                       //
         valStart = p ;        //
         break ;               //
+      }                       //
     }                         //
+    if( valStart )            //
+      break ;                 //
     p++ ;                     //
   }                           //
                               //
+#if(0)
   while( 1 )                  // find end of value
   {                           //
     switch( *p )              //
