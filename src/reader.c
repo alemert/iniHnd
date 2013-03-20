@@ -537,6 +537,8 @@ char* iniHandleValues( char     *startValMem,
       default :               //
         break ;               //
     }                         //
+    if( valEnd )
+      break ;
     p++ ;                     //
   }                           //
 #endif
