@@ -487,7 +487,7 @@ char* iniHandleValues( char     *startValMem,
         p = NULL ;            //
         goto _door ;          //
       }                       //
-      case '='                //
+      case '=' :              //
       {                       //
         p = NULL ;            //
         sysRc = 3 ;           //
@@ -510,23 +510,24 @@ char* iniHandleValues( char     *startValMem,
     p++ ;                     //
   }                           //
                               //
-#if(0)
+#if(1)
   while( 1 )                  // find end of value
   {                           //
     switch( *p )              //
     {                         //
       case ' ' :              // search for blank or start of next tag
       case '<' :              //
+      case '\0' :             // end of file
       {                       //
         valEnd = p-1 ;        //
         break ;               //
       }                       //
-      case '\0' :             // early end of file
-      {                       //
-        p = NULL ;            //
-        sysRc = 2 ;           //
-        goto _door ;          //
-      }                       //
+  //  case '\0' :             // early end of file
+  //  {                       //
+  //    p = NULL ;            //
+  //    sysRc = 2 ;           //
+  //    goto _door ;          //
+  //  }                       //
       case '=' :              // late =
       {                       //
         p = NULL ;            //
