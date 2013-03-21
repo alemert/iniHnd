@@ -22,15 +22,25 @@
 /******************************************************************************/
 typedef struct tagIniNode tIniNode ;
 typedef struct tagIniVal  tIniVal  ;
+typedef union  tagValue   tVal     ;
+typedef enum   tagValType tType    ;
 
 /******************************************************************************/
 /*   S T R U C T S                                                            */
 /******************************************************************************/
+enum tagValType { STRING, INTIGER } ;
+
+union tagValue 
+{
+  char* strVal ;
+  int   intVal ;
+} ;
+
 struct tagIniVal
 {
-  char    *key     ;
-  int      intVal  ;
-  char    *strVal  ;
+  char    *key  ;
+  tVal    value ;
+  tType   type  ;
   tIniVal *nextVal ;
 } ;
 
@@ -48,6 +58,17 @@ struct tagIniNode
 /******************************************************************************/
 /*   M A C R O S                                                              */
 /******************************************************************************/
+// ---------------------------------------------------------
+// reader.c
+// ---------------------------------------------------------
+
+// ---------------------------------------------------------
+// node.c
+// ---------------------------------------------------------
+
+// ---------------------------------------------------------
+// general
+// ---------------------------------------------------------
 
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
@@ -70,3 +91,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc ) ;
 tIniNode* initIniNode( ) ;
 int       setIniTagName( tIniNode *node, const char* tag, int lng ) ;
 
+tIniVal* createStrValue( char* key, char* value ) ;
+tIniVal* createIntValue( char* key, int   value ) ;
+
+void addValueNode( tIniNode* iniNode, tIniVal *value ) ;

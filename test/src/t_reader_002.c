@@ -385,7 +385,7 @@ int main( int argc, const char** argv )
 #if(1)
   iniReader( "test/cfg/t_reader_002_017.ini", &iniMem ) ;
   startVal = iniMem ;
-  doPointTest( "early eof"         , \
+  doPointTest( "late ="             , \
                RC_IS_NULL           , \
                iniHandleValues    , \
                startVal, endVal, iniCfg, &sysRc   ) ;
@@ -457,7 +457,46 @@ int main( int argc, const char** argv )
   }
   checkMessage( TEST_OK_TXT, iniHandleOpenTag ) ;
   free(iniMem) ;
+#endif
 
+  // -------------------------------------------------------
+  // some test
+  // -------------------------------------------------------
+#if(1)
+  iniReader( "test/cfg/t_reader_002_053.ini", &iniMem ) ;
+  startVal = iniMem ;
+  doPointTest( "value found <$"            , \
+               RC_NOT_NULL              , \
+               iniHandleValues          , \
+               startVal, endVal, iniCfg, &sysRc   ) ;
+  if( sysRc != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, iniHandleOpenTag ) ;
+    sysRc = 2 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, iniHandleOpenTag ) ;
+  free(iniMem) ;
+#endif
+
+  // -------------------------------------------------------
+  // some test
+  // -------------------------------------------------------
+#if(1)
+  iniReader( "test/cfg/t_reader_002_054.ini", &iniMem ) ;
+  startVal = iniMem ;
+  doPointTest( "value found eof$"            , \
+               RC_NOT_NULL              , \
+               iniHandleValues          , \
+               startVal, endVal, iniCfg, &sysRc   ) ;
+  if( sysRc != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, iniHandleOpenTag ) ;
+    sysRc = 2 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, iniHandleOpenTag ) ;
+  free(iniMem) ;
 #endif
 
 _door:

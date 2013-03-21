@@ -66,7 +66,7 @@ _door :
 }
 
 /******************************************************************************/
-/* set ini tag name            */
+/* set ini tag name                  */
 /******************************************************************************/
 int setIniTagName( tIniNode *node, const char* tag, int lng )
 {
@@ -95,4 +95,67 @@ int setIniTagName( tIniNode *node, const char* tag, int lng )
                                        //
 _door:
   return sysRc ;
+}
+
+/******************************************************************************/
+/* create value tag      */
+/******************************************************************************/
+tIniVal* createStrValue( char* key, char* value )
+{ 
+  tIniVal *this;
+  tIniVal *pRc = NULL ;
+
+  this = (tIniVal*) malloc( sizeof(tIniVal) ) ;
+  if( this == NULL ) goto _door ;
+  
+  this->nextVal = NULL ;
+  this->type    = STRING ;
+  this->key     = key ;
+  this->value.strVal   = value ;
+  
+  pRc = this ;
+
+_door :
+  return pRc ;  
+}
+
+tIniVal* createIntValue( char* key, int value )
+{ 
+  tIniVal *this;
+  tIniVal *pRc = NULL ;
+
+  this = (tIniVal*) malloc( sizeof(tIniVal) ) ;
+  if( this == NULL ) goto _door ;
+  
+  this->nextVal = NULL ;
+  this->type    = INTIGER ;
+  this->key     = key ;
+  this->value.intVal   = value ;
+  
+  pRc = this ;
+
+_door :
+  return pRc ;  
+}
+
+/******************************************************************************/
+/* add value node      */
+/******************************************************************************/
+void addValueNode( tIniNode* iniNode, tIniVal *value )
+{
+  tIniVal *p ;
+
+  p = iniNode->value ;
+  if( p == NULL )
+  {
+    iniNode->value = value ;
+    return ;
+  }
+
+  while( p->nextVal != NULL )
+  {
+    p = p->nextVal ;
+  }
+ 
+  p->nextVal = value ; 
 }

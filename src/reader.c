@@ -359,6 +359,8 @@ _door :
 /*      2 if unexpected end of file found                                     */
 /*      3 if unexpected '='                                                   */
 /*      4 if unexpected char                                                  */
+/*      5 if alloc error              */
+/*      6 if creating value node failed      */
 /******************************************************************************/
 char* iniHandleValues( char     *startValMem, 
                        char     *endValMem  ,
@@ -366,13 +368,21 @@ char* iniHandleValues( char     *startValMem,
                        int      *rc         ) 
 {
   int sysRc = 0 ;
-
-  char *p = startValMem ;
-
-  char *keyStart = NULL ;
-  char *keyEnd   = NULL ;
-  char *valStart = NULL ;
-  char *valEnd   = NULL ;
+  int lng   ;              // yet another length buffer
+                           //
+  char *p = startValMem ;  // yet another pointer
+                           //
+  char *keyStart = NULL ;  // pointer to the first letter of the key
+  char *keyEnd   = NULL ;  // pointer to the last letter of the key
+  char *valStart = NULL ;  // pointer to the first letter of the key
+  char *valEnd   = NULL ;  // pointer to the last letter of the key
+  char *pCheck   ;         // for checking if value is int or str
+                           //
+  char *key    ;           // pointer to the key   (will be allocated)
+  char *valStr ;           // pointer to the value (will be allocated)
+  int   valInt ;           // intiger value 
+                           //
+  tIniVal *iniVal = NULL ; // pointer to key/val node
                               //
   while(1)                    // loop until first non-blank
   {                           //
@@ -510,7 +520,6 @@ char* iniHandleValues( char     *startValMem,
     p++ ;                     //
   }                           //
                               //
-#if(1)
   while( 1 )                  // find end of value
   {                           //
     switch( *p )              //
@@ -537,12 +546,53 @@ char* iniHandleValues( char     *startValMem,
       default :               //
         break ;               //
     }                         //
-    if( valEnd )
-      break ;
+    if( valEnd )              //
+      break ;                 //
     p++ ;                     //
   }                           //
-#endif
                               //
+  // -------------------------------------------------------
+  // setup value node
+  // -------------------------------------------------------
+  lng = keyEnd - keyStart ;                       // the length of the key
+  key = (char*) malloc( (lng+1)*sizeof(char) ) ;  // alloc memory for the key
+  if( key == NULL )                               // allocation failed
+  {                                               //
+    sysRc = 5 ;                                   //
+    goto _door ;                                  //
+  }                                               //
+  memcpy( key, keyStart, lng ) ;                  // copy to allocated memory
+  key[lng] = '\0' ;                               // set end of the string
+                                                  //
+  valInt = (int) strtol( valStart, &pCheck, 10 ); // check if it is intiger
+  if( pCheck == keyEnd )                          // handle initiger value
+  {                                               //
+    iniVal = createIntValue( key, valInt ) ;      //
+  }                                               //
+  else                                            // handle string
+  {                                               //
+    lng = valEnd - valStart ;                     //
+    valStr=(char*)malloc( (lng+1)*sizeof(char) ); //
+    if( valStr == NULL )                          //
+    {                                             //
+      sysRc = 5 ;                                 //
+      goto _door ;                                //
+    }                                             //
+    memcpy( valStr, valStart, lng ) ;             //
+    valStr[lng] = '\0' ;                          //
+    iniVal = createStrValue( key, valStr ) ;      //
+  }                                               //
+
+  if( iniVal == NULL )
+  {
+    sysRc = 6 ;
+    goto _door ;
+  }  
+
+#if(0)  // switch on once addValueNode has been tested 
+  addValueNode( iniCfg->value, iniVal ) ;
+#endif
+
 _door :    
   *rc = sysRc ;
   return p ;
