@@ -137,6 +137,7 @@ char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
     {                                             //
       case '\0' :                                 // early eof
         sysRc = 1 ;                               // 
+        logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; //
         goto _door ;                              //
       default  :                                  //
         break ;                                   //
@@ -157,6 +158,7 @@ char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
       case ' ' : break ;                          //
       case '\0' :                                 // early eof
         sysRc = 2 ;                               //
+        logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; //
         goto _door ;                              //
       default :                                   // if sub open tag found, call
         endP = iniHandleCloseTag(p,tag,&sysRc);   //   this function  recrusivly
@@ -206,6 +208,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
     startSubMem = iniHandleOpenTag( memP, iniCfg, &sysRc ) ;
     if( sysRc != 0 )           // handle error
     {                          //
+logger(
       goto _door ;             //
     }                          //
     if( startSubMem == NULL )  // sysRc == 0; startSubMem == NULL
@@ -259,6 +262,7 @@ char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc )
         goto _door ;                  //
       default  :                      //
         sysRc = 1 ;                   // anything but '<' or ' ' is an error
+hier weiter, neue logger meldung notwendig
         goto _door ;                  //
     }                                 //
     p++ ;                             //
