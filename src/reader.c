@@ -206,25 +206,27 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
   while(1)
   {
     startSubMem = iniHandleOpenTag( memP, iniCfg, &sysRc ) ;
-    if( sysRc != 0 )           // handle error
-    {                          //
-logger(
-      goto _door ;             //
-    }                          //
-    if( startSubMem == NULL )  // sysRc == 0; startSubMem == NULL
-    {                          // ok -> eof reached
-      break ;                  //
-    }                          //
-                               // 
+    if( sysRc != 0 )                           // handle error
+    {                                          //
+      logger( LSTD_INI_SYNTAX_ERROR, iniMem ); //
+      goto _door ;                             //
+    }                                          //
+    if( startSubMem == NULL )                  // sysRc==0; startSubMem == NULL
+    {                                          // ok -> eof reached
+      break ;                                  //
+    }                                          //
+                                               // 
     endSubMem = iniHandleCloseTag( startSubMem, iniCfg->tag, &sysRc ) ;
-    if( sysRc != 0 )           // handle error
-    {                          //
-      goto _door ;             //
-    }                          //
+    if( sysRc != 0 )                           // handle error
+    {                                          //
+      logger( LSTD_INI_SYNTAX_ERROR, iniMem ); //
+      goto _door ;                             //
+    }                                          //
 
     startSubMem = iniHandleValues( startSubMem, endSubMem, iniCfg, &sysRc ) ;
     if( sysRc != 0 )
     {
+      logger( LSTD_INI_SYNTAX_ERROR, iniMem ); //
       goto _door ;
     }
 
@@ -262,7 +264,7 @@ char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc )
         goto _door ;                  //
       default  :                      //
         sysRc = 1 ;                   // anything but '<' or ' ' is an error
-hier weiter, neue logger meldung notwendig
+        logger( LSTD_INI_OPEN_TAG_ERROR, iniMem ) ;
         goto _door ;                  //
     }                                 //
     p++ ;                             //
@@ -280,6 +282,7 @@ hier weiter, neue logger meldung notwendig
       case '/'  :                     // '/'
       case '\0' :                     // end of memory
         sysRc = 2  ;                  //
+        logger( LSTD_INI_EARLY_EOF ); //
         goto _door ;                  //
       default :                       //
         loop = 0 ;                    //
@@ -298,16 +301,24 @@ hier weiter, neue logger meldung notwendig
       case '>'   :                    // 
         loop = 0 ;                    //
         break    ;                    //
-      case '<'   :                    // some chars -> error
+      case '<'   :                    // < or / are error at this stage
       case '/'   :                    //
-      case '\0'  :                    //
+      {                               //
         sysRc = 3 ;                   //
+        logger( LSTD_INI_WRONG_CHAR, *p, iniMem ); 
         goto _door ;                  //
+      }                               //
+      case '\0'  :                    // early eof
+      {                               //
+        sysRc = 3 ;                   //
+        logger( LSTD_INI_EARLY_EOF ); //
+        goto _door ;                  //
+      }                               //
       default : break ;               //
     }                                 //
     p++ ;                             //
   }                                   //
-  p-- ;      //
+  p-- ;                               //
                                       //
 #if(0)                                // parent of this node is given as 
                                       //  function argument
@@ -338,8 +349,11 @@ hier weiter, neue logger meldung notwendig
     {                                 //
       case ' ' : break ;              //
       default  :                      //
+      {      //
         sysRc = 6 ;                   //
+        logger( LSTD_INI_MISSING_CHAR, *p, iniMem ) ;
         goto _door ;                  //
+      }      //
     }                                 //
     p++ ;                             //
   }                                   //
@@ -401,25 +415,30 @@ char* iniHandleValues( char     *startValMem,
       }                       //
       case '>' :              // unexpected end of tag found (error)
       {                       //
+        logger( LSTD_INI_WRONG_CHAR, *p, startValMem ) ;
         p = NULL ;            //
         sysRc = 1 ;           //
         goto _door ;          //
       }                       //
       case '\0' :             // unexpected end of file (error)
       {                       //
+        logger( LSTD_INI_EARLY_EOF ) ;
         p = NULL ;            //
         sysRc = 2 ;           //
         goto _door ;          //
       }                       //
       case '=' :              // early = found (error)
       {                       //
+        logger( LSTD_INI_WRONG_CHAR, *p, startValMem ) ;
         p = NULL ;            //
         sysRc = 3 ;           //
         goto _door ;          //
       }                       //
       default :               // start of text found (ok break loop)
+      {                       //
         keyStart = p ;        //
         break ;               //
+      }                       //
     }                         //
     if( keyStart )            // break loop, start of text found 
       break ;                 //
@@ -441,14 +460,18 @@ char* iniHandleValues( char     *startValMem,
         case '>' :            // unexpected start or end of tag (error)
         case '<' :            //
         {                     //
+          logger( LSTD_INI_WRONG_CHAR, *p, startValMem ) ;
           sysRc = 1 ;         //
           p = NULL ;          //
           goto _door ;        //
         }                     //
         case '\0' :           // unexpected end of file
+        {                     //
+          logger( LSTD_INI_EARLY_EOF ) ;
           p = NULL ;          //
           sysRc = 2 ;         //
           goto _door ;        //
+        }                     //
         default :             // some letter
           break ;             //
       }                       //
@@ -468,18 +491,21 @@ char* iniHandleValues( char     *startValMem,
       case '>' :              // unexpected start or end of tag (error)
       case '<' :              //
       {                       //
+        logger( LSTD_INI_WRONG_CHAR, *p, startValMem ) ;
         sysRc = 1 ;           //
         p = NULL ;            //
         goto _door ;          //
       }                       //
       case '\0' :             // unexpected end of file
       {                       //
+        logger( LSTD_INI_EARLY_EOF ) ;
         p = NULL ;            //
         sysRc = 2 ;           //
         goto _door ;          //
       }                       //
       default :               // some letter (somthing but eof, <, >, blank, =
       {                       //
+        logger( LSTD_INI_WRONG_CHAR, *p, startValMem ) ;
         sysRc = 4 ;           //
         p = NULL ;            //
         goto _door ;          //
@@ -498,18 +524,21 @@ char* iniHandleValues( char     *startValMem,
       case '<' :              //
       case '>' :              //
       {                       //
+        logger( LSTD_INI_WRONG_CHAR, *p, startValMem ) ;
         sysRc = 1 ;           //
         p = NULL ;            //
         goto _door ;          //
       }                       //
       case '=' :              //
       {                       //
+        logger( LSTD_INI_WRONG_CHAR, *p, startValMem ) ;
         p = NULL ;            //
         sysRc = 3 ;           //
         goto _door ;          //
       }                       //
       case '\0' :             // unexpected end of file
       {                       //
+        logger( LSTD_INI_EARLY_EOF ) ;
         p = NULL ;            //
         sysRc = 2 ;           //
         goto _door ;          //
@@ -544,6 +573,7 @@ char* iniHandleValues( char     *startValMem,
   //  }                       //
       case '=' :              // late =
       {                       //
+        logger( LSTD_INI_WRONG_CHAR, *p, startValMem ) ;
         p = NULL ;            //
         sysRc = 3 ;           //
         goto _door ;          //
@@ -563,6 +593,7 @@ char* iniHandleValues( char     *startValMem,
   key = (char*) malloc( (lng+1)*sizeof(char) ) ;  // alloc memory for the key
   if( key == NULL )                               // allocation failed
   {                                               //
+    logger( LSTD_MEM_ALLOC_ERROR ) ;              //
     sysRc = 5 ;                                   //
     goto _door ;                                  //
   }                                               //
@@ -580,6 +611,7 @@ char* iniHandleValues( char     *startValMem,
     valStr=(char*)malloc( (lng+1)*sizeof(char) ); //
     if( valStr == NULL )                          //
     {                                             //
+      logger( LSTD_MEM_ALLOC_ERROR ) ;            //
       sysRc = 5 ;                                 //
       goto _door ;                                //
     }                                             //
@@ -594,14 +626,12 @@ char* iniHandleValues( char     *startValMem,
     goto _door ;
   }  
 
-#if(1)  // switch on once addValueNode has been tested 
   sysRc = addValueNode( iniCfg, iniVal ) ;
   if( sysRc != 0 )
   {
     sysRc = 7 ;
     goto _door ;
   }
-#endif
 
 _door :    
   *rc = sysRc ;

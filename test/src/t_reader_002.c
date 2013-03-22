@@ -26,6 +26,8 @@
 
 #include <initypes.h>
 
+#include <ctl.h>
+
 /******************************************************************************/
 /*   M A I N                                                                  */
 /******************************************************************************/
@@ -38,6 +40,9 @@ int main( int argc, const char** argv )
   char *endVal   = NULL ;
   tIniNode *iniAnchor = initIniNode() ; 
   tIniNode *iniCfg    = iniAnchor ;
+
+  sysRc = initLogging( "test/log/t_reader_002.log", INF ) ;
+  if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
   // some test 

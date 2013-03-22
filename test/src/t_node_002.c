@@ -26,6 +26,8 @@
 
 #include <initypes.h>
 
+#include <ctl.h>
+
 /******************************************************************************/
 /*   M A I N                                                                  */
 /******************************************************************************/
@@ -37,6 +39,9 @@ int main( int argc, const char** argv )
 //char *startVal = NULL ;
 //char *endVal   = NULL ;
   tIniVal* p ;
+
+  sysRc = initLogging( "test/log/t_node_002.log", INF ) ;
+  if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
   // some test 
@@ -58,9 +63,15 @@ int main( int argc, const char** argv )
               addValueNode        , \
               iniAnchor, p        ) ;
   
-  p = createIntValue( "first_int", 1 ) ;
-  doIntTest( "same value added"   , \
-              0                   , \
+  p = createStrValue( "first_str", "duplicated" ) ;
+  doIntTest( "same value duplicated"   , \
+              1                   , \
+              addValueNode        , \
+              iniAnchor, p        ) ;
+
+  p = createIntValue( "first_int", 2 ) ;
+  doIntTest( "some value duplicated"  , \
+              1                   , \
               addValueNode        , \
               iniAnchor, p        ) ;
 }

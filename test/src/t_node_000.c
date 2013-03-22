@@ -35,6 +35,9 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
+  sysRc = initLogging( "test/log/t_node_000.log", INF ) ;
+  if( sysRc != 0 ) goto _door ;
+
   // -------------------------------------------------------
   // some test 
   // -------------------------------------------------------

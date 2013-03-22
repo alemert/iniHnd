@@ -26,12 +26,17 @@
 
 #include <initypes.h>
 
+#include <ctl.h>
+
 /******************************************************************************/
 /*   M A I N                                                                  */
 /******************************************************************************/
 int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
+
+  sysRc = initLogging( "test/log/t_reader_001.log", INF ) ;
+  if( sysRc != 0 ) goto _door ;
 
   char *iniMem = NULL ;
   tIniNode *iniAnchor = initIniNode() ; 

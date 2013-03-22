@@ -39,6 +39,9 @@ int main( int argc, const char** argv )
 
   iniAnchor = initIniNode() ;
 
+  sysRc = initLogging( "test/log/t_node_001.log", INF ) ;
+  if( sysRc != 0 ) goto _door ;
+
   // -------------------------------------------------------
   // some test 
   // -------------------------------------------------------

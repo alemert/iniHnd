@@ -106,7 +106,11 @@ tIniVal* createStrValue( char* key, char* value )
   tIniVal *pRc = NULL ;
 
   this = (tIniVal*) malloc( sizeof(tIniVal) ) ;
-  if( this == NULL ) goto _door ;
+  if( this == NULL ) 
+  {
+    logger( LSTD_MEM_ALLOC_ERROR ) ;
+    goto _door ;
+  }
   
   this->nextVal = NULL ;
   this->type    = STRING ;
@@ -125,7 +129,11 @@ tIniVal* createIntValue( char* key, int value )
   tIniVal *pRc = NULL ;
 
   this = (tIniVal*) malloc( sizeof(tIniVal) ) ;
-  if( this == NULL ) goto _door ;
+  if( this == NULL ) 
+  {
+    logger( LSTD_MEM_ALLOC_ERROR ) ;
+    goto _door ;
+  }
   
   this->nextVal = NULL ;
   this->type    = INTIGER ;
@@ -139,7 +147,7 @@ _door :
 }
 
 /******************************************************************************/
-/* add value node      */
+/* add value node                  */
 /******************************************************************************/
 int addValueNode( tIniNode* iniNode, tIniVal *value )
 {
@@ -154,13 +162,15 @@ int addValueNode( tIniNode* iniNode, tIniVal *value )
     goto _door ;    // return ok
   }
 
-  while( p->nextVal != NULL )
+  while( 1 )
   {
     if( strcmp( p->key, value->key ) == 0 )
     {
+      logger( LSTD_INI_DUPLICATED_KEY, value->key ) ;
       sysRc = 1 ;
       goto _door ;
     }
+    if( p->nextVal == NULL ) break ;
     p = p->nextVal ;
   }
  
