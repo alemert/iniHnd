@@ -46,21 +46,23 @@ int main( int argc, const char** argv )
   tIniNode *iniAnchor = initIniNode() ;
 
   p = createStrValue( "first_str", "some_string" ) ;
-  addValueNode( iniAnchor, p ) ;
+
+  doIntTest( "first value added"  , \
+              0                   , \
+              addValueNode        , \
+              iniAnchor, p        ) ;
   
   p = createIntValue( "first_int", 0 ) ;
-  addValueNode( iniAnchor, p ) ;
+  doIntTest( "second value added"  , \
+              0                   , \
+              addValueNode        , \
+              iniAnchor, p        ) ;
   
-sysRc = 0 ;
-goto _door ;
-
-  if( sysRc != -1 )
-  {
-    checkMessage( TEST_ERR_TXT, iniHandleOpenTag ) ;
-    sysRc = 1 ;
-    goto _door ;
-  }
-  checkMessage( TEST_OK_TXT, iniHandleOpenTag ) ;
+  p = createIntValue( "first_int", 1 ) ;
+  doIntTest( "same value added"   , \
+              0                   , \
+              addValueNode        , \
+              iniAnchor, p        ) ;
 }
 #endif
 

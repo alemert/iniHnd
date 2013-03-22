@@ -359,8 +359,9 @@ _door :
 /*      2 if unexpected end of file found                                     */
 /*      3 if unexpected '='                                                   */
 /*      4 if unexpected char                                                  */
-/*      5 if alloc error              */
-/*      6 if creating value node failed      */
+/*      5 if alloc error                                                      */
+/*      6 if creating value node failed                                       */
+/*      7 if adding value to config list failed                               */
 /******************************************************************************/
 char* iniHandleValues( char     *startValMem, 
                        char     *endValMem  ,
@@ -554,7 +555,7 @@ char* iniHandleValues( char     *startValMem,
   // -------------------------------------------------------
   // setup value node
   // -------------------------------------------------------
-  lng = keyEnd - keyStart ;                       // the length of the key
+  lng = keyEnd - keyStart + 1 ;                   // the length of the key
   key = (char*) malloc( (lng+1)*sizeof(char) ) ;  // alloc memory for the key
   if( key == NULL )                               // allocation failed
   {                                               //
@@ -571,7 +572,7 @@ char* iniHandleValues( char     *startValMem,
   }                                               //
   else                                            // handle string
   {                                               //
-    lng = valEnd - valStart ;                     //
+    lng = valEnd - valStart +1 ;                  //
     valStr=(char*)malloc( (lng+1)*sizeof(char) ); //
     if( valStr == NULL )                          //
     {                                             //
@@ -589,8 +590,13 @@ char* iniHandleValues( char     *startValMem,
     goto _door ;
   }  
 
-#if(0)  // switch on once addValueNode has been tested 
-  addValueNode( iniCfg->value, iniVal ) ;
+#if(1)  // switch on once addValueNode has been tested 
+  sysRc = addValueNode( iniCfg, iniVal ) ;
+  if( sysRc != 0 )
+  {
+    sysRc = 7 ;
+    goto _door ;
+  }
 #endif
 
 _door :    

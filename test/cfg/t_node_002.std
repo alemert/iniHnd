@@ -1,1 +1,6 @@
-not tested yet
+# TEST START addValueNode >>first value added   << test/src/t_node_002.c(0053)
+# TEST OK    addValueNode >>first value added   << test/src/t_node_002.c(0053)
+# TEST START addValueNode >>second value added  << test/src/t_node_002.c(0059)
+# TEST OK    addValueNode >>second value added  << test/src/t_node_002.c(0059)
+# TEST START addValueNode >>same value added    << test/src/t_node_002.c(0065)
+# TEST OK    addValueNode >>same value added    << test/src/t_node_002.c(0065)

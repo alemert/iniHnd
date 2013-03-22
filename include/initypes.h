@@ -94,4 +94,4 @@ int       setIniTagName( tIniNode *node, const char* tag, int lng ) ;
 tIniVal* createStrValue( char* key, char* value ) ;
 tIniVal* createIntValue( char* key, int   value ) ;
 
-void addValueNode( tIniNode* iniNode, tIniVal *value ) ;
+int addValueNode( tIniNode* iniNode, tIniVal *value ) ;

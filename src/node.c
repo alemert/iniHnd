@@ -141,21 +141,31 @@ _door :
 /******************************************************************************/
 /* add value node      */
 /******************************************************************************/
-void addValueNode( tIniNode* iniNode, tIniVal *value )
+int addValueNode( tIniNode* iniNode, tIniVal *value )
 {
   tIniVal *p ;
+  int sysRc = 0 ;
 
   p = iniNode->value ;
   if( p == NULL )
   {
     iniNode->value = value ;
-    return ;
+    sysRc = 0 ;
+    goto _door ;    // return ok
   }
 
   while( p->nextVal != NULL )
   {
+    if( strcmp( p->key, value->key ) == 0 )
+    {
+      sysRc = 1 ;
+      goto _door ;
+    }
     p = p->nextVal ;
   }
  
   p->nextVal = value ; 
+
+_door:
+  return sysRc ;
 }
