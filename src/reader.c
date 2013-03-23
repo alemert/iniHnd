@@ -228,7 +228,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       // tag found
       // ---------------------------------------------------
-#if(0)
+#if(1)
       case '<'  :                                    // search for open tag
       {                                              //  find out it's name
         startSubMem = iniHandleOpenTag( memP   ,     //
@@ -245,16 +245,18 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
           loop = 0 ;                                 // eof reached (ok)
           break ;                                    //
         }                                            //
-        endSubMem = iniHandleCloseTag( startSubMem,  // search for close tag
-                                       iniCfg->tag,  //  belonging to open tag
-                                       &sysRc     ); //
-        if( sysRc != 0 )                             // some error occured
-        {                                            //   check function source
-          logger( LSTD_INI_SYNTAX_ERROR, iniMem );   //   for error reason
-          goto _door ;                               // i.g ini syntax error
-        }                                            //  (not a close tag,
-      }                                              //  close name does not
-                                                     //  fit open tag name
+                                                     // search for close tag
+        endSubMem = iniHandleCloseTag( startSubMem,  //  belonging to open tag
+                                       iniCfg->tag,  // some error occured
+                                       &sysRc     ); //  check function source
+        if( sysRc != 0 )                             //  for error reason i.g.
+        {                                            //  ini syntax error: not 
+          logger( LSTD_INI_SYNTAX_ERROR, iniMem );   //   a close tag, close 
+          goto _door ;                               //   name not existing, not
+        }                                            //   fiting open tag name
+        for( memP=endSubMem; *memP != '>'; memP++ ); // move to the end of the 
+      }                                              //  close tag, endSubMem is
+                                                     //  pointing to start of it
 #endif
       // ---------------------------------------------------
       // value
@@ -275,7 +277,6 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
     memP++ ;                                         //
 
 #if(0)
-    for( memP=endSubMem; *memP != '>'; memP++ ) ;
 #endif
   }
 
