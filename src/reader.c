@@ -190,11 +190,13 @@ _door :
 }
 
 /******************************************************************************/
-/* convert memory to cfg                        */
+/* convert memory to cfg                                    */
 /******************************************************************************/
 tIniNode* ini2cfg( char* iniMem, int *rc )
 {
   int sysRc = 0 ;
+  int loop ;
+
   char *startSubMem ;
   char *endSubMem ;
 
@@ -203,34 +205,74 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
 
   char *memP = iniMem ;
 
-  while(1)
+  loop = 1 ;
+  while( loop )
   {
-    startSubMem = iniHandleOpenTag( memP, iniCfg, &sysRc ) ;
-    if( sysRc != 0 )                           // handle error
-    {                                          //
-      logger( LSTD_INI_SYNTAX_ERROR, iniMem ); //
-      goto _door ;                             //
-    }                                          //
-    if( startSubMem == NULL )                  // sysRc==0; startSubMem == NULL
-    {                                          // ok -> eof reached
-      break ;                                  //
-    }                                          //
-                                               // 
-    endSubMem = iniHandleCloseTag( startSubMem, iniCfg->tag, &sysRc ) ;
-    if( sysRc != 0 )                           // handle error
-    {                                          //
-      logger( LSTD_INI_SYNTAX_ERROR, iniMem ); //
-      goto _door ;                             //
-    }                                          //
-
-    startSubMem = iniHandleValues( startSubMem, endSubMem, iniCfg, &sysRc ) ;
-    if( sysRc != 0 )
+    switch( *p )
     {
-      logger( LSTD_INI_SYNTAX_ERROR, iniMem ); //
-      goto _door ;
-    }
+      // ---------------------------------------------------
+      // ignore white spaces
+      // ---------------------------------------------------
+      case ' '  :       
+      {
+        break ;
+      }
+      // ---------------------------------------------------
+      // eof found (ok)
+      // ---------------------------------------------------
+      case '\0' :           // 
+      {                     //
+        loop = 0 ;          // break out of the loop
+        break ;             //
+      }                     //
+      // ---------------------------------------------------
+      // tag found
+      // ---------------------------------------------------
+      case '<'  :                                    // search for open tag
+      {                                              //  find out it's name
+        startSubMem = iniHandleOpenTag( memP   ,     //
+                                        iniCfg ,     //
+                                        &sysRc );    //
+        if( sysRc != 0 )                             // some error occured
+        {                                            //   check function source
+          logger( LSTD_INI_SYNTAX_ERROR ,            //   for error reason
+                  iniMem                ) ;          // i.g ini syntax err
+          goto _door ;                               //   (not an oppening tag)
+        }                                            //
+        if( startSubMem == NULL )                    // if  sysRc==0
+        {                                            // and startSubMem == NULL
+          loop = 0 ;                                 // eof reached (ok)
+          break ;                                    //
+        }                                            //
+        endSubMem = iniHandleCloseTag( startSubMem,  // search for close tag
+                                       iniCfg->tag,  //  belonging to open tag
+                                       &sysRc     ); //
+        if( sysRc != 0 )                             // some error occured
+        {                                            //   check function source
+          logger( LSTD_INI_SYNTAX_ERROR, iniMem );   //   for error reason
+          goto _door ;                               // i.g ini syntax error
+        }                                            //  (not a close tag,
+      }                                              //  close name does not
+                                                     //  fit open tag name
+      // ---------------------------------------------------
+      // value
+      // ---------------------------------------------------
+      default :                                      //
+      {                                              //
+        startSubMem = iniHandleValues( startSubMem, endSubMem, iniCfg, &sysRc );
+        if( sysRc != 0 )                             //
+        {                                            //
+          logger( LSTD_INI_SYNTAX_ERROR, iniMem );   //
+          goto _door ;                               //
+        }                                            //
+      }                                              //
+    }                                                //
+                                                     //
+    p++ ;                                            //
 
+#if(0)
     for( memP=endSubMem; *memP != '>'; memP++ ) ;
+#endif
   }
 
 
