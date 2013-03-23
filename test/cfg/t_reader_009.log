@@ -1,4 +1,0 @@
-2013-03-22 16:55:13  16904 00208 ERR missing open tag near > 
-                                     iniHandleOpenTag() in src/reader.c (line: 00267)
-2013-03-22 16:55:13  16904 00200 ERR ini file syntax error near < qmgr >   name = ADMT01   <channel>     name = ADMT01.GATEWAT01   </channel> < /qmgr > 
-                                     ini2cfg() in src/reader.c (line: 00211)

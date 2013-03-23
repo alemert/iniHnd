@@ -37,15 +37,15 @@ int main( int argc, const char** argv )
   char *iniMem = NULL ;
 //tIniNode *iniAnchor = initIniNode() ; 
 
-  sysRc = initLogging( "test/log/t_reader_009.log", INF ) ;
+  sysRc = initLogging( "test/log/t_reader_005.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
   // some test 
   // -------------------------------------------------------
 #if(1)
-  iniReader( "test/cfg/t_reader_009_000.ini", &iniMem ) ;
-  doPointTest( "base test "      , \
+  iniReader( "test/cfg/t_reader_005_000.ini", &iniMem ) ;
+  doPointTest( "zero size file "      , \
                RC_NOT_NULL                 , \
                ini2cfg           , \
                iniMem, &sysRc ) ;

@@ -208,7 +208,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
   loop = 1 ;
   while( loop )
   {
-    switch( *p )
+    switch( *memP )
     {
       // ---------------------------------------------------
       // ignore white spaces
@@ -228,6 +228,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       // tag found
       // ---------------------------------------------------
+#if(0)
       case '<'  :                                    // search for open tag
       {                                              //  find out it's name
         startSubMem = iniHandleOpenTag( memP   ,     //
@@ -254,9 +255,11 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
         }                                            //  (not a close tag,
       }                                              //  close name does not
                                                      //  fit open tag name
+#endif
       // ---------------------------------------------------
       // value
       // ---------------------------------------------------
+#if(0)
       default :                                      //
       {                                              //
         startSubMem = iniHandleValues( startSubMem, endSubMem, iniCfg, &sysRc );
@@ -266,9 +269,10 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
           goto _door ;                               //
         }                                            //
       }                                              //
+#endif
     }                                                //
                                                      //
-    p++ ;                                            //
+    memP++ ;                                         //
 
 #if(0)
     for( memP=endSubMem; *memP != '>'; memP++ ) ;
