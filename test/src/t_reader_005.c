@@ -78,11 +78,11 @@ int main( int argc, const char** argv )
   // some test 
   // -------------------------------------------------------
 #if(1)
-  iniReader( "test/cfg/t_reader_005_002.ini", &iniMem ) ;
-  doPointTest( "tag with values" , \
-               RC_NOT_NULL       , \
-               ini2cfg           , \
-               iniMem, &sysRc    ) ;
+  iniReader( "test/cfg/t_reader_005_003.ini", &iniMem ) ;
+  doPointTest( "tag with 2 values" , \
+               RC_NOT_NULL         , \
+               ini2cfg             , \
+               iniMem, &sysRc      ) ;
   iniRcNode = (tIniNode*) gRcVoidPointer ;
   if( strcmp( iniRcNode->tag, "qmgr" ) != 0 )
   {
@@ -102,9 +102,66 @@ int main( int argc, const char** argv )
     sysRc = 1 ;
     goto _door ;
   }
+  if( strcmp( iniRcNode->value->nextVal->key, "logging" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->nextVal->value.strVal, "linear" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
   checkMessage( TEST_OK_TXT, ini2cfg ) ;
   free(iniMem) ;
 #endif
+
+  // -------------------------------------------------------
+  // some test 
+  // -------------------------------------------------------
+#if(0)
+  iniReader( "test/cfg/t_reader_005_004.ini", &iniMem ) ;
+  doPointTest( "tag with 2 values" , \
+               RC_NOT_NULL         , \
+               ini2cfg             , \
+               iniMem, &sysRc      ) ;
+  iniRcNode = (tIniNode*) gRcVoidPointer ;
+  if( strcmp( iniRcNode->tag, "qmgr" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->key, "name" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->value.strVal, "ADMT01" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->nextVal->key, "logging" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->nextVal->value.strVal, "linear" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfg ) ;
+  free(iniMem) ;
+#endif
+sysRc = 1 ;
 
 _door:
   return sysRc ;
