@@ -228,7 +228,6 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       // tag found
       // ---------------------------------------------------
-#if(1)
       case '<'  :                                    // search for open tag
       {                                              //  find out it's name
         startSubMem = iniHandleOpenTag( memP   ,     //
@@ -254,30 +253,51 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
           logger( LSTD_INI_SYNTAX_ERROR, iniMem );   //   a close tag, close 
           goto _door ;                               //   name not existing, not
         }                                            //   fiting open tag name
-        for( memP=endSubMem; *memP != '>'; memP++ ); // move to the end of the 
-      }                                              //  close tag, endSubMem is
-                                                     //  pointing to start of it
-#endif
+                                                     //
+        *endSubMem = '\0' ;                          //
+        iniCfg->childNode = ini2cfg( endSubMem ,     //
+                                     &sysRc   );     //
+        {                                            //
+          if( iniCfg->childNode == NULL  )           //
+          {                                          //
+            logger( LSTD_INI_SYNTAX_ERROR, iniMem ); //
+            goto _door ;                             //
+          }                                          //
+          if( iniCfg->childNode->tag == NULL )       //
+          {                                          //
+            if(iniCfg->childNode->value    ==NULL && //
+               iniCfg->childNode->nextNode ==NULL && //
+               iniCfg->childNode->childNode==NULL  ) //
+            {                                        //
+              free( iniCfg->childNode ) ;            //
+            }                                        //
+            else                                     //
+            {                                        //
+              logger(LSTD_INI_SYNTAX_ERROR,iniMem);  //
+              goto _door ;                           //
+            }                                        //
+          }                                          //
+        }                                            // move to the end of the 
+                                                     //  close tag, endSubMem is
+        for( memP=endSubMem; *memP != '>'; memP++ ); // pointing to start of it 
+      }                                              // no break, continue with
+                                                     //  values (default:)
+                                                     //
       // ---------------------------------------------------
       // value
       // ---------------------------------------------------
-#if(0)
       default :                                      //
       {                                              //
         startSubMem = iniHandleValues( startSubMem, endSubMem, iniCfg, &sysRc );
-        if( sysRc != 0 )                             //
+        if( sysRc > 0  )                             //
         {                                            //
           logger( LSTD_INI_SYNTAX_ERROR, iniMem );   //
           goto _door ;                               //
         }                                            //
       }                                              //
-#endif
     }                                                //
                                                      //
     memP++ ;                                         //
-
-#if(0)
-#endif
   }
 
 
@@ -417,6 +437,7 @@ _door :
 /*                                                                            */
 /*   rc:                                                                      */
 /*    ok rc                                                                   */
+/*     -2 if ok eof found      */
 /*     -1 if start of next tag found '<'                                      */
 /*      0 if value found and added to iniCfg                                  */
 /*    error rc                                                                */
@@ -469,9 +490,8 @@ char* iniHandleValues( char     *startValMem,
       }                       //
       case '\0' :             // unexpected end of file (error)
       {                       //
-        logger( LSTD_INI_EARLY_EOF ) ;
         p = NULL ;            //
-        sysRc = 2 ;           //
+        sysRc = -2 ;          //
         goto _door ;          //
       }                       //
       case '=' :              // early = found (error)

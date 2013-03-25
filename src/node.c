@@ -58,8 +58,10 @@ tIniNode* initIniNode()
     goto _door ;
   } 
 
-  node->tag      = NULL ;
-  node->nextNode = NULL ;
+  node->tag       = NULL ;
+  node->nextNode  = NULL ;
+  node->value     = NULL ;
+  node->childNode = NULL ;
 
 _door :
   return node ; 

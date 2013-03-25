@@ -49,6 +49,7 @@ struct tagIniNode
   char     *tag ;
   tIniNode *nextNode ; 
   tIniVal  *value ;
+  tIniNode *childNode ;
 } ;
 
 /******************************************************************************/

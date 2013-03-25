@@ -3,3 +3,6 @@
 # TEST START ini2cfg    >>empty tag           << test/src/t_reader_005.c(0065)
 # TEST OK    ini2cfg    >>empty tag           << test/src/t_reader_005.c(0065)
 # CHECK OK   ini2cfg    >>                    << test/src/t_reader_005.c(0073)
+# TEST START ini2cfg    >>tag with values     << test/src/t_reader_005.c(0085)
+# TEST OK    ini2cfg    >>tag with values     << test/src/t_reader_005.c(0085)
+# CHECK OK   ini2cfg    >>                    << test/src/t_reader_005.c(0105)

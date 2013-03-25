@@ -110,11 +110,11 @@ int main( int argc, const char** argv )
 #if(1)
   iniReader( "test/cfg/t_reader_002_003.ini", &iniMem ) ;
   startVal = iniMem ;
-  doPointTest( "early eof "         , \
-               RC_IS_NULL           , \
-               iniHandleValues    , \
-               startVal, endVal, iniCfg, &sysRc   ) ;
-  if( sysRc != 2 )
+  doPointTest( "okeof "                         , \
+               RC_IS_NULL                       , \
+               iniHandleValues                  , \
+               startVal, endVal, iniCfg, &sysRc ) ;
+  if( sysRc != -2 )
   {
     checkMessage( TEST_ERR_TXT, iniHandleOpenTag ) ;
     sysRc = 2 ;

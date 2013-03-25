@@ -47,10 +47,10 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_005_000.ini", &iniMem ) ;
-  doPointTest( "zero size file "      , \
-               RC_NOT_NULL                 , \
+  doPointTest( "zero size file " , \
+               RC_NOT_NULL       , \
                ini2cfg           , \
-               iniMem, &sysRc ) ;
+               iniMem, &sysRc    ) ;
   free(iniMem) ;
 #endif
 
@@ -59,12 +59,44 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_005_001.ini", &iniMem ) ;
-  doPointTest( "empty tag"      , \
-               RC_NOT_NULL                 , \
-               ini2cfg           , \
+  doPointTest( "empty tag"    , \
+               RC_NOT_NULL    , \
+               ini2cfg        , \
                iniMem, &sysRc ) ;
   iniRcNode = (tIniNode*) gRcVoidPointer ;
   if( strcmp( iniRcNode->tag, "qmgr" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfg ) ;
+  free(iniMem) ;
+#endif
+
+  // -------------------------------------------------------
+  // some test 
+  // -------------------------------------------------------
+#if(1)
+  iniReader( "test/cfg/t_reader_005_002.ini", &iniMem ) ;
+  doPointTest( "tag with values" , \
+               RC_NOT_NULL       , \
+               ini2cfg           , \
+               iniMem, &sysRc    ) ;
+  iniRcNode = (tIniNode*) gRcVoidPointer ;
+  if( strcmp( iniRcNode->tag, "qmgr" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->key, "name" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->value.strVal, "ADMT01" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, ini2cfg ) ;
     sysRc = 1 ;
