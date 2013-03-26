@@ -190,7 +190,7 @@ _door :
 }
 
 /******************************************************************************/
-/* convert memory to cfg                                    */
+/* convert memory to cfg                                                      */
 /******************************************************************************/
 tIniNode* ini2cfg( char* iniMem, int *rc )
 {
@@ -213,10 +213,10 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       // ignore white spaces
       // ---------------------------------------------------
-      case ' '  :       
-      {
-        break ;
-      }
+      case ' '  :           //
+      {                     //
+        break ;             //
+      }                     //
       // ---------------------------------------------------
       // eof found (ok)
       // ---------------------------------------------------
@@ -228,8 +228,13 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       // tag found
       // ---------------------------------------------------
-      case '<'  :                                    // search for open tag
-      {                                              //  find out it's name
+      case '<'  :                                    // tag found, find and
+      {                                              //  set it's name
+        if( iniCfg->tag != NULL )                    //
+        {                                            // more then one tag
+          iniCfg->nextNode = initIniNode() ;         //  on same level
+          iniCfg = iniCfg->nextNode ;                //
+        }                                            //
         startSubMem = iniHandleOpenTag( memP   ,     //
                                         iniCfg ,     //
                                         &sysRc );    //
