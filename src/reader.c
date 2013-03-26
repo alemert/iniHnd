@@ -266,24 +266,24 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
         {                                            //
            logger( LSTD_INI_SYNTAX_ERROR, iniMem );  //
            goto _door ;                              //
-         }                                           //
-         if( iniCfg->childNode->tag == NULL )        //
-         {                                           //
-           if( iniCfg->childNode->value    ==NULL && //
-               iniCfg->childNode->nextNode ==NULL && //
-               iniCfg->childNode->childNode==NULL  ) //
-           {                                         //
-             free( iniCfg->childNode ) ;             //
-             iniCfg->childNode = NULL ;              //
-           }                                         //
-           else                                      //
-           {                                         //
-             logger(LSTD_INI_SYNTAX_ERROR,iniMem);   //
-             goto _door ;                            //
-           }                                         //
-         }                                           //
-         memP=startSubMem ;
-         *endSubMem = '<' ;                          // start of close tag found
+        }                                           //
+        if( iniCfg->childNode->tag == NULL )        //
+        {                                           //
+          if( iniCfg->childNode->value    ==NULL && //
+              iniCfg->childNode->nextNode ==NULL && //
+              iniCfg->childNode->childNode==NULL  ) //
+          {                                         //
+            free( iniCfg->childNode ) ;             //
+            iniCfg->childNode = NULL ;              //
+          }                                         //
+          else                                      //
+          {                                         //
+            logger(LSTD_INI_SYNTAX_ERROR,iniMem);   //
+            goto _door ;                            //
+          }                                         //
+        }                                           //
+        memP=startSubMem ;
+        *endSubMem = '<' ;                          // start of close tag found
       }                                              // no break, continue with
                                                      //  values (default:)
                                                      //
