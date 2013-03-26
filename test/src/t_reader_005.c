@@ -237,7 +237,7 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_005_005.ini", &iniMem ) ;
-  doPointTest( "2 same level nodes with 2 values"  , \
+  doPointTest( "simple tree 2(2)-1(2),2(2)" , \
                RC_NOT_NULL         , \
                ini2cfg             , \
                iniMem, &sysRc      ) ;

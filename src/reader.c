@@ -197,8 +197,8 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
   int sysRc = 0 ;
   int loop ;
 
-  char *startSubMem ;
-  char *endSubMem ;
+  char *startSubMem = NULL ;
+  char *endSubMem   = NULL ;
 
   tIniNode *iniCfg    = initIniNode() ;
   tIniNode *anchorCfg = iniCfg ;
@@ -215,6 +215,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       case ' '  :           //
       {                     //
+        memP++ ;
         break ;             //
       }                     //
       // ---------------------------------------------------
@@ -259,40 +260,43 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
           goto _door ;                               //   name not existing, not
         }                                            //   fiting open tag name
                                                      //
+dieser teil ist an falscher stelle, wenn startSubMem mit sonstwas ausgetausch ist, funktioniert kette (nicht aber baum), was dieses konstrukt eigentlich unterstuezen sollte.
         *endSubMem = '\0' ;                          //
-        iniCfg->childNode = ini2cfg( endSubMem ,     //
+        iniCfg->childNode = ini2cfg( startSubMem ,     //
                                      &sysRc   );     //
         if( iniCfg->childNode == NULL  )             //
         {                                            //
            logger( LSTD_INI_SYNTAX_ERROR, iniMem );  //
            goto _door ;                              //
-        }                                           //
-        if( iniCfg->childNode->tag == NULL )        //
-        {                                           //
-          if( iniCfg->childNode->value    ==NULL && //
-              iniCfg->childNode->nextNode ==NULL && //
-              iniCfg->childNode->childNode==NULL  ) //
-          {                                         //
-            free( iniCfg->childNode ) ;             //
-            iniCfg->childNode = NULL ;              //
-          }                                         //
-          else                                      //
-          {                                         //
-            logger(LSTD_INI_SYNTAX_ERROR,iniMem);   //
-            goto _door ;                            //
-          }                                         //
-        }                                           //
-        memP=startSubMem ;
-        *endSubMem = '<' ;                          // start of close tag found
+        }                                            //
+        if( iniCfg->childNode->tag == NULL )         //
+        {                                            //
+          if( iniCfg->childNode->value    == NULL && //
+              iniCfg->childNode->nextNode == NULL && //
+              iniCfg->childNode->childNode== NULL  ) //
+          {                                          //
+            free( iniCfg->childNode ) ;              //
+            iniCfg->childNode = NULL ;               //
+          }                                          //
+          else                                       //
+          {                                          //
+            logger(LSTD_INI_SYNTAX_ERROR,iniMem);    //
+            goto _door ;                             //
+          }                                          //
+        }                                            //
+        memP=startSubMem ;                           //
+        *endSubMem = '<' ;                           // start of close tag found
       }                                              // no break, continue with
                                                      //  values (default:)
-                                                     //
       // ---------------------------------------------------
       // value
       // ---------------------------------------------------
       default :                                      //
       {                                              //
-        startSubMem = iniHandleValues( startSubMem, endSubMem, iniCfg, &sysRc );
+        memP = iniHandleValues( memP,         //
+                                endSubMem  ,         //
+                                iniCfg     ,         //
+                                &sysRc    );         //
         if( sysRc > 0  )                             //
         {                                            //
           logger( LSTD_INI_SYNTAX_ERROR, iniMem );   //
@@ -301,11 +305,15 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       }                                              //
     }                                                //
                                                      //
-    memP++ ;                                         //
     if( memP == endSubMem )                          // 
     {                                                // endSubMem is pointing
       for( memP=endSubMem; *memP != '>'; memP++ );   //  to '<' in </name>, 
+      memP++ ;
     }                                                //  move memP to '>'
+//  else                                             //
+//  {                                                //
+//    memP++ ;                                       //
+//  }                                                //
   }                                                  //
 
 
