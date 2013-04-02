@@ -85,6 +85,7 @@ char* iniHandleValues( char    *startSubMem,
                        tIniNode *iniCfg    ,
                        int      *rc       );
 tIniNode* ini2cfg( char* iniMem, int *rc ) ;
+char* ignWhiteChar( char *p) ;
 
 // ---------------------------------------------------------
 // node.c

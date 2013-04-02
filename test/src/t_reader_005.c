@@ -252,7 +252,7 @@ int main( int argc, const char** argv )
     sysRc = 1 ;
     goto _door ;
   }
-  if( iniRcNode->childNode != NULL )
+  if( iniRcNode->childNode == NULL )
   {
     checkMessage( TEST_ERR_TXT, ini2cfg ) ;
     sysRc = 1 ;

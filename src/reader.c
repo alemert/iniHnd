@@ -195,7 +195,8 @@ _door :
 tIniNode* ini2cfg( char* iniMem, int *rc )
 {
   int sysRc = 0 ;
-  int loop ;
+  int loop1 ;
+  int loop2 ;
 
   char *startSubMem = NULL ;
   char *endSubMem   = NULL ;
@@ -205,8 +206,8 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
 
   char *memP = iniMem ;
 
-  loop = 1 ;
-  while( loop )
+  loop1 = 1 ;
+  while( loop1 )
   {
     switch( *memP )
     {
@@ -223,7 +224,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       case '\0' :           // 
       {                     //
-        loop = 0 ;          // break out of the loop
+        loop1 = 0 ;         // break out of the loop
         break ;             //
       }                     //
       // ---------------------------------------------------
@@ -247,7 +248,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
         }                                            //
         if( startSubMem == NULL )                    // if  sysRc==0
         {                                            // and startSubMem == NULL
-          loop = 0 ;                                 // eof reached (ok)
+          loop1 = 0 ;                                // eof reached (ok)
           break ;                                    //
         }                                            //
                                                      // search for close tag
@@ -260,47 +261,74 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
           goto _door ;                               //   name not existing, not
         }                                            //   fiting open tag name
                                                      //
-dieser teil ist an falscher stelle, wenn startSubMem mit sonstwas ausgetausch ist, funktioniert kette (nicht aber baum), was dieses konstrukt eigentlich unterstuezen sollte.
+        memP=startSubMem  ;                          //
         *endSubMem = '\0' ;                          //
-        iniCfg->childNode = ini2cfg( startSubMem ,     //
-                                     &sysRc   );     //
-        if( iniCfg->childNode == NULL  )             //
-        {                                            //
-           logger( LSTD_INI_SYNTAX_ERROR, iniMem );  //
-           goto _door ;                              //
-        }                                            //
-        if( iniCfg->childNode->tag == NULL )         //
-        {                                            //
-          if( iniCfg->childNode->value    == NULL && //
-              iniCfg->childNode->nextNode == NULL && //
-              iniCfg->childNode->childNode== NULL  ) //
-          {                                          //
-            free( iniCfg->childNode ) ;              //
-            iniCfg->childNode = NULL ;               //
-          }                                          //
-          else                                       //
-          {                                          //
-            logger(LSTD_INI_SYNTAX_ERROR,iniMem);    //
-            goto _door ;                             //
-          }                                          //
-        }                                            //
-        memP=startSubMem ;                           //
-        *endSubMem = '<' ;                           // start of close tag found
       }                                              // no break, continue with
                                                      //  values (default:)
       // ---------------------------------------------------
-      // value
+      // values & sub items
       // ---------------------------------------------------
       default :                                      //
       {                                              //
-        memP = iniHandleValues( memP,         //
-                                endSubMem  ,         //
-                                iniCfg     ,         //
-                                &sysRc    );         //
-        if( sysRc > 0  )                             //
-        {                                            //
-          logger( LSTD_INI_SYNTAX_ERROR, iniMem );   //
-          goto _door ;                               //
+        loop2 = 1 ;                                  //
+        while( loop2 )                               // stay in loop for all 
+        {                                            //  values and sub items
+          memP = ignWhiteChar( memP ) ;              //
+          switch( *memP )                            //
+          {                                          //
+            case '\0' :                              // end of sub memory 
+            {                                        //   reached
+              loop2 = 0 ;                            // break the loop
+              *endSubMem = '<' ;                     // set back close tag 
+              break ;                                //
+            }                                        //
+            case '<' :                               // sub item found
+            {                                        //
+              iniCfg->childNode=ini2cfg( memP    ,   // sub item is a child node
+                                         &sysRc );   //
+              if( iniCfg->childNode == NULL  )       // memory alloc error
+              {                                      //
+                 logger( LSTD_INI_SYNTAX_ERROR,      //
+                         iniMem              );      //
+                 goto _door ;                        //
+              }                                      //
+              if( iniCfg->childNode->tag == NULL )   // old error handling
+              {                                      //  should not occure
+                if( iniCfg->childNode->value     == NULL && 
+                    iniCfg->childNode->nextNode  == NULL &&
+                    iniCfg->childNode->childNode == NULL  ) 
+                {                                    //
+                  free( iniCfg->childNode ) ;        //
+                  iniCfg->childNode = NULL ;         //
+                }                                    //
+                else                                 //
+                {                                    //
+                  logger( LSTD_INI_SYNTAX_ERROR,     //
+                          iniMem              );     //
+                  goto _door ;                       //
+                }                                    //
+              }                                      //
+              for( ; *memP != '>'; memP++ );         // 
+              memP = iniHandleCloseTag( memP, iniCfg->childNode->tag, &sysRc ); 
+              for( ; *memP != '>'; memP++ );         // move memP to the end 
+              memP++ ;                               //  of  sub item
+              break ;                                //
+            }                                        //
+            default :                                // handle values
+            {                                        //
+              memP = iniHandleValues( memP       ,   //
+                                      endSubMem  ,   //
+                                      iniCfg     ,   //
+                                      &sysRc    );   //
+              if( sysRc > 0  )                       //
+              {                                      //
+                logger( LSTD_INI_SYNTAX_ERROR,       //
+                        iniMem              );       //
+                goto _door ;                         //
+              }                                      //
+              break ;                                //
+            }                                        //
+          }                                          //
         }                                            //
       }                                              //
     }                                                //
@@ -308,7 +336,7 @@ dieser teil ist an falscher stelle, wenn startSubMem mit sonstwas ausgetausch is
     if( memP == endSubMem )                          // 
     {                                                // endSubMem is pointing
       for( memP=endSubMem; *memP != '>'; memP++ );   //  to '<' in </name>, 
-      memP++ ;
+      memP++ ;                                       //
     }                                                //  move memP to '>'
 //  else                                             //
 //  {                                                //
@@ -720,3 +748,30 @@ _door :
   *rc = sysRc ;
   return p ;
 }
+
+/******************************************************************************/
+/* ignore white spaces            */
+/******************************************************************************/
+char* ignWhiteChar( char *p)
+{
+  int loop = 1 ;
+
+  while( loop )
+  {
+    switch( *p )
+    {
+      case ' '  : break ;
+      case '\t' : break ;
+      case '\n' : break ;
+      default :
+      {
+        loop=0 ;
+      }
+    }
+    p++ ;
+  }
+  p-- ;
+
+  return p ;
+}
+
