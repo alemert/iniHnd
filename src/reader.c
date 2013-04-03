@@ -282,10 +282,10 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
               *endSubMem = '<' ;                     // set back close tag 
               break ;                                //
             }                                        //
-            case '<' :                               // sub item found
+            case '<' :                               // sub item found 
             {                                        //
-              iniCfg->childNode=ini2cfg( memP    ,   // sub item is a child node
-                                         &sysRc );   //
+              addChildNode( iniCfg,                  // sub item is per 
+                            ini2cfg(memP,&sysRc) );  //  definition a child node
               if( iniCfg->childNode == NULL  )       // memory alloc error
               {                                      //
                  logger( LSTD_INI_SYNTAX_ERROR,      //

@@ -346,6 +346,124 @@ int main( int argc, const char** argv )
   free(iniMem) ;
 #endif
 
+  // -------------------------------------------------------
+  // complete tree
+  // -------------------------------------------------------
+  iniReader( "test/cfg/t_reader_005_006.ini", &iniMem ) ;
+  doPointTest( "complete tree"     , \
+               RC_NOT_NULL         , \
+               ini2cfg             , \
+               iniMem, &sysRc      ) ;
+  iniRcNode = (tIniNode*) gRcVoidPointer ;
+
+  // -------------------------------------------------------
+  // test first node
+  // -------------------------------------------------------
+  if( strcmp( iniRcNode->tag, "qmgr" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->key, "name" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->value.strVal, "ADMT01" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->nextVal->key, "logging" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->nextVal->value.strVal, "linear" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->value->nextVal->nextVal != NULL  ) 
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+
+  // -------------------------------------------------------
+  // test second node
+  // -------------------------------------------------------
+
+sysRc =1 ;
+goto _door ;
+
+#if(0)
+  iniRcNode = iniRcNode->nextNode ;
+  if( strcmp( iniRcNode->tag, "qmgr" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode != NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->nextNode != NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->key, "name" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->value.strVal, "ADMT02" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->nextVal->key, "logging" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->nextVal->value.strVal, "linear" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->value->nextVal->nextVal != NULL  ) 
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+#endif
+
+  checkMessage( TEST_OK_TXT, ini2cfg ) ;
+  free(iniMem) ;
+
 _door:
   return sysRc ;
 }
