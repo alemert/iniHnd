@@ -97,3 +97,4 @@ tIniVal* createStrValue( char* key, char* value ) ;
 tIniVal* createIntValue( char* key, int   value ) ;
 
 int addValueNode( tIniNode* iniNode, tIniVal *value ) ;
+int addChildNode( tIniNode* parent, tIniNode* child ) ;

@@ -2,8 +2,11 @@
 /* test c source template                                                     */
 /*                                                                            */
 /* testing file :                                                             */
+/*  node.c                                                */
 /*                                                                            */
 /* testing functions :                                                        */
+/*  - addValueNode                                  */
+/*  - addChildNode                                          */
 /*                                                                            */
 /******************************************************************************/
 
@@ -74,9 +77,108 @@ int main( int argc, const char** argv )
               1                   , \
               addValueNode        , \
               iniAnchor, p        ) ;
+
+  // -------------------------------------------------------
+  // add first child
+  // -------------------------------------------------------
+  tIniNode *iniChild = initIniNode() ;
+
+  p = createStrValue( "first_str", "some_string" ) ;
+
+  doIntTest( "first value added"  , \
+              0                   , \
+              addValueNode        , \
+              iniChild, p        ) ;
+  
+  p = createIntValue( "first_int", 0 ) ;
+  doIntTest( "second value added"  , \
+              0                   , \
+              addValueNode        , \
+              iniChild, p        ) ;
+
+  p = createIntValue( "first_int", 2 ) ;
+  doIntTest( "some value duplicated"  , \
+              1                   , \
+              addValueNode        , \
+              iniChild, p        ) ;
+
+  doIntTest( "child added" , \
+              0            , \
+              addChildNode , \
+              iniAnchor    , iniChild ) ;
+
+  // -------------------------------------------------------
+  // add second child
+  // -------------------------------------------------------
+  iniChild = initIniNode() ;
+
+  p = createIntValue( "first_int", 3 ) ;
+
+  doIntTest( "add value "  , \
+              0                   , \
+              addValueNode        , \
+              iniChild, p        ) ;
+
+  // -------------------------------------------------------
+  // check the tree
+  // -------------------------------------------------------
+
+  // -------------------------------------------------------
+  // check the anchor
+  // -------------------------------------------------------
+  if( iniAnchor->childNode == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniAnchor->childNode->value == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+
+  // -------------------------------------------------------
+  // check the first child
+  // -------------------------------------------------------
+  if( strcmp( iniAnchor->childNode->value->key, "first_str" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+
+  if( strcmp( iniAnchor->childNode->value->value.strVal, "some_string" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if(strcmp(iniAnchor->childNode->value->nextVal->key,"first_int")!=0)
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if(  iniAnchor->childNode->value->nextVal->value.intVal != 0 ) 
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+
+  // -------------------------------------------------------
+  // check the second child
+  // -------------------------------------------------------
+  checkMessage( TEST_OK_TXT, addChildNode ) ;
 }
 #endif
+
+
+
 
 _door:
   return sysRc ;
 }
+

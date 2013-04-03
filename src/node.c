@@ -1,5 +1,12 @@
 /******************************************************************************/
 /* change title on for new project                                            */
+/*  functions                                                                 */
+/*   - initIniNode                                                            */
+/*   - setIniTagName                                                          */
+/*   - createStrValue                                                         */
+/*   - createIntValue                                                         */
+/*   - addValueNode                                                           */
+/*   - addChildNode                                                           */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -45,7 +52,7 @@
 /******************************************************************************/
 
 /******************************************************************************/
-/* init node                                 */
+/* init node                                                                  */
 /******************************************************************************/
 tIniNode* initIniNode()
 {
@@ -68,7 +75,7 @@ _door :
 }
 
 /******************************************************************************/
-/* set ini tag name                  */
+/* set ini tag name                                              */
 /******************************************************************************/
 int setIniTagName( tIniNode *node, const char* tag, int lng )
 {
@@ -100,7 +107,7 @@ _door:
 }
 
 /******************************************************************************/
-/* create value tag      */
+/* create string value tag                                          */
 /******************************************************************************/
 tIniVal* createStrValue( char* key, char* value )
 { 
@@ -125,6 +132,9 @@ _door :
   return pRc ;  
 }
 
+/******************************************************************************/
+/* create intiger value flag                                                  */
+/******************************************************************************/
 tIniVal* createIntValue( char* key, int value )
 { 
   tIniVal *this;
@@ -149,7 +159,7 @@ _door :
 }
 
 /******************************************************************************/
-/* add value node                  */
+/* add value node                                                             */
 /******************************************************************************/
 int addValueNode( tIniNode* iniNode, tIniVal *value )
 {
@@ -177,6 +187,37 @@ int addValueNode( tIniNode* iniNode, tIniVal *value )
   }
  
   p->nextVal = value ; 
+
+_door:
+  return sysRc ;
+}
+
+/******************************************************************************/
+/* add child node                                                             */
+/******************************************************************************/
+int addChildNode( tIniNode* parent, tIniNode* child )
+{
+  tIniNode *p ;
+  int sysRc = 0 ;
+
+  if( parent->childNode == NULL )
+  {
+    parent->childNode = child ;
+    sysRc = 0 ;
+    goto _door ;    // return ok
+  }
+
+  p = parent->childNode ;
+
+  while( 1 )
+  {
+    if( p->nextNode == NULL ) 
+    {
+      p->nextNode = child ;
+      break ;
+    }
+    p = p->nextNode ;
+  }
 
 _door:
   return sysRc ;
