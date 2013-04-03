@@ -2,11 +2,11 @@
 /* test c source template                                                     */
 /*                                                                            */
 /* testing file :                                                             */
-/*  node.c                                                */
+/*  node.c                                                                    */
 /*                                                                            */
 /* testing functions :                                                        */
-/*  - addValueNode                                  */
-/*  - addChildNode                                          */
+/*  - addValueNode                                                            */
+/*  - addChildNode                                                            */
 /*                                                                            */
 /******************************************************************************/
 
@@ -96,12 +96,6 @@ int main( int argc, const char** argv )
               addValueNode        , \
               iniChild, p        ) ;
 
-  p = createIntValue( "first_int", 2 ) ;
-  doIntTest( "some value duplicated"  , \
-              1                   , \
-              addValueNode        , \
-              iniChild, p        ) ;
-
   doIntTest( "child added" , \
               0            , \
               addChildNode , \
@@ -118,6 +112,11 @@ int main( int argc, const char** argv )
               0                   , \
               addValueNode        , \
               iniChild, p        ) ;
+
+  doIntTest( "add child "  , \
+              0            , \
+              addChildNode , \
+              iniAnchor    , iniChild ) ;
 
   // -------------------------------------------------------
   // check the tree
@@ -155,12 +154,14 @@ int main( int argc, const char** argv )
     sysRc = 1 ;
     goto _door ;
   }
+
   if(strcmp(iniAnchor->childNode->value->nextVal->key,"first_int")!=0)
   {
     checkMessage( TEST_ERR_TXT, addChildNode ) ;
     sysRc = 1 ;
     goto _door ;
   }
+
   if(  iniAnchor->childNode->value->nextVal->value.intVal != 0 ) 
   {
     checkMessage( TEST_ERR_TXT, addChildNode ) ;
@@ -171,6 +172,27 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
   // check the second child
   // -------------------------------------------------------
+  if( iniAnchor->childNode->nextNode == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+
+  if( strcmp( iniAnchor->childNode->nextNode->value->key, "first_int" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+
+  if( iniAnchor->childNode->nextNode->value->value.intVal != 3 )
+  {
+    checkMessage( TEST_ERR_TXT, addChildNode ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+
   checkMessage( TEST_OK_TXT, addChildNode ) ;
 }
 #endif
