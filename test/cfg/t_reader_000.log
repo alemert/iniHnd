@@ -1,18 +1,18 @@
-2013-04-03 20:50:58  12682 00110 ERR failed to open file test/cfg/does_not_exists.ini
-                                     iniReader() in src/reader.c (line: 00078)
-2013-04-03 20:50:58  12682 00208 ERR missing open tag near  l < qmgr >   name =
-                                     iniHandleOpenTag() in src/reader.c (line: 00378)
-2013-04-03 20:50:58  12682 00205 ERR unexpected EOF
-                                     iniHandleOpenTag() in src/reader.c (line: 00396)
-2013-04-03 20:50:58  12682 00205 ERR unexpected EOF
-                                     iniHandleOpenTag() in src/reader.c (line: 00396)
-2013-04-03 20:50:58  12682 00205 ERR unexpected EOF
-                                     iniHandleOpenTag() in src/reader.c (line: 00396)
-2013-04-03 20:50:58  12682 00205 ERR unexpected EOF
-                                     iniHandleOpenTag() in src/reader.c (line: 00396)
-2013-04-03 20:50:58  12682 00204 ERR wrong char '<' near < qm<gr >   name = ADMT01   <channel>   
-                                     iniHandleOpenTag() in src/reader.c (line: 00419)
-2013-04-03 20:50:58  12682 00204 ERR wrong char '/' near < qm/gr >   name = ADMT01   <channel>   
-                                     iniHandleOpenTag() in src/reader.c (line: 00419)
-2013-04-03 20:50:58  12682 00203 ERR missing char 'l' near < qmgr  l  >   name = ADMT01   <channel>
-                                     iniHandleOpenTag() in src/reader.c (line: 00465)
+2013-04-04 16:21:20  23047 00110 ERR failed to open file test/cfg/does_not_exists.ini
+                                     iniReader() in src/reader.c (line: 00080)
+2013-04-04 16:21:20  23047 00208 ERR missing open tag near  l < qmgr >   name =
+                                     iniHandleOpenTag() in src/reader.c (line: 00380)
+2013-04-04 16:21:20  23047 00205 ERR unexpected EOF
+                                     iniHandleOpenTag() in src/reader.c (line: 00398)
+2013-04-04 16:21:20  23047 00205 ERR unexpected EOF
+                                     iniHandleOpenTag() in src/reader.c (line: 00398)
+2013-04-04 16:21:20  23047 00205 ERR unexpected EOF
+                                     iniHandleOpenTag() in src/reader.c (line: 00398)
+2013-04-04 16:21:20  23047 00205 ERR unexpected EOF
+                                     iniHandleOpenTag() in src/reader.c (line: 00398)
+2013-04-04 16:21:20  23047 00204 ERR wrong char '<' near < qm<gr >   name = ADMT01   <channel>   
+                                     iniHandleOpenTag() in src/reader.c (line: 00421)
+2013-04-04 16:21:20  23047 00204 ERR wrong char '/' near < qm/gr >   name = ADMT01   <channel>   
+                                     iniHandleOpenTag() in src/reader.c (line: 00421)
+2013-04-04 16:21:20  23047 00203 ERR missing char 'l' near < qmgr  l  >   name = ADMT01   <channel>
+                                     iniHandleOpenTag() in src/reader.c (line: 00467)

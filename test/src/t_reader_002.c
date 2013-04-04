@@ -486,6 +486,12 @@ int main( int argc, const char** argv )
     sysRc = 2 ;
     goto _door ;
   }
+  if( iniCfg->value->nextVal->nextVal->nextVal->type != INTIGER )
+  {
+    checkMessage( TEST_ERR_TXT, iniHandleOpenTag ) ;
+    sysRc = 2 ;
+    goto _door ;
+  }
   checkMessage( TEST_OK_TXT, iniHandleOpenTag ) ;
   free(iniMem) ;
 #endif
@@ -515,6 +521,26 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   iniReader( "test/cfg/t_reader_002_054.ini", &iniMem ) ;
+  startVal = iniMem ;
+  doPointTest( "value found eof$"            , \
+               RC_NOT_NULL              , \
+               iniHandleValues          , \
+               startVal, endVal, iniCfg, &sysRc   ) ;
+  if( sysRc != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, iniHandleOpenTag ) ;
+    sysRc = 2 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, iniHandleOpenTag ) ;
+  free(iniMem) ;
+#endif
+
+  // -------------------------------------------------------
+  // some test
+  // -------------------------------------------------------
+#if(1)
+  iniReader( "test/cfg/t_reader_002_055.ini", &iniMem ) ;
   startVal = iniMem ;
   doPointTest( "value found eof$"            , \
                RC_NOT_NULL              , \

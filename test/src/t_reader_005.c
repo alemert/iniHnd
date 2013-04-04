@@ -406,18 +406,21 @@ int main( int argc, const char** argv )
   // test second node
   // -------------------------------------------------------
 
-sysRc =1 ;
-goto _door ;
-
-#if(0)
+  if( iniRcNode->nextNode == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
   iniRcNode = iniRcNode->nextNode ;
+
   if( strcmp( iniRcNode->tag, "qmgr" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, ini2cfg ) ;
     sysRc = 1 ;
     goto _door ;
   }
-  if( iniRcNode->childNode != NULL )
+  if( iniRcNode->childNode == NULL )
   {
     checkMessage( TEST_ERR_TXT, ini2cfg ) ;
     sysRc = 1 ;
@@ -453,6 +456,25 @@ goto _door ;
     sysRc = 1 ;
     goto _door ;
   }
+  if( iniRcNode->value->nextVal->nextVal == NULL  ) 
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->value->nextVal->nextVal->key, "trigger" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if(  iniRcNode->value->nextVal->nextVal->value.intVal != 5  )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+#if(0)
   if( iniRcNode->value->nextVal->nextVal != NULL  ) 
   {
     checkMessage( TEST_ERR_TXT, ini2cfg ) ;
