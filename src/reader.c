@@ -518,12 +518,6 @@ char* iniHandleValues( char     *startValMem,
   tIniVal *iniVal = NULL ; // pointer to key/val node
                               //
   p = ignWhiteChar( p ) ;     // move to first non-blank
-
-#if(0)
-  while(1)                    // loop until first non-blank
-  {                           //
-#endif
-
     switch( *p )              //
     {                         //
       case '<' :              // start of some tag found (ok)
@@ -558,36 +552,18 @@ char* iniHandleValues( char     *startValMem,
         break ;               //
       }                       //
     }                         //
-#if(0)
-    if( keyStart )            // break loop, start of text found 
-      break ;                 //
-    p++ ;                     //
-  }                           //
-#endif
                               //
-#if(0)
-  if( keyStart )              // handle key  (key = value)
-  {                           //
-#else
   loop = 1 ;
-#endif
     while( loop )             //
     {                         //
       switch( *p )            //
       {                       //
         case ' ' :            // blank after key found (key = value)
         case '=' :            // equal after key found (key= value)
-#if(0)
-        {                     //  end of key text found break loop
-          keyEnd = p-1 ;      //
-          break ;             //
-        }                     //
-#else
         {
           loop = 0 ;
           break ;
         }
-#endif
         case '>' :            // unexpected start or end of tag (error)
         case '<' :            //
         {                     //
@@ -606,34 +582,17 @@ char* iniHandleValues( char     *startValMem,
         default :             // some letter
           break ;             //
       }                       //
-#if(0)
-      if( keyEnd )            // end of key text found, break the loop
-        break ;               //
-#endif
       p++ ;                   //
     }                         //
-#if(0)
-  }                           //
-#endif
+
   p-- ;
   keyEnd = p - 1 ;
   p = ignWhiteChar( p ) ;     // move to first non-blank
                               //
-#if(0)
-  while( *p != '=' )          // search for '=' in key = value
-  {                           //
-#endif
     switch( *p )              //
     {                         //
-#if(0)
-      case ' ' :              //
-#endif
       case '=' :              // this shuold not occure
-#if(0)
-        break  ;              //
-#else
         break ;
-#endif
       case '>' :              // unexpected start or end of tag (error)
       case '<' :              //
       {                       //
@@ -657,24 +616,10 @@ char* iniHandleValues( char     *startValMem,
         goto _door ;          //
       }                       //
     }                         //
-#if(0)
-    p++ ;                     //
-  }                           //
-  p++ ;                       //
-#else
   p = ignWhiteChar( p+1 ) ;     // move to first non-blank
-#endif
                               //
-#if(0)
-  while( 1 )                  // find start of value
-  {                           //
-#endif
     switch( *p )              //
     {                         //
-#if(0)
-      case ' ' :              //
-        break  ;              //
-#endif
       case '<' :              //
       case '>' :              //
       {                       //
@@ -703,19 +648,9 @@ char* iniHandleValues( char     *startValMem,
         break ;               //
       }                       //
     }                         //
-#if(0)
-    if( valStart )            //
-      break ;                 //
-    p++ ;                     //
-  }                           //
-#endif
                               //
-#if(0)
-  while( 1 )                  // find end of value
-#else
   loop = 1 ;
   while( loop )
-#endif  
   {                           //
     switch( *p )              //
     {                         //
@@ -723,11 +658,7 @@ char* iniHandleValues( char     *startValMem,
       case '<' :              //
       case '\0' :             // end of file
       {                       //
-#if(0)
-        valEnd = p-1 ;        //
-#else
         loop = 0 ;
-#endif
         break ;               //
       }                       //
   //  case '\0' :             // early end of file
@@ -746,17 +677,10 @@ char* iniHandleValues( char     *startValMem,
       default :               //
         break ;               //
     }                         //
-#if(0)
-    if( valEnd )              //
-      break ;                 //
-#endif
     p++ ;                     //
   }                           //
-#if(0)
-#else
   p-- ;
   valEnd = p - 1 ;
-#endif
                               //
   // -------------------------------------------------------
   // setup value node

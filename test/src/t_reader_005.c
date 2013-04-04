@@ -474,14 +474,159 @@ int main( int argc, const char** argv )
     sysRc = 1 ;
     goto _door ;
   }
-#if(0)
-  if( iniRcNode->value->nextVal->nextVal != NULL  ) 
+  if( iniRcNode->value->nextVal->nextVal->nextVal != NULL  )
   {
     checkMessage( TEST_ERR_TXT, ini2cfg ) ;
     sysRc = 1 ;
     goto _door ;
   }
-#endif
+  if( iniRcNode->childNode == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->childNode->tag, "qlocal" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->value->key == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->childNode->value->key, "name" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp(iniRcNode->childNode->value->value.strVal, "XQ.GATEWAT01.00")!=0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->value->nextVal == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->childNode->value->nextVal->key, "depth") != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->value->nextVal->value.intVal != 10000 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->childNode->nextNode->tag, "qlocal" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode->value == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->childNode->nextNode->value->key, "name" )  != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp(iniRcNode->childNode->nextNode->value->value.strVal,
+      "XQ.GATEWAT02.00") != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode->value->nextVal == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp(iniRcNode->childNode->nextNode->value->nextVal->key,"depth") != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode->value->nextVal->value.intVal != 20000 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode->value->nextVal->nextVal == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode->childNode == NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp(iniRcNode->childNode->nextNode->childNode->tag,"statistic") !=  0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp(iniRcNode->childNode->nextNode->childNode->value->key, "short" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode->childNode->value->value.intVal != 1 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( iniRcNode->childNode->nextNode->childNode->value->nextVal->key,
+              "long" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode->childNode->value->nextVal->value.intVal
+      != 0  )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( iniRcNode->childNode->nextNode->childNode->value->nextVal->nextVal!=NULL )
+  {
+    checkMessage( TEST_ERR_TXT, ini2cfg ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
 
   checkMessage( TEST_OK_TXT, ini2cfg ) ;
   free(iniMem) ;
