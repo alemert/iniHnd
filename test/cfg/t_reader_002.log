@@ -1,32 +1,32 @@
-2013-04-04 20:16:05   3782 00204 ERR wrong char '>' near    > qmgr >   name = ADMT01   <channel> 
-                                     iniHandleValues() in src/reader.c (line: 00530)
-2013-04-04 20:16:05   3782 00205 ERR unexpected EOF
-                                     iniHandleValues() in src/reader.c (line: 00537)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '=' near    = qmgr >   name = ADMT01   <channel> 
-                                     iniHandleValues() in src/reader.c (line: 00544)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '>' near   nam>e = ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00570)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '<' near   name< = ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00570)
-2013-04-04 20:16:05   3782 00205 ERR unexpected EOF
-                                     iniHandleValues() in src/reader.c (line: 00577)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '>' near   name > = ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00599)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '<' near   name< = ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00570)
-2013-04-04 20:16:05   3782 00205 ERR unexpected EOF
-                                     iniHandleValues() in src/reader.c (line: 00606)
-2013-04-04 20:16:05   3782 00204 ERR wrong char 'A' near   name  ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00613)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '<' near   name =< ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00626)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '>' near   name = > ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00626)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '=' near   name = = ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00633)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '=' near   name == ADMT01 
-                                     iniHandleValues() in src/reader.c (line: 00633)
-2013-04-04 20:16:05   3782 00205 ERR unexpected EOF
-                                     iniHandleValues() in src/reader.c (line: 00640)
-2013-04-04 20:16:05   3782 00204 ERR wrong char '=' near   name = AD= 
-                                     iniHandleValues() in src/reader.c (line: 00672)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '>' near    > qmgr >   name = ADMT01   <channel> 
+                                     iniHandleValues() in src/reader.c (line: 00545)
+2013-04-09 20:45:48  10282 00205 ERR unexpected EOF
+                                     iniHandleValues() in src/reader.c (line: 00552)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '=' near    = qmgr >   name = ADMT01   <channel> 
+                                     iniHandleValues() in src/reader.c (line: 00559)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '>' near   nam>e = ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00585)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '<' near   name< = ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00585)
+2013-04-09 20:45:48  10282 00205 ERR unexpected EOF
+                                     iniHandleValues() in src/reader.c (line: 00592)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '>' near   name > = ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00614)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '<' near   name< = ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00585)
+2013-04-09 20:45:48  10282 00205 ERR unexpected EOF
+                                     iniHandleValues() in src/reader.c (line: 00621)
+2013-04-09 20:45:48  10282 00204 ERR wrong char 'A' near   name  ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00628)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '<' near   name =< ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00641)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '>' near   name = > ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00641)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '=' near   name = = ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00648)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '=' near   name == ADMT01 
+                                     iniHandleValues() in src/reader.c (line: 00648)
+2013-04-09 20:45:48  10282 00205 ERR unexpected EOF
+                                     iniHandleValues() in src/reader.c (line: 00655)
+2013-04-09 20:45:48  10282 00204 ERR wrong char '=' near   name = AD= 
+                                     iniHandleValues() in src/reader.c (line: 00687)

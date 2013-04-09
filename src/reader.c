@@ -122,66 +122,71 @@ _door :
 }
 
 /******************************************************************************/
-/* find close tag                              */
+/* find close tag                                    */
 /******************************************************************************/
 char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
 {
-  int sysRc = 0 ;    // ok return code
+  int sysRc = 0 ;          // ok return code
   char *endTag = NULL ;
 
   int loop = 0 ;
   char *endP ;
-  char *p = mem ;
+  char *p  = mem  ;
 
-  while( *p != '<' )                              // find start of tag (open 
-  {                                               //   or close)
-    switch( *p )                                  //
-    {                                             //
-      case '\0' :                                 // early eof
-        sysRc = 1 ;                               // 
-        logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; //
-        goto _door ;                              //
-      default  :                                  //
-        break ;                                   //
-    }                                             //
-    p++ ;                                         //
-  }                                               //
-  endP = p ;                                      // set pointer end of values 
-  p++ ;                                           //   to the start of close tag
-                                                  // 
   loop = 0 ;                                      // check if it is a close tag
   while( !loop )                                  //
   {                                               //
+    p = ignWhiteChar( p ) ;                       //
+    while( *p != '<' )                            // find start of tag (open 
+    {                                             //   or close)
+      switch( *p )                                //
+      {                                           //
+        case '\0' :                               // early eof
+        {                                         //
+          sysRc = 1 ;                             // 
+          logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; //
+          goto _door ;                            //
+        }                                         //
+        default  :                                //
+        {                                         //
+          break ;                                 //
+        }                                         //
+      }                                           //
+      p++ ;                                       //
+    }                                             //
+    endP = p ;                                    // set pointer end of values 
+    p++ ;                                         //   to the start of close tag
+                                                  // 
+    p = ignWhiteChar( p ) ;                       //
+                                                  //
     switch( *p )                                  // 
     {                                             // close tag id
       case '/' :                                  //
-        loop = 1 ;                                //
+      {                                           //
+        if( memcmp(p+1,                           //
+                   tag,                           //
+                   sizeof(char)*strlen(tag))==0 ) // compare open and close 
+        {                                         //
+          loop = 1 ;                              //
+        }                                         //
         break ;                                   //
-      case ' ' : break ;                          //
+      }                                           //
+      case ' ' :                                  //
+      {                                           //
+        break ;                                   //
+      }                                           //
       case '\0' :                                 // early eof
+      {                                           //
         sysRc = 2 ;                               //
         logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; //
         goto _door ;                              //
+      }                                           //
       default :                                   // if sub open tag found, call
-        endP = iniHandleCloseTag(p,tag,&sysRc);   //   this function  recrusivly
-        if( sysRc != 0 )                          // handle error 
-        {                                         //   (i.g. to early eof) 
-          sysRc = 3  ;                            //
-          goto _door ;                            //
-        }                                         //
-        loop = 1 ;                                //
+      {                                           //
+        break ;                                   //
+      }                                           //
     }                                             //
     p++ ;                                         //
-  }                                               //
-                                                  //
-  if( memcmp(p,tag,sizeof(char)*strlen(tag))!=0)  // compare open and close 
-  {                                               //   tag name 
-    endP = iniHandleCloseTag( p, tag, &sysRc );   // if open and close name are
-    if( sysRc != 0 )                              //   not the same, go to the
-    {                                             //   next close tag recrusivly
-      sysRc = 4  ;                                //
-      goto _door ;                                //
-    }                                             //
   }                                               //
                                                   //
   endTag = endP ;                                 // set rc pointer to endP
@@ -218,7 +223,7 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       case ' '  :           //
       {                     //
-        memP++ ;
+        memP = ignWhiteChar( memP ) ;              //
         break ;             //
       }                     //
       // ---------------------------------------------------
@@ -280,8 +285,18 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
           {                                          //
             case '\0' :                              // end of sub memory 
             {                                        //   reached
-              loop2 = 0 ;                            // break the loop
+              loop2 = 0 ;                            // break the loop 
               *endSubMem = '<' ;                     // set back close tag 
+              if( memP == endSubMem )                //
+              {                                      //
+                for(memP=endSubMem;*memP!='>';memP++); 
+                memP++ ;                             //
+              }                                      //
+              memP = ignWhiteChar( memP ) ;      //
+              if( memP == '<' )      //
+              {      //
+                loop1 = 0 ;                          // break the loop
+              }      //
               break ;                                //
             }                                        //
             case '<' :                               // sub item found 

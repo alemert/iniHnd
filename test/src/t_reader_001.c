@@ -96,7 +96,7 @@ int main( int argc, const char** argv )
                   RC_IS_NULL            , \
                   iniHandleCloseTag     , \
                   startP, iniAnchor->tag, &sysRc ) ;
-    if( sysRc != 3 )
+    if( sysRc != 1 )
     {
       checkMessage( TEST_ERR_TXT, iniHandleCloseTag ) ;
       sysRc = 1 ;
@@ -118,7 +118,7 @@ int main( int argc, const char** argv )
                   RC_IS_NULL            , \
                   iniHandleCloseTag     , \
                   startP, iniAnchor->tag, &sysRc ) ;
-    if( sysRc != 3 )
+    if( sysRc != 1 )
     {
       checkMessage( TEST_ERR_TXT, iniHandleCloseTag ) ;
       sysRc = 1 ;
