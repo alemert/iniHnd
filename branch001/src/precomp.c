@@ -50,13 +50,13 @@
 
 /******************************************************************************/
 /******************************************************************************/
+#if(0)
 char* precompile( const char* inMem )
 {
   int sysRc = 0 ;
 
-  
-
 }
+#endif
 
 int countChar( const char* mem, char c )
 {
@@ -66,6 +66,7 @@ int countChar( const char* mem, char c )
   while( *p != '\0' )
   {
     if( *p == c ) cnt++ ;
+    p++ ;
   }
 
   return cnt ;

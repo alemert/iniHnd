@@ -98,3 +98,8 @@ tIniVal* createIntValue( char* key, int   value ) ;
 
 int addValueNode( tIniNode* iniNode, tIniVal *value ) ;
 int addChildNode( tIniNode* parent, tIniNode* child ) ;
+
+// ---------------------------------------------------------
+// node.c
+// ---------------------------------------------------------
+int countChar( const char* mem, char c ) ;
