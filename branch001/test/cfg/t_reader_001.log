@@ -1,0 +1,8 @@
+2013-04-09 18:50:24   6281 00209 ERR missing close tag qmgr
+                                     iniHandleCloseTag() in src/reader.c (line: 00147)
+2013-04-09 18:50:24   6281 00209 ERR missing close tag qmgr
+                                     iniHandleCloseTag() in src/reader.c (line: 00181)
+2013-04-09 18:50:24   6281 00209 ERR missing close tag qmgr
+                                     iniHandleCloseTag() in src/reader.c (line: 00147)
+2013-04-09 18:50:24   6281 00209 ERR missing close tag qmgr
+                                     iniHandleCloseTag() in src/reader.c (line: 00147)
