@@ -18,7 +18,7 @@ DBGOPT = -g
 # ------------------------------------------------------------------------------
 # sources
 # ------------------------------------------------------------------------------
-SOURCES = reader.c node.c
+SOURCES = reader.c node.c precomp.c
 
 AROWN = 
 LSOWN = msgcat sogen
