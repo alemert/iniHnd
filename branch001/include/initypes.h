@@ -103,3 +103,5 @@ int addChildNode( tIniNode* parent, tIniNode* child ) ;
 // node.c
 // ---------------------------------------------------------
 int countChar( const char* mem, char c ) ;
+char* precompile( const char* inMem, int *sysRc ) ;
+

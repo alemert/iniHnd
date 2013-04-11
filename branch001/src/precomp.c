@@ -50,14 +50,75 @@
 
 /******************************************************************************/
 /******************************************************************************/
-#if(0)
-char* precompile( const char* inMem )
+char* precompile( const char* inMem, int *sysRc )
 {
-  int sysRc = 0 ;
+  char *outMem = NULL ;
+
+  char *pIn ;
+  char *pOut ;
+
+  int inLen  = strlen( inMem ) ;
+  int outLen = 2 * countChar( inMem, '=' ) + inLen ;
+
+  int copyFlag  ;
+  int quoteFlag ;
+
+  outMem = (char*) malloc( (outLen+1) * sizeof(char) ) ;
+  if( outMem == NULL )
+  {
+    logger( LSTD_MEM_ALLOC_ERROR ) ;
+    goto _door ;
+  }
+ 
+  outMem[outLen] = '\0' ;
+
+  pIn  = (char*) inMem  ;
+  pOut = outMem ;
+
+  quoteFlag = 0 ;
+
+  while( *pIn != '\0' )
+  {
+    copyFlag = 0 ;
+    switch( *pIn )
+    {
+      case ' '  : 
+      case '\t' : 
+      case '\n' : 
+      {
+        break ;
+      }
+      case '"'  :
+      {
+        quoteFlag = quoteFlag ?  0 : 1 ;
+        copyFlag  = 1 ;
+        break ;
+      }
+      default    :
+      {
+        copyFlag = 1 ;
+        break ;
+      }
+    }
+    if( quoteFlag ) copyFlag = 1 ;
+    if( copyFlag  )
+    {
+      *pOut = *pIn ;
+      pOut++ ;
+    }
+    pIn++ ;
+  } 
+
+  sysRc = 0 ;
+
+_door :
+
+  return outMem ;
 
 }
-#endif
 
+/******************************************************************************/
+/******************************************************************************/
 int countChar( const char* mem, char c )
 {
   char *p  = mem ;
@@ -71,3 +132,4 @@ int countChar( const char* mem, char c )
 
   return cnt ;
 }
+
