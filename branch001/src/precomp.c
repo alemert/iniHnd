@@ -149,18 +149,36 @@ _door :
 
 /******************************************************************************/
 /******************************************************************************/
-int countChar( const char* mem, char c )
+
+int isIntiger( const char* mem)
 {
-  char *p  = (char*) mem ;
-  int  cnt = 0   ;
+  lng = 0 ;
 
-  while( *p != '\0' )
+  while( 1 )
   {
-    if( *p == c ) cnt++ ;
-    p++ ;
+    switch( *mem )
+    {
+      case '0' :
+      case '1' :
+      case '2' :
+      case '3' :
+      case '4' :
+      case '5' :
+      case '6' :
+      case '7' :
+      case '8' :
+      case '9' :
+      {
+      }
+      case ' ' :
+      case '\t' :
+      case '\n' :
+      case '\0' :
+      {
+      }
+      default :
+      {
+      }
+    }
   }
-
-  return cnt ;
 }
-
-int isIntiger(
