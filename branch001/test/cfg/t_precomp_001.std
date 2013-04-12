@@ -1,3 +1,6 @@
 # TEST START precompile >>general test        << test/src/t_precomp_001.c(0052)
 # TEST OK    precompile >>general test        << test/src/t_precomp_001.c(0052)
 # CHECK OK   ini2cfg    >>                    << test/src/t_precomp_001.c(0065)
+# TEST START precompile >>general test        << test/src/t_precomp_001.c(0075)
+# TEST OK    precompile >>general test        << test/src/t_precomp_001.c(0075)
+# CHECK OK   ini2cfg    >>                    << test/src/t_precomp_001.c(0088)

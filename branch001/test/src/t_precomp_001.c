@@ -43,20 +43,66 @@ int main( int argc, const char** argv )
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
-  // no file found
+  // test
   // -------------------------------------------------------
 #if(1)
   doPointTest( "general test"        , \
                 RC_NOT_NULL           , \
                 precompile   , \
-               " = = = ==b=...=all=", &sysRc );
+               "  key1 = value1 key2=value2  ", &sysRc );
   if( sysRc != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;
     sysRc = 1 ;
     goto _door ;
   }
-  if( strcmp( (char*)gRcVoidPointer, "=====b=...=all=" ) != 0 )
+  if( strcmp( (char*)gRcVoidPointer, "key1=\"value1\"key2=\"value2\"" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, precompile ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfg ) ;
+#endif
+
+  // -------------------------------------------------------
+  // test
+  // -------------------------------------------------------
+#if(1)
+  doPointTest( "general test"        , \
+                RC_NOT_NULL           , \
+                precompile     , \
+               "  key1= \"value1\" key2=\"value 2\"  ", &sysRc );
+  if( sysRc != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, precompile ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( (char*)gRcVoidPointer, "key1=\"value1\"key2=\"value 2\"" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, precompile ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  checkMessage( TEST_OK_TXT, ini2cfg ) ;
+#endif
+
+  // -------------------------------------------------------
+  // test
+  // -------------------------------------------------------
+#if(1)
+  doPointTest( "eof test"        , \
+                RC_NOT_NULL           , \
+                precompile     , \
+               "  key1= \"value1\" key2=value2", &sysRc );
+  if( sysRc != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, precompile ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( (char*)gRcVoidPointer, "key1=\"value1\"key2=\"value 2\"" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;
     sysRc = 1 ;

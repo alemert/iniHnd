@@ -62,6 +62,7 @@ char* precompile( const char* inMem, int *sysRc )
 
   int copyFlag  ;
   int quoteFlag ;
+  int intFlag   ;
 
   outMem = (char*) malloc( (outLen+1) * sizeof(char) ) ;
   if( outMem == NULL )
@@ -76,9 +77,11 @@ char* precompile( const char* inMem, int *sysRc )
   pOut = outMem ;
 
   quoteFlag = 0 ;
+  intFlag   = 0 ;
 
   while( *pIn != '\0' )
   {
+
     copyFlag = 0 ;
     switch( *pIn )
     {
@@ -86,6 +89,18 @@ char* precompile( const char* inMem, int *sysRc )
       case '\t' : 
       case '\n' : 
       {
+        if( quoteFlag == 2 )
+        {
+          quoteFlag = 0 ;
+          *pOut = '"' ;
+          pOut++ ;
+        }
+        if( intFlag )
+        {
+          intFlag = 0 ;
+          *pOut = '"' ;
+          pOut++ ;
+        }
         break ;
       }
       case '"'  :
@@ -103,6 +118,21 @@ char* precompile( const char* inMem, int *sysRc )
     if( quoteFlag ) copyFlag = 1 ;
     if( copyFlag  )
     {
+      if( *(pOut-1) == '=' )
+      {
+        if( !quoteFlag )
+        {
+          *pOut = '"' ;
+          pOut ++ ;
+          quoteFlag = 2 ;
+        }
+        else if( isInitiger( pIn ) )
+        {
+          *pOut = '#' ;
+          pOut ++ ;
+          intFlag = 1 ;
+        }
+      }
       *pOut = *pIn ;
       pOut++ ;
     }
@@ -121,7 +151,7 @@ _door :
 /******************************************************************************/
 int countChar( const char* mem, char c )
 {
-  char *p  = mem ;
+  char *p  = (char*) mem ;
   int  cnt = 0   ;
 
   while( *p != '\0' )
@@ -133,3 +163,4 @@ int countChar( const char* mem, char c )
   return cnt ;
 }
 
+int isIntiger(
