@@ -1,0 +1,6 @@
+# TEST START getOpenTag >>open tag            << test/src/t_convert_000.c(0055)
+# TEST OK    getOpenTag >>open tag            << test/src/t_convert_000.c(0055)
+# CHECK OK   getOpenTag >>                    << test/src/t_convert_000.c(0062)
+# TEST START getCloseTag >>close tag           << test/src/t_convert_000.c(0074)
+# TEST OK    getCloseTag >>close tag           << test/src/t_convert_000.c(0074)
+>><<

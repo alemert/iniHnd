@@ -126,7 +126,7 @@ char* precompile( const char* inMem, int *sysRc )
           pOut ++ ;
           quoteFlag = 2 ;
         }
-        else if( isInitiger( pIn ) )
+        else if( isIntiger( pIn ) > 0 )
         {
           *pOut = '#' ;
           pOut ++ ;
@@ -139,6 +139,13 @@ char* precompile( const char* inMem, int *sysRc )
     pIn++ ;
   } 
 
+  if( quoteFlag == 2 )
+  {
+    *pOut='"' ;
+    pOut++ ;
+  }
+  *pOut='\0' ;
+
   sysRc = 0 ;
 
 _door :
@@ -148,15 +155,17 @@ _door :
 }
 
 /******************************************************************************/
+/* is initger           */
 /******************************************************************************/
 
 int isIntiger( const char* mem)
 {
-  lng = 0 ;
+  int lng = 0 ;
+  char *p = (char*) mem ;
 
   while( 1 )
   {
-    switch( *mem )
+    switch( *p )
     {
       case '0' :
       case '1' :
@@ -169,16 +178,21 @@ int isIntiger( const char* mem)
       case '8' :
       case '9' :
       {
+        lng++ ;
+        break ;
       }
       case ' ' :
       case '\t' :
       case '\n' :
       case '\0' :
       {
+        return lng ;
       }
       default :
       {
+        return -1 ;
       }
     }
+  p++ ;
   }
 }

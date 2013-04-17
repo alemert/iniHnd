@@ -75,9 +75,17 @@ struct tagIniNode
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
 // ---------------------------------------------------------
+// convert.c
+// ---------------------------------------------------------
+char* getOpenTag( char *mem, char **tag ) ;
+char* getCloseTag( const char *mem, const char *tag ) ;
+
+// ---------------------------------------------------------
 // reader.c
 // ---------------------------------------------------------
 int iniReader( const char* fileName, char **iniMem ) ;
+
+#if(1)
 char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc ) ;
 char* iniHandleCloseTag( char* iniMem, const char* tagName, int *rc ) ;
 char* iniHandleValues( char    *startSubMem, 
@@ -86,6 +94,7 @@ char* iniHandleValues( char    *startSubMem,
                        int      *rc       );
 tIniNode* ini2cfg( char* iniMem, int *rc ) ;
 char* ignWhiteChar( char *p) ;
+#endif
 
 // ---------------------------------------------------------
 // node.c
@@ -100,8 +109,8 @@ int addValueNode( tIniNode* iniNode, tIniVal *value ) ;
 int addChildNode( tIniNode* parent, tIniNode* child ) ;
 
 // ---------------------------------------------------------
-// node.c
+// precomp.c
 // ---------------------------------------------------------
-int countChar( const char* mem, char c ) ;
 char* precompile( const char* inMem, int *sysRc ) ;
+int isIntiger( const char* mem) ;
 

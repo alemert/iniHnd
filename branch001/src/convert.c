@@ -55,76 +55,85 @@
 /******************************************************************************/
 
 /******************************************************************************/
-/*  ini file reader                                                           */
-/*                                                                            */
-/*  read ini file in memomry as one line                                      */
-/*  return code:                                                              */
-/*    ok:     0                                                               */
-/*    error:  i.g. errno                                                      */
-/*            if error occures *_iniMem = NULL                                */
+/* get tag type            */
 /******************************************************************************/
-int iniReader( const char* fileName, char **_iniMem )
+char* getOpenTag( char *mem, char **pTag )
 {
-  int sysRc = 0 ;
-  long memSize ;
-  int  realSize ;
-  FILE* ini ;
+  char* p = mem ;
+  char* tag ;
+  int loop = 1 ;
+  int lng ;
 
-  char *p ;
+  if( *p     != '<' ) { p = NULL ; goto _door ; }
+  if( *(p+1) == '/' ) { p = NULL ; goto _door ; }
 
-  char *iniMem = NULL ;
-  errno = 0 ;
-                                                 //
-  if( (ini = fopen( fileName, "r" ) ) == NULL )  // open ini file
-  {                                              //  & handle error
-    logger( LSTD_OPEN_FILE_FAILED, fileName ) ;  //
-    sysRc = errno ;                              //
-    goto _door ;                                 //
-  }                                              //
-                                                 //
-  memSize = fileSize( fileName ) ;               // get the size of the 
-  if( memSize < 0 )                              //   ini-file
-  {                                              // handle error
-    logger( LSTD_GET_FILE_SIZE, fileName ) ;     //
-    sysRc = -memSize ;                           // if memSize < 0 then 
-    goto _door ;                                 //   errno = -memSize 
-  }                                              //
-  memSize++ ;                                    // increase memSize for '\0'
-                                                 //
-  iniMem = (char*) malloc(memSize*sizeof(char)); // alloc memory in size 
-  if( iniMem == NULL )                           //   of the ini-file
-  {                                              //  & handle alloc error
-    logger( LSTD_MEM_ALLOC_ERROR ) ;             //
-    sysRc = errno ;                              //
-    goto _door ;                                 //
-  }                                              //
-                                                 //
-  realSize = fread( iniMem, sizeof(char), memSize-1, ini ) ;
-  if( memSize - realSize != 1 )                  // read whole file in one step
-  {                                              //  & handle error
-    logger( LSTD_ERR_READING_FILE, fileName ) ;  //
-    sysRc = 1 ;                                  //
-    goto _door ;                                 //
-  }                                              //
-  *(iniMem+realSize) = '\0' ;                    // set the end of ini file flag
-                                                 //
-  for( p=iniMem; *p!='\0'; p++  )                // replace '\n' with blanks
-  {                                              //
-    if( *p == '\n' ) *p = ' ' ;                  //
-  }                                              //
+  while( loop )
+  {
+    switch( *p )
+    {
+      case '>'  :
+      {
+        loop = 0 ;
+        break ;
+      }
+      case '\0' :
+      {
+        p = NULL ;
+        goto _door ;
+      }
+      default :
+      {
+        p++ ;
+        break ;
+      }
+    }
+  }
+
+  lng = p - mem - 1 ;
+  tag = (char*) malloc( (lng+1) * sizeof(char) ) ;
+  memcpy( tag, (mem+1), lng ) ;
+  *(tag+lng) = '\0' ;
+  *pTag = tag ;
+  p++ ;
 
 _door :
-  if( ini != NULL ) fclose( ini ) ;
-
-  *_iniMem = iniMem ;
-
-  return sysRc ;
+  return p ;
 }
 
 /******************************************************************************/
+/* get close tag       */
+/******************************************************************************/
+char* getCloseTag( const char *mem, const char *tag )
+{
+  char* p = (char*) mem ;
+  int lng ;
+  
+  if( *p != '<' ) { p = NULL ; goto _door ; }  p++ ;
+  if( *p != '/' ) { p = NULL ; goto _door ; }  p++ ;
+
+  while( *p != '>' )
+  {
+    if( *p == '\0' )  { p = NULL ; goto _door ; } 
+    p++ ;
+  }
+
+  lng = p - mem - 2 ;
+  if( memcmp( (mem+2), tag, lng ) != 0 ) 
+  {
+    p = NULL ; 
+    goto _door ; 
+  }
+  p++ ;
+
+_door :   
+
+  return p ; 
+}
+
+#if(0)
+/******************************************************************************/
 /* find close tag                                    */
 /******************************************************************************/
-#if(0)
 char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
 {
   int sysRc = 0 ;          // ok return code
@@ -196,12 +205,10 @@ _door :
   *rc = sysRc ;
   return endTag ;
 }
-#endif
 
 /******************************************************************************/
 /* convert memory to cfg                                                      */
 /******************************************************************************/
-#if(0)
 tIniNode* ini2cfg( char* iniMem, int *rc )
 {
   int sysRc = 0 ;
@@ -369,7 +376,6 @@ _door :
   *rc = sysRc ;
   return anchorCfg ;  
 }
-#endif
 
 /******************************************************************************/
 /* find open tag in ini file                                                  */
@@ -452,21 +458,7 @@ char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc )
   }                                   //
   p-- ;                               //
                                       //
-#if(0)                                // parent of this node is given as 
-                                      //  function argument
-  node = initIniNode( ) ;             //
-  if( node == NULL )                  //
-  {                                   //
-    sysRc = 4 ;                       //
-    goto _door ;                      //
-  }                                   //
-  iniCfg->nextNode = node ;           //
-                                      //
-#else                                 //
-                                      //
   node = iniCfg ;                     // node is given as a function argument
-                                      //
-#endif                                //
                                       //
   sysRc = setIniTagName( node, startP, p-startP+1 ) ;     
   if( sysRc != 0 )                    //
@@ -778,4 +770,4 @@ char* ignWhiteChar( char *p)
 
   return p ;
 }
-
+#endif

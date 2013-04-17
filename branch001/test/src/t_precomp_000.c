@@ -102,7 +102,7 @@ int main( int argc, const char** argv )
     sysRc = 1 ;
     goto _door ;
   }
-  if( strcmp( (char*)gRcVoidPointer, "key1=\"value1\"key2=\"value 2\"" ) != 0 )
+  if( strcmp( (char*)gRcVoidPointer, "key1=\"value1\"key2=\"value2\"" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;
     sysRc = 1 ;
