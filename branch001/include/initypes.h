@@ -79,6 +79,7 @@ struct tagIniNode
 // ---------------------------------------------------------
 char* getOpenTag( char *mem, char **tag ) ;
 char* getCloseTag( const char *mem, const char *tag ) ;
+char *getKey( const char *mem, char **pKey ) ;
 
 // ---------------------------------------------------------
 // reader.c

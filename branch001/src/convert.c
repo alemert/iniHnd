@@ -130,6 +130,67 @@ _door :
   return p ; 
 }
 
+/******************************************************************************/
+/* get key out of key=value            */
+/******************************************************************************/
+char *getKey( const char *mem, char **pKey )
+{
+  char* p = (char*) mem ;
+  char *key ;
+  int lng   ;
+
+  switch( *p )
+  {
+    case '\0' :
+    case '<'  :
+    {
+      goto _door ;
+    }
+    case '>'  :
+    case '='  :
+    {
+      p = NULL ;
+      goto _door ;
+    }
+    default :
+    {
+      break ;
+    }
+  }
+
+  while( *p != '=' )
+  {
+    switch( *p )
+    {
+      case '"' : 
+      case '>' : 
+      case '<' : 
+      case '\0' : 
+      {
+        p = NULL ;
+        goto _door ;
+      }
+      default :
+      {
+        p++ ;
+        break ;
+      }
+    }
+  }
+
+  lng = p - mem ;
+  key = (char*) malloc( (lng+1) * sizeof(char) ) ;
+  memcpy( key, mem, lng ) ;
+  key[lng] = '\0' ;
+
+  *pKey = key ;
+  p++ ;
+
+_door :
+
+  return p ;
+}
+
 #if(0)
 /******************************************************************************/
 /* find close tag                                    */
