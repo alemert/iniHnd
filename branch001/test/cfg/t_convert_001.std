@@ -1,0 +1,14 @@
+# TEST START getOpenTag >>open tag            << test/src/t_convert_001.c(0055)
+# TEST OK    getOpenTag >>open tag            << test/src/t_convert_001.c(0055)
+# CHECK OK   getOpenTag >>                    << test/src/t_convert_001.c(0062)
+# TEST START getKey     >>get key             << test/src/t_convert_001.c(0076)
+# TEST OK    getKey     >>get key             << test/src/t_convert_001.c(0076)
+>>"world"</qmgr><<
+# CHECK OK   getKey     >>                    << test/src/t_convert_001.c(0084)
+# TEST START getStrVal  >>get value           << test/src/t_convert_001.c(0106)
+# TEST OK    getStrVal  >>get value           << test/src/t_convert_001.c(0106)
+>></qmgr><<
+# CHECK OK   getStrVal  >>                    << test/src/t_convert_001.c(0114)
+# TEST START getCloseTag >>close tag           << test/src/t_convert_001.c(0123)
+# TEST OK    getCloseTag >>close tag           << test/src/t_convert_001.c(0123)
+>><<

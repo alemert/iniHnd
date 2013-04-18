@@ -108,6 +108,29 @@ int main( int argc, const char** argv )
     sysRc = 1 ;
     goto _door ;
   }
+  checkMessage( TEST_OK_TXT, precompile ) ;
+#endif
+
+  // -------------------------------------------------------
+  // test
+  // -------------------------------------------------------
+#if(1)
+  doPointTest( "digit test"        , \
+                RC_NOT_NULL           , \
+                precompile     , \
+               "  key1= 1 key2= -5 ", &sysRc );
+  if( sysRc != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, precompile ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
+  if( strcmp( (char*)gRcVoidPointer, "key1=#1#key2=#-2#" ) != 0 )
+  {
+    checkMessage( TEST_ERR_TXT, precompile ) ;
+    sysRc = 1 ;
+    goto _door ;
+  }
   checkMessage( TEST_OK_TXT, ini2cfg ) ;
 #endif
 
