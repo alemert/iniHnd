@@ -2,12 +2,12 @@
 /* ini file handler - ini file reader                                         */
 /*                                                                            */
 /* functions:                                                                 */
-/*   - iniReader                                                              */
-/*   - iniHandleCloseTag                                                      */
-/*   - ini2cfg                                                                */
-/*   - iniHandleOpenTag                                                       */
-/*   - iniHandleValues                  */
-/*   - ignWhiteChar                  */
+/*   - getOpenTag                                                             */
+/*   - getCloseTag                                                    */
+/*   - getKey                                                          */
+/*   - getValueType                                        */
+/*   - getStrVal                                        */
+/*                                                                        */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -55,7 +55,7 @@
 /******************************************************************************/
 
 /******************************************************************************/
-/* get tag type            */
+/* get tag type                                          */
 /******************************************************************************/
 char* getOpenTag( char *mem, char **pTag )
 {
@@ -101,7 +101,7 @@ _door :
 }
 
 /******************************************************************************/
-/* get close tag       */
+/* get close tag                                           */
 /******************************************************************************/
 char* getCloseTag( const char *mem, const char *tag )
 {
@@ -131,7 +131,7 @@ _door :
 }
 
 /******************************************************************************/
-/* get key out of key=value            */
+/* get key out of key=value                            */
 /******************************************************************************/
 char *getKey( const char *mem, char **pKey )
 {
@@ -191,6 +191,66 @@ _door :
   return p ;
 }
 
+/******************************************************************************/
+/* get value type                                                */
+/******************************************************************************/
+tValType getValueType( char *mem )
+{
+  switch( *mem )
+  {
+    case '"' : return STRING  ;
+    case '#' : return INTIGER ;
+    default :  return UNKNOWN  ;
+  }
+}
+
+/******************************************************************************/
+/* get string value                                                   */
+/******************************************************************************/
+char *getStrVal( const char* mem, char** pValue )
+{
+  char *p = (char*) mem ;
+  char *value ;
+  int lng ;
+
+  switch( *p )
+  {
+    case '"' : break ;
+    default  : 
+    {
+      p = NULL ;
+      goto _door ;
+    } 
+  }
+  p++ ;
+
+  while( *p != '"' )
+  {
+    switch( *p )
+    {
+      case '\0' :
+      {
+        p = NULL ;
+        goto _door ;
+      }
+      default :
+      {
+        p++ ;
+        break ;
+      }
+    }
+  }
+
+  lng = p - mem - 1 ;
+  value = (char*) malloc( (lng+1) * sizeof(char) ) ; 
+  memcpy( value, (mem+1), lng ) ;
+  value[lng] = '\0' ;
+  *pValue =  value ;
+
+  p++ ; 
+_door :
+  return p ;  
+}
 #if(0)
 /******************************************************************************/
 /* find close tag                                    */

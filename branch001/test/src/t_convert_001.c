@@ -64,13 +64,13 @@ int main( int argc, const char** argv )
 #endif
 
   // -------------------------------------------------------
-  // conitnuing
+  // conitnuing key
   // -------------------------------------------------------
 #if(1)
     char* mem =  (char*) gRcVoidPointer ;
     char* key ;
 
-    doPointTest( "get value"        , \
+    doPointTest( "get key"        , \
                   RC_NOT_NULL       , \
                   getKey            , \
                   mem, &key ) ;
@@ -80,18 +80,50 @@ int main( int argc, const char** argv )
       sysRc = 1 ;
       goto _door ;
     }
+    printf(">>%s<<\n",(char*) gRcVoidPointer ) ;
     checkMessage( TEST_OK_TXT, getKey ) ;
-#endif
 
-#if(0)
+  // -------------------------------------------------------
+  // conitnuing value type
+  // -------------------------------------------------------
+    mem =  (char*) gRcVoidPointer ;
+    tValType valType = getValueType( mem ) ;
+    if( valType != STRING )
+    {
+      checkMessage( TEST_ERR_TXT, getValueType ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+
+  // -------------------------------------------------------
+  // conitnuing string value 
+  // -------------------------------------------------------
+    char *value ;
+
+    doPointTest( "get value"        , \
+                  RC_NOT_NULL       , \
+                  getStrVal         , \
+                  mem, &value ) ;
+    if( strcmp( value, "world") != 0 )
+    {
+      checkMessage( TEST_ERR_TXT, getStrVal ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    printf(">>%s<<\n",(char*) gRcVoidPointer ) ;
+    checkMessage( TEST_OK_TXT, getStrVal ) ;
+
+  // -------------------------------------------------------
+  // conitnuing string value 
+  // -------------------------------------------------------
     mem =  (char*) gRcVoidPointer ;
     doPointTest( "close tag"        , \
                   RC_NOT_NULL       , \
                   getCloseTag       , \
                   mem, tag ) ;
     printf(">>%s<<\n",(char*) gRcVoidPointer ) ;
-  }
 #endif
+  }
 
 _door:
   return sysRc ;

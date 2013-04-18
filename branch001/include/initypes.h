@@ -23,12 +23,12 @@
 typedef struct tagIniNode tIniNode ;
 typedef struct tagIniVal  tIniVal  ;
 typedef union  tagValue   tVal     ;
-typedef enum   tagValType tType    ;
+typedef enum   tagValType tValType    ;
 
 /******************************************************************************/
 /*   S T R U C T S                                                            */
 /******************************************************************************/
-enum tagValType { STRING, INTIGER } ;
+enum tagValType { UNKNOWN, STRING, INTIGER } ;
 
 union tagValue 
 {
@@ -38,10 +38,10 @@ union tagValue
 
 struct tagIniVal
 {
-  char    *key  ;
-  tVal    value ;
-  tType   type  ;
-  tIniVal *nextVal ;
+  char      *key  ;
+  tVal      value ;
+  tValType  type  ;
+  tIniVal   *nextVal ;
 } ;
 
 struct tagIniNode
@@ -80,6 +80,8 @@ struct tagIniNode
 char* getOpenTag( char *mem, char **tag ) ;
 char* getCloseTag( const char *mem, const char *tag ) ;
 char *getKey( const char *mem, char **pKey ) ;
+tValType getValueType( char *mem ) ;
+char *getStrVal( const char* mem, char** value ) ;
 
 // ---------------------------------------------------------
 // reader.c
