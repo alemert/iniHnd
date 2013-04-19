@@ -98,13 +98,14 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
   // conitnuing string value 
   // -------------------------------------------------------
-    char *value ;
+    int value ;
 
     doPointTest( "get value"        , \
                   RC_NOT_NULL       , \
-                  getStrVal         , \
+                  getIntVal         , \
                   mem, &value ) ;
-    if( strcmp( value, "world") != 0 )
+
+    if( value != 25 )
     {
       checkMessage( TEST_ERR_TXT, getStrVal ) ;
       sysRc = 1 ;
@@ -121,6 +122,7 @@ int main( int argc, const char** argv )
                   RC_NOT_NULL       , \
                   getCloseTag       , \
                   mem, tag ) ;
+
     printf(">>%s<<\n",(char*) gRcVoidPointer ) ;
 #endif
   }

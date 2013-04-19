@@ -125,7 +125,7 @@ int main( int argc, const char** argv )
     sysRc = 1 ;
     goto _door ;
   }
-  if( strcmp( (char*)gRcVoidPointer, "key1=#1#key2=#-2#" ) != 0 )
+  if( strcmp( (char*)gRcVoidPointer, "key1=#1#key2=#-5#" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;
     sysRc = 1 ;

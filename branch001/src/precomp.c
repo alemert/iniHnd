@@ -98,7 +98,7 @@ char* precompile( const char* inMem, int *sysRc )
         if( intFlag )
         {
           intFlag = 0 ;
-          *pOut = '"' ;
+          *pOut = '#' ;
           pOut++ ;
         }
         break ;
@@ -122,15 +122,18 @@ char* precompile( const char* inMem, int *sysRc )
       {
         if( !quoteFlag )
         {
-          *pOut = '"' ;
-          pOut ++ ;
-          quoteFlag = 2 ;
-        }
-        else if( isIntiger( pIn ) > 0 )
-        {
-          *pOut = '#' ;
-          pOut ++ ;
-          intFlag = 1 ;
+          if( isIntiger( pIn ) > 0 )
+          {
+            *pOut = '#' ;
+            pOut++ ;
+            intFlag = 1 ;
+          }
+          else
+          {
+            *pOut = '"' ;
+            pOut++ ;
+            quoteFlag = 2 ;
+          }
         }
       }
       *pOut = *pIn ;
@@ -142,6 +145,11 @@ char* precompile( const char* inMem, int *sysRc )
   if( quoteFlag == 2 )
   {
     *pOut='"' ;
+    pOut++ ;
+  }
+  if( intFlag )
+  {
+    *pOut = '#' ;
     pOut++ ;
   }
   *pOut='\0' ;
@@ -162,6 +170,12 @@ int isIntiger( const char* mem)
 {
   int lng = 0 ;
   char *p = (char*) mem ;
+
+  if( *p == '-' ) 
+  {
+    p++ ;
+    lng++ ;
+  }
 
   while( 1 )
   {

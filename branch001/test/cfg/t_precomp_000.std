@@ -6,4 +6,7 @@
 # CHECK OK   ini2cfg    >>                    << test/src/t_precomp_000.c(0088)
 # TEST START precompile >>eof test            << test/src/t_precomp_000.c(0098)
 # TEST OK    precompile >>eof test            << test/src/t_precomp_000.c(0098)
-# CHECK OK   ini2cfg    >>                    << test/src/t_precomp_000.c(0111)
+# CHECK OK   precompile >>                    << test/src/t_precomp_000.c(0111)
+# TEST START precompile >>digit test          << test/src/t_precomp_000.c(0121)
+# TEST OK    precompile >>digit test          << test/src/t_precomp_000.c(0121)
+# CHECK OK   ini2cfg    >>                    << test/src/t_precomp_000.c(0134)

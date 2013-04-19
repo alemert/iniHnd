@@ -301,8 +301,9 @@ char *getIntVal( const char* mem, int *value )
 
   memcpy( strVal, (mem+1), STR_LEN ) ;
   strVal[lng]='\0' ; 
-
   *value = atoi( strVal ) ;
+
+  p++ ;
 _door :
   return p ;
 }
