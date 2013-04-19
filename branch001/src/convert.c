@@ -307,6 +307,39 @@ char *getIntVal( const char* mem, int *value )
 _door :
   return p ;
 }
+
+/******************************************************************************/
+/* create linked list      */
+/******************************************************************************/
+tIniNode* tag2node( char *mem, int *sysRc )
+{
+  *sysRc = 0 ; 
+  char *tagStart ;
+  char *tagEnd   ;
+
+  char *tag ;
+
+  tIniNode *pNode ;
+  tIniNode *anchorNode = initIniNode() ;
+
+  pNode = anchorNode ;
+  
+  tagStart = getOpenTag( mem, &tag ) ;
+  if( tagStart == NULL )
+  {
+    logger( LSTD_INI_OPEN_TAG_ERROR, mem ) ;
+    *sysRc = 1 ;
+    goto _door ;
+  }
+  tagEnd = getCloseTag( mem, tag ) ;
+  
+  setIniTagName( pNode, tag, -1 ) ;
+
+_door :
+  return anchorNode ;
+}
+
+/******************************************************************************/
 #if(0)
 /******************************************************************************/
 /* find close tag                                    */
