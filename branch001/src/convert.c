@@ -335,11 +335,13 @@ tIniNode* tag2node( char *mem, int *sysRc )
   
   setIniTagName( pNode, tag, -1 ) ;
 
+  //switch
+
+
 _door :
   return anchorNode ;
 }
 
-/******************************************************************************/
 #if(0)
 /******************************************************************************/
 /* find close tag                                    */
