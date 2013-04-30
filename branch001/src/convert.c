@@ -108,10 +108,21 @@ char* getCloseTag( const char *mem, const char *tag )
 {
   char* p = (char*) mem ;
   int lng ;
-  
-  if( *p != '<' ) { p = NULL ; goto _door ; }  p++ ;
-  if( *p != '/' ) { p = NULL ; goto _door ; }  p++ ;
+  int loop ;
+  char buff[1024] ;
 
+  sprintf( buff, "</%s>", tag ) ;
+  lng  = strlen(buff) ;
+
+  loop = 1 ; 
+  while( loop )
+  {
+    if( *p == '\0' )  { p = NULL ; goto _door ; } 
+    if( memcmp( p, buff, lng ) == 0 ) loop = 0 ;
+    p++ ;
+  }
+
+#if(0)
   while( *p != '>' )
   {
     if( *p == '\0' )  { p = NULL ; goto _door ; } 
@@ -124,7 +135,9 @@ char* getCloseTag( const char *mem, const char *tag )
     p = NULL ; 
     goto _door ; 
   }
-  p++ ;
+#endif
+
+  p += lng ;
 
 _door :   
 
@@ -322,6 +335,8 @@ tIniNode* tag2node( char *mem, int *sysRc )
   tIniNode *pNode ;
   tIniNode *anchorNode = initIniNode() ;
 
+  char *pMem ;
+
   pNode = anchorNode ;
   
   tagStart = getOpenTag( mem, &tag ) ;
@@ -331,11 +346,24 @@ tIniNode* tag2node( char *mem, int *sysRc )
     *sysRc = 1 ;
     goto _door ;
   }
-  tagEnd = getCloseTag( mem, tag ) ;
+
+  tagEnd = getCloseTag( tagStart, tag ) ;
+  if( tagStart == NULL )
+  {
+    logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; 
+    *sysRc = 1 ;
+    goto _door ;
+  }
   
   setIniTagName( pNode, tag, -1 ) ;
 
-  //switch
+  pMem = tagStart ;
+
+  switch( *pMem )
+  {
+    case '<' : exit(1) ;
+    default  :  val2node () ;
+  }
 
 
 _door :
