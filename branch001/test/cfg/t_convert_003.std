@@ -1,0 +1,6 @@
+# TEST START val2node   >>int node            << test/src/t_convert_003.c(0054)
+# TEST OK    val2node   >>int node            << test/src/t_convert_003.c(0054)
+# CHECK OK   val2node   >>                    << test/src/t_convert_003.c(0070)
+# TEST START val2node   >>string node         << test/src/t_convert_003.c(0087)
+# TEST OK    val2node   >>string node         << test/src/t_convert_003.c(0087)
+# CHECK OK   val2node   >>                    << test/src/t_convert_003.c(0103)

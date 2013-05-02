@@ -7,9 +7,9 @@
 /*   - getKey                                                                 */
 /*   - getValueType                                                           */
 /*   - getStrVal                                                              */
-/*   - getIntVal                            */
-/*   - tag2node                  */
-/*   - val2node                        */
+/*   - getIntVal                                        */
+/*   - tag2node                        */
+/*   - val2node                                    */
 /*                                                                            */
 /******************************************************************************/
 
@@ -323,15 +323,43 @@ _door :
   return p ;
 }
 
-tagIniVal* val2node( char** mem )
+/******************************************************************************/
+/* val to node      */
+/******************************************************************************/
+tIniVal* val2node( char** mem )
 {
-  char *p = *mem ;
+  tIniVal *vNode = NULL ;
+
   char *key ;
+  char *sVal ;
+  int   iVal ;
+  char *p = *mem ;
 
   p = getKey( p, &key ) ;
- 
- hallo ;
- 
+
+  switch( getValueType( p ) )
+  {
+    case INTIGER :
+    {
+      p = getIntVal( p, &iVal ) ;
+      vNode = createIntValue( key, iVal ) ;
+      break ;
+    }
+    case STRING  :
+    {
+      p= getStrVal(  p, &sVal ) ;
+      vNode = createStrValue( key, sVal ) ;
+      break ;
+    }
+    default      :
+    {
+      goto _door ;
+    }
+  }
+
+
+_door:
+  return vNode ; 
 }
 
 /******************************************************************************/
@@ -375,7 +403,7 @@ tIniNode* tag2node( char *mem, int *sysRc )
   switch( *pMem )
   {
     case '<' : exit(1) ;
-    default  :  val2node () ;
+    default  :  val2node ( &pMem ) ;
   }
 
 
