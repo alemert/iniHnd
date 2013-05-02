@@ -67,7 +67,7 @@ int main( int argc, const char** argv )
       goto _door ;
     }
 
-    checkMessage( TEST_OK_TXT, getOpenTag ) ;
+    checkMessage( TEST_OK_TXT, tag2node ) ;
     free(shrtMem) ;
     free(iniMem) ;
   }

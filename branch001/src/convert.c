@@ -7,9 +7,9 @@
 /*   - getKey                                                                 */
 /*   - getValueType                                                           */
 /*   - getStrVal                                                              */
-/*   - getIntVal                                        */
-/*   - tag2node                        */
-/*   - val2node                                    */
+/*   - getIntVal                                                              */
+/*   - tag2node                                            */
+/*   - val2node                                                               */
 /*                                                                            */
 /******************************************************************************/
 
@@ -363,7 +363,7 @@ _door:
 }
 
 /******************************************************************************/
-/* create linked list      */
+/* create linked list            */
 /******************************************************************************/
 tIniNode* tag2node( char *mem, int *sysRc )
 {
@@ -373,10 +373,13 @@ tIniNode* tag2node( char *mem, int *sysRc )
 
   char *tag ;
 
+  tIniVal  *vNode ;
+
   tIniNode *pNode ;
   tIniNode *anchorNode = initIniNode() ;
 
   char *pMem ;
+  char *pEndStream ;
 
   pNode = anchorNode ;
   
@@ -387,6 +390,7 @@ tIniNode* tag2node( char *mem, int *sysRc )
     *sysRc = 1 ;
     goto _door ;
   }
+  pMem = tagStart ;
 
   tagEnd = getCloseTag( tagStart, tag ) ;
   if( tagStart == NULL )
@@ -395,15 +399,21 @@ tIniNode* tag2node( char *mem, int *sysRc )
     *sysRc = 1 ;
     goto _door ;
   }
-  
+  pEndStream = tagEnd - strlen(tag) - 4 ;
+ 
   setIniTagName( pNode, tag, -1 ) ;
 
-  pMem = tagStart ;
+  if( pEndStream == pMem ) goto _door ;     // ok quit function
 
   switch( *pMem )
   {
     case '<' : exit(1) ;
-    default  :  val2node ( &pMem ) ;
+    default  :  
+    {
+      vNode = val2node ( &pMem ) ;
+      if( vNode == NULL ) goto _door ;
+      addValueNode( pNode, vNode ) ;
+    }
   }
 
 

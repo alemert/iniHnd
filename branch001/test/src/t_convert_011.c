@@ -66,8 +66,14 @@ int main( int argc, const char** argv )
       sysRc = 1 ;
       goto _door ;
     }
+    if( pNode->value->value.intVal != 25 ) 
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
 
-    checkMessage( TEST_OK_TXT, getOpenTag ) ;
+    checkMessage( TEST_OK_TXT, tag2node ) ;
     free(shrtMem) ;
     free(iniMem) ;
   }
