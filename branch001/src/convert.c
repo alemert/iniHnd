@@ -7,7 +7,9 @@
 /*   - getKey                                                                 */
 /*   - getValueType                                                           */
 /*   - getStrVal                                                              */
-/*   - getIntVal                */
+/*   - getIntVal                            */
+/*   - tag2node                  */
+/*   - val2node                        */
 /*                                                                            */
 /******************************************************************************/
 
@@ -321,9 +323,9 @@ _door :
   return p ;
 }
 
-tagIniVal* val2node( char* mem )
+tagIniVal* val2node( char** mem )
 {
-  char *p = mem ;
+  char *p = *mem ;
   char *key ;
 
   p = getKey( p, &key ) ;

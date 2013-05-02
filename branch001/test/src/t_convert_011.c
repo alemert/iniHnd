@@ -35,7 +35,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_convert_003.log", INF ) ;
+  sysRc = initLogging( "test/log/t_convert_011.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   char *iniMem = NULL ;
@@ -45,7 +45,7 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   {
-    iniReader( "test/cfg/t_convert_003_000.ini", &iniMem ) ;
+    iniReader( "test/cfg/t_convert_011_000.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem, &sysRc ) ;
     tIniNode *pNode ;
     doPointTest( "open tag"       , \
