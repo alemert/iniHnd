@@ -357,19 +357,20 @@ tIniVal* val2node( char** mem )
     }
   }
 
-
 _door:
+  *mem = p ;
   return vNode ; 
 }
 
 /******************************************************************************/
 /* create linked list            */
 /******************************************************************************/
-tIniNode* tag2node( char *mem, int *sysRc )
+tIniNode* tag2node( char *mem )
 {
-  *sysRc = 0 ; 
   char *tagStart ;
   char *tagEnd   ;
+  tIniNode *cNode ;
+  tIniNode *rcNode = NULL ;
 
   char *tag ;
 
@@ -387,7 +388,7 @@ tIniNode* tag2node( char *mem, int *sysRc )
   if( tagStart == NULL )
   {
     logger( LSTD_INI_OPEN_TAG_ERROR, mem ) ;
-    *sysRc = 1 ;
+    rcNode = NULL ;
     goto _door ;
   }
   pMem = tagStart ;
@@ -396,29 +397,31 @@ tIniNode* tag2node( char *mem, int *sysRc )
   if( tagStart == NULL )
   {
     logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; 
-    *sysRc = 1 ;
+    rcNode = NULL ;
     goto _door ;
   }
   pEndStream = tagEnd - strlen(tag) - 4 ;
  
   setIniTagName( pNode, tag, -1 ) ;
 
-  if( pEndStream == pMem ) goto _door ;     // ok quit function
-
-  switch( *pMem )
+  while( pEndStream != pMem ) 
   {
-    case '<' : exit(1) ;
-    default  :  
+    switch( *pMem )
     {
-      vNode = val2node ( &pMem ) ;
-      if( vNode == NULL ) goto _door ;
-      addValueNode( pNode, vNode ) ;
+      case '<' : cNode = tag2node( pMem ) ;   
+      default  :  
+      {
+        vNode = val2node ( &pMem ) ;
+        if( vNode == NULL ) goto _door ;
+        addValueNode( pNode, vNode ) ;
+      }
     }
   }
 
+  rcNode = anchorNode ;
 
 _door :
-  return anchorNode ;
+  return rcNode ;
 }
 
 #if(0)

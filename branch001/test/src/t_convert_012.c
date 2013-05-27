@@ -35,7 +35,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_convert_010.log", INF ) ;
+  sysRc = initLogging( "test/log/t_convert_012.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   char *iniMem = NULL ;
@@ -45,17 +45,40 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   {
-    iniReader( "test/cfg/t_convert_010_000.ini", &iniMem ) ;
+    iniReader( "test/cfg/t_convert_012_000.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem, &sysRc ) ;
     tIniNode *pNode ;
-    doPointTest( "open tag"       , \
+    doPointTest( "two values"       , \
                   RC_NOT_NULL     , \
                   tag2node        , \
-                  shrtMem         ) ;
-
+                  shrtMem, &sysRc ) ;
     pNode = (tIniNode*) gRcVoidPointer ;
 
+    if( sysRc != 0 )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
     if( strcmp(pNode->tag,"qmgr") != 0 ) 
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->value->value.intVal != 25 ) 
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( strcmp( pNode->value->nextVal->key, "bye" ) != 0 ) 
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( strcmp( pNode->value->nextVal->value.strVal, "world" ) != 0 ) 
     {
       checkMessage( TEST_ERR_TXT, tag2node ) ;
       sysRc = 1 ;

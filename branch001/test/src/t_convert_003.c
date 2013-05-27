@@ -47,11 +47,12 @@ int main( int argc, const char** argv )
   {
     iniReader( "test/cfg/t_convert_003_000.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem, &sysRc ) ;
+    char *pMem = shrtMem ;
     tIniVal *pNode ;
     doPointTest( "int node"       , \
                   RC_NOT_NULL     , \
                   val2node        , \
-                  &shrtMem    ) ;
+                  &pMem    ) ;
     pNode = (tIniVal*) gRcVoidPointer ;
 
     if( strcmp(pNode->key,"hello") != 0 ) 
@@ -80,11 +81,12 @@ int main( int argc, const char** argv )
   {
     iniReader( "test/cfg/t_convert_003_001.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem, &sysRc ) ;
+    char *pMem = shrtMem ;
     tIniVal *pNode ;
     doPointTest( "string node"       , \
                   RC_NOT_NULL     , \
                   val2node        , \
-                  &shrtMem    ) ;
+                  &pMem       ) ;
     pNode = (tIniVal*) gRcVoidPointer ;
 
     if( strcmp(pNode->key,"bye") != 0 ) 
