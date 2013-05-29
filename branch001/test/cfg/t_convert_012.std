@@ -1,0 +1,3 @@
+# TEST START tag2node   >>two values          << test/src/t_convert_012.c(0054)
+# TEST OK    tag2node   >>two values          << test/src/t_convert_012.c(0054)
+# CHECK OK   tag2node   >>                    << test/src/t_convert_012.c(0082)

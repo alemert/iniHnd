@@ -51,15 +51,9 @@ int main( int argc, const char** argv )
     doPointTest( "open tag"       , \
                   RC_NOT_NULL     , \
                   tag2node        , \
-                  shrtMem, &sysRc ) ;
+                  shrtMem    ) ;
     pNode = (tIniNode*) gRcVoidPointer ;
 
-    if( sysRc != 0 )
-    {
-      checkMessage( TEST_ERR_TXT, tag2node ) ;
-      sysRc = 1 ;
-      goto _door ;
-    }
     if( strcmp(pNode->tag,"qmgr") != 0 ) 
     {
       checkMessage( TEST_ERR_TXT, tag2node ) ;

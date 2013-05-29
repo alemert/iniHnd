@@ -365,12 +365,13 @@ _door:
 /******************************************************************************/
 /* create linked list            */
 /******************************************************************************/
-tIniNode* tag2node( char *mem )
+tIniNode* tag2node( char **_mem )
 {
   char *tagStart ;
   char *tagEnd   ;
   tIniNode *cNode ;
   tIniNode *rcNode = NULL ;
+  char *mem = *_mem ;
 
   char *tag ;
 
@@ -408,7 +409,12 @@ tIniNode* tag2node( char *mem )
   {
     switch( *pMem )
     {
-      case '<' : cNode = tag2node( pMem ) ;   
+      case '<' : 
+      {
+        cNode = tag2node( pMem ) ;   
+        addChildNode( anchorNode, cNode )  ;
+        break ;
+      }
       default  :  
       {
         vNode = val2node ( &pMem ) ;

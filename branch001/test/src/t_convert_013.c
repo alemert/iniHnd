@@ -35,7 +35,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_convert_012.log", INF ) ;
+  sysRc = initLogging( "test/log/t_convert_013.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   char *iniMem = NULL ;
@@ -45,7 +45,7 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   {
-    iniReader( "test/cfg/t_convert_012_000.ini", &iniMem ) ;
+    iniReader( "test/cfg/t_convert_013_000.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem, &sysRc ) ;
     tIniNode *pNode ;
     doPointTest( "two values"       , \
@@ -73,6 +73,13 @@ int main( int argc, const char** argv )
       goto _door ;
     }
     if( strcmp( pNode->value->nextVal->value.strVal, "world" ) != 0 ) 
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+
+    if( pNode->childNode == NULL )
     {
       checkMessage( TEST_ERR_TXT, tag2node ) ;
       sysRc = 1 ;
