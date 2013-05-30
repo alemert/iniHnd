@@ -1,0 +1,3 @@
+# TEST START tag2node   >>open tag            << test/src/t_convert_020.c(0055)
+# TEST OK    tag2node   >>open tag            << test/src/t_convert_020.c(0055)
+# CHECK OK   tag2node   >>                    << test/src/t_convert_020.c(0108)
