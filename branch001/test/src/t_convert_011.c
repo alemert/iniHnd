@@ -47,11 +47,12 @@ int main( int argc, const char** argv )
   {
     iniReader( "test/cfg/t_convert_011_000.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem, &sysRc ) ;
+    char *_shrtMem = shrtMem ;
     tIniNode *pNode ;
     doPointTest( "open tag"       , \
                   RC_NOT_NULL     , \
                   tag2node        , \
-                  shrtMem    ) ;
+                  &shrtMem    ) ;
     pNode = (tIniNode*) gRcVoidPointer ;
 
     if( strcmp(pNode->tag,"qmgr") != 0 ) 
@@ -68,7 +69,7 @@ int main( int argc, const char** argv )
     }
 
     checkMessage( TEST_OK_TXT, tag2node ) ;
-    free(shrtMem) ;
+    free(_shrtMem) ;
     free(iniMem) ;
   }
 #endif

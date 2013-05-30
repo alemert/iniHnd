@@ -124,21 +124,6 @@ char* getCloseTag( const char *mem, const char *tag )
     p++ ;
   }
 
-#if(0)
-  while( *p != '>' )
-  {
-    if( *p == '\0' )  { p = NULL ; goto _door ; } 
-    p++ ;
-  }
-
-  lng = p - mem - 2 ;
-  if( memcmp( (mem+2), tag, lng ) != 0 ) 
-  {
-    p = NULL ; 
-    goto _door ; 
-  }
-#endif
-
   p += lng ;
 
 _door :   
@@ -411,7 +396,12 @@ tIniNode* tag2node( char **_mem )
     {
       case '<' : 
       {
-        cNode = tag2node( pMem ) ;   
+        cNode = tag2node( &pMem ) ;   
+        if( cNode == NULL )
+        {
+          rcNode = NULL ;
+          goto _door ;
+        }
         addChildNode( anchorNode, cNode )  ;
         break ;
       }
@@ -425,6 +415,7 @@ tIniNode* tag2node( char **_mem )
   }
 
   rcNode = anchorNode ;
+  *_mem = tagEnd ;
 
 _door :
   return rcNode ;

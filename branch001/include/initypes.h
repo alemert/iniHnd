@@ -84,8 +84,8 @@ tValType getValueType( char *mem ) ;
 char *getStrVal( const char* mem, char** value ) ;
 char *getIntVal( const char* mem, int *value ) ;
 
-tIniNode* tag2node( char *mem ) ;
-tIniVal* val2node( char** mem ) ;
+tIniNode* tag2node( char** mem ) ;
+tIniVal* val2node(  char** mem ) ;
 
 
 // ---------------------------------------------------------
