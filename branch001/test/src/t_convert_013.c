@@ -86,6 +86,91 @@ int main( int argc, const char** argv )
       sysRc = 1 ;
       goto _door ;
     }
+    if( strcmp( pNode->childNode->tag,"channel" ) != 0 )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->value == NULL )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->value->key == NULL ) 
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( strcmp( pNode->childNode->value->key, "name" ) != 0 )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->value->key == NULL ) 
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->value->type != STRING ) 
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( strcmp( pNode->childNode->value->value.strVal, "not.me" ) != 0 )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->value->nextVal == NULL )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->value->nextVal->key == NULL )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( strcmp( pNode->childNode->value->nextVal->key, "hausNr" ) != 0 )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->value->nextVal->type != INTIGER )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->value->nextVal->value.intVal != 5 )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+
+    if( pNode->childNode->nextNode != NULL )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
+    if( pNode->childNode->childNode != NULL )
+    {
+      checkMessage( TEST_ERR_TXT, tag2node ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
 
     checkMessage( TEST_OK_TXT, tag2node ) ;
     free(_shrtMem) ;

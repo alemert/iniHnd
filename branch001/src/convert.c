@@ -124,7 +124,7 @@ char* getCloseTag( const char *mem, const char *tag )
     p++ ;
   }
 
-  p += lng ;
+  p += lng -1 ;
 
 _door :   
 
@@ -386,7 +386,7 @@ tIniNode* tag2node( char **_mem )
     rcNode = NULL ;
     goto _door ;
   }
-  pEndStream = tagEnd - strlen(tag) - 4 ;
+  pEndStream = tagEnd - strlen(tag) - 3 ;
  
   setIniTagName( pNode, tag, -1 ) ;
 
