@@ -348,7 +348,7 @@ _door:
 }
 
 /******************************************************************************/
-/* create linked list            */
+/* create linked list                  */
 /******************************************************************************/
 tIniNode* tag2node( char **_mem )
 {
@@ -365,54 +365,92 @@ tIniNode* tag2node( char **_mem )
   tIniNode *pNode ;
   tIniNode *anchorNode = initIniNode() ;
 
-  char *pMem ;
+  char *pMem = mem ;
   char *pEndStream ;
 
+  int loop ;
+
   pNode = anchorNode ;
-  
-  tagStart = getOpenTag( mem, &tag ) ;
-  if( tagStart == NULL )
-  {
-    logger( LSTD_INI_OPEN_TAG_ERROR, mem ) ;
-    rcNode = NULL ;
-    goto _door ;
-  }
-  pMem = tagStart ;
 
-  tagEnd = getCloseTag( tagStart, tag ) ;
-  if( tagStart == NULL )
-  {
-    logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; 
-    rcNode = NULL ;
-    goto _door ;
-  }
-  pEndStream = tagEnd - strlen(tag) - 3 ;
- 
-  setIniTagName( pNode, tag, -1 ) ;
-
-  while( pEndStream != pMem ) 
-  {
-    switch( *pMem )
-    {
-      case '<' : 
-      {
-        cNode = tag2node( &pMem ) ;   
-        if( cNode == NULL )
-        {
-          rcNode = NULL ;
-          goto _door ;
-        }
-        addChildNode( anchorNode, cNode )  ;
-        break ;
-      }
-      default  :  
-      {
-        vNode = val2node ( &pMem ) ;
-        if( vNode == NULL ) goto _door ;
-        addValueNode( pNode, vNode ) ;
-      }
-    }
-  }
+  loop = 1 ; 
+  while( loop )                                 //                   |
+  {                                             //                   v
+    tagStart = getOpenTag( pMem, &tag ) ;        // start of tag <tag>some
+    if( tagStart == NULL )                      //
+    {                                           //
+      logger( LSTD_INI_OPEN_TAG_ERROR, mem ) ;  //
+      rcNode = NULL ;                           //
+      goto _door ;                              //
+    }                                           //
+    pMem = tagStart ;                           //                  |
+                                                //                  v
+    tagEnd = getCloseTag( tagStart, tag ) ;     // end of tag </tag>.
+    if( tagEnd == NULL )                        //
+    {                                           //
+      logger( LSTD_INI_CLOSE_TAG_ERROR, tag );  //
+      rcNode = NULL ;                           //
+      goto _door ;                              //               | 
+    }                                           //               v 
+    pEndStream = tagEnd - strlen(tag) - 3 ;     // end of stream .</tag>
+                                                //
+    setIniTagName( pNode, tag, -1 ) ;           //
+                                                //
+    while( pEndStream != pMem )                 // go through a single tag
+    {                                           //
+      switch( *pMem )                           //
+      {                                         //
+        case '<' :                              // assume sub tag (child tag)
+        {                                       //
+          cNode = tag2node( &pMem ) ;           //
+          if( cNode == NULL )                   //
+          {                                     //
+            rcNode = NULL ;                     //
+            goto _door ;                        //
+          }                                     //
+          addChildNode( anchorNode, cNode )  ;  //
+          if( *tagEnd != '<' )                  // check if next tag is on the
+          {                                     //  same level (is it also a 
+            loop = 0 ;                          //  child node)
+          }                                     //
+          break ;                               //
+        }                                       //
+        default  :                              // assume key=value paar
+        {                                       //  (of any type)
+          vNode = val2node ( &pMem ) ;          //
+          if( vNode == NULL ) goto _door ;      //
+          addValueNode( pNode, vNode ) ;        //
+        }                                       //
+      }                                         //
+    }                                           //
+                                                //
+    switch( *tagEnd )                           // 
+    {                                           //
+      case '<' :                                // start of some tag
+      {                                         //
+        if( *(tagEnd+1) == '/' )                // next tag is on higher level
+        {                                       //
+          loop = 0 ;                            //
+        }                                       //
+        else                                    // next tag is on same level
+        {                                       //
+          pNode->nextNode = initIniNode() ;     //
+          pNode = pNode->nextNode ;             //
+          pMem = tagEnd ;
+        }                                       //
+        break ;                                 //
+      }                                         //
+      case '\0' :                               // end of stream
+      {                                         //
+        loop = 0 ;                              //
+        break ;                                 //
+      }                                         //
+      default :                                 // tag is follwed by some value
+      {                                         //  which is on higher level
+        loop = 0 ;                              //
+        break ;                                 //
+      }                                         //
+    }                                           //
+  }                                             //
 
   rcNode = anchorNode ;
   *_mem = tagEnd ;
