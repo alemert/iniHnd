@@ -39,17 +39,17 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_node_000.log", INF ) ;
+  sysRc = initLogging( "test/log/t_precomp_000.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
   // test
   // -------------------------------------------------------
 #if(1)
-  doPointTest( "general test"        , \
-                RC_NOT_NULL           , \
-                precompile   , \
-               "  key1 = value1 key2=value2  ", &sysRc );
+  doPointTest( "general test"    , \
+                RC_NOT_NULL      , \
+                precompile       , \
+               "  key1 = value1 <!-- hello wrold --> key2=value2  ", &sysRc );
   if( sysRc != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;
@@ -69,9 +69,9 @@ int main( int argc, const char** argv )
   // test
   // -------------------------------------------------------
 #if(1)
-  doPointTest( "general test"        , \
-                RC_NOT_NULL           , \
-                precompile     , \
+  doPointTest( "general test"   , \
+                RC_NOT_NULL     , \
+                precompile      , \
                "  key1= \"value1\" key2=\"value 2\"  ", &sysRc );
   if( sysRc != 0 )
   {
@@ -92,9 +92,9 @@ int main( int argc, const char** argv )
   // test
   // -------------------------------------------------------
 #if(1)
-  doPointTest( "eof test"        , \
-                RC_NOT_NULL           , \
-                precompile     , \
+  doPointTest( "eof test"       , \
+                RC_NOT_NULL     , \
+                precompile      , \
                "  key1= \"value1\" key2=value2", &sysRc );
   if( sysRc != 0 )
   {

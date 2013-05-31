@@ -2,6 +2,8 @@
 /* ini file handler - ini file reader                                         */
 /*                                                                            */
 /* functions:                                                                 */
+/*  - precompile      */
+/*  - isIntiger      */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -63,6 +65,7 @@ char* precompile( const char* inMem, int *sysRc )
   int copyFlag  ;
   int quoteFlag ;
   int intFlag   ;
+  int commentFlag ;
 
   outMem = (char*) malloc( (outLen+1) * sizeof(char) ) ;
   if( outMem == NULL )
@@ -78,6 +81,7 @@ char* precompile( const char* inMem, int *sysRc )
 
   quoteFlag = 0 ;
   intFlag   = 0 ;
+  commentFlag = 0 ;
 
   while( *pIn != '\0' )
   {
@@ -109,13 +113,40 @@ char* precompile( const char* inMem, int *sysRc )
         copyFlag  = 1 ;
         break ;
       }
+      case '<' :
+      {
+        if( memcmp( pIn, "<!--", strlen("<!--") ) == 0  )
+        {
+          commentFlag = 1 ;
+          pIn += strlen( "<!--" ) - 1 ;
+        }
+        else
+        {
+          copyFlag = 1 ;
+        }
+        break ;
+      }
+      case '-' :
+      {
+        if( memcmp( pIn, "-->", strlen("-->") ) == 0  )
+        {
+          commentFlag = 0 ;
+          pIn += strlen( "-->" ) - 1 ;
+        }
+        else
+        {
+          copyFlag = 1 ;
+        }
+        break ;
+      }
       default    :
       {
         copyFlag = 1 ;
         break ;
       }
     }
-    if( quoteFlag ) copyFlag = 1 ;
+    if( quoteFlag )   copyFlag = 1 ;
+    if( commentFlag ) copyFlag = 0 ;
     if( copyFlag  )
     {
       if( *(pOut-1) == '=' )
