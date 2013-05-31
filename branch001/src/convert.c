@@ -407,7 +407,7 @@ tIniNode* tag2node( char **_mem )
             rcNode = NULL ;                     //
             goto _door ;                        //
           }                                     //
-          addChildNode( anchorNode, cNode )  ;  //
+          addChildNode( pNode, cNode )  ;  //
           if( *tagEnd != '<' )                  // check if next tag is on the
           {                                     //  same level (is it also a 
             loop = 0 ;                          //  child node)
