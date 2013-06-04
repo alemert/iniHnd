@@ -99,17 +99,7 @@ tIniVal* val2node(  char** mem ) ;
 // reader.c
 // ---------------------------------------------------------
 int iniReader( const char* fileName, char **iniMem ) ;
-
-#if(1)
-char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc ) ;
-char* iniHandleCloseTag( char* iniMem, const char* tagName, int *rc ) ;
-char* iniHandleValues( char    *startSubMem, 
-                       char    *endSubMem  , 
-                       tIniNode *iniCfg    ,
-                       int      *rc       );
-tIniNode* ini2cfg( char* iniMem, int *rc ) ;
-char* ignWhiteChar( char *p) ;
-#endif
+const char* getInclude( char *mem ) ;
 
 // ---------------------------------------------------------
 // node.c

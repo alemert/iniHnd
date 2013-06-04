@@ -3,6 +3,8 @@
 /*                                                                            */
 /* functions:                                                                 */
 /*   - iniReader                                                              */
+/*   - iniHandler            */
+/*   - getInclude        */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -117,7 +119,7 @@ _door :
 }
 
 /******************************************************************************/
-/* iniHandler      */
+/* ini File Handler      */
 /******************************************************************************/
 int iniHandler( const char *mainCfg )
 {
@@ -134,10 +136,12 @@ int iniHandler( const char *mainCfg )
   if( mainMem == NULL )
   {
     goto _door ; 
+    sysRc = 1 ;
   }
   if( strlen( mainMem ) == 0 )
   {
     logger( LSTD_INI_EMPTY_MAIN_FILE, mainCfg ) ;
+    sysRc = 1 ;
     goto _door ; 
   }
 
@@ -145,6 +149,14 @@ int iniHandler( const char *mainCfg )
 
   _door :
 
-    return sysRc ;
+  return sysRc ;
 }
 
+/******************************************************************************/
+/* get config Include      */
+/******************************************************************************/
+const char* getInclude( char *mem )
+{
+
+  return NULL ;  
+}
