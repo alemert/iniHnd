@@ -22,6 +22,7 @@
 /******************************************************************************/
 typedef struct tagIniNode tIniNode ;
 typedef struct tagIniVal  tIniVal  ;
+typedef struct tagFileCfg tFileCfg ;
 typedef union  tagValue   tVal     ;
 typedef enum   tagValType tValType    ;
 
@@ -50,6 +51,12 @@ struct tagIniNode
   tIniNode *nextNode ; 
   tIniVal  *value ;
   tIniNode *childNode ;
+} ;
+
+struct tagFileCfg
+{
+  tIniNode *include ;
+  tIniNode *main    ;
 } ;
 
 /******************************************************************************/
