@@ -1,0 +1,3 @@
+# TEST START getInclude >>no include found    << test/src/t_reader_000.c(0051)
+# TEST OK    getInclude >>no include found    << test/src/t_reader_000.c(0051)
+# CHECK OK   getInclude >>                    << test/src/t_reader_000.c(0053)

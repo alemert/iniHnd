@@ -1,2 +1,2 @@
-2013-06-04 16:59:26  11781 00210 ERR main ini file test/cfg/t_reader_000_000.ini is empty
-                                     iniHandler() in src/reader.c (line: 00140)
+2013-06-04 22:19:09  17501 00210 ERR main ini file test/cfg/t_reader_010_000.ini is empty
+                                     iniHandler() in src/reader.c (line: 00143)

@@ -35,7 +35,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_reader_001.log", INF ) ;
+  sysRc = initLogging( "test/log/t_reader_000.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
@@ -44,7 +44,7 @@ int main( int argc, const char** argv )
 #if(1)
   {
     char *iniMem ;
-    iniReader( "test/cfg/t_reader_001_000.ini", &iniMem ) ;
+    iniReader( "test/cfg/t_reader_000_000.ini", &iniMem ) ;
     doPointTest( "no include found"  , \
                   RC_IS_NULL         , \
                   getInclude         , \

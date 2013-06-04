@@ -2,11 +2,8 @@
 /* test c source template                                                     */
 /*                                                                            */
 /* testing file :                                                             */
-/*  reader.c                                                                  */
 /*                                                                            */
 /* testing functions :                                                        */
-/*   - iniReader                                                              */
-/*   - iniHandleOpenTag                                                       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -25,10 +22,9 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
-#include <tutl.h>
+#include "tutl.h"
 
 #include <initypes.h>
-#include <inihnd.h>
 
 #include <ctl.h>
 
@@ -39,19 +35,26 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_reader_010.log", INF ) ;
+  sysRc = initLogging( "test/log/t_reader_000.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
-  // some test
+  // some test 
   // -------------------------------------------------------
-  doIntTest( "empty file" , \
-              0             , \
-              iniHandler    ,
-              "test/cfg/t_reader_010_000.ini" ) ;
+#if(1)
+  {
+    char *iniMem ;
+    iniReader( "test/cfg/t_reader_000_000.ini", &iniMem ) ;
+    doPointTest( "no include found"  , \
+                  RC_IS_NULL         , \
+                  getInclude         , \
+                  iniMem             ) ;
 
-  checkMessage( TEST_OK_TXT, iniHandler ) ;
-  
+    checkMessage( TEST_OK_TXT, getInclude ) ;
+    free(iniMem) ;
+  }
+#endif
+
 _door:
   return sysRc ;
 }
