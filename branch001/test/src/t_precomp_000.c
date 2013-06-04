@@ -49,13 +49,8 @@ int main( int argc, const char** argv )
   doPointTest( "general test"    , \
                 RC_NOT_NULL      , \
                 precompile       , \
-               "  key1 = value1 <!-- hello wrold --> key2=value2  ", &sysRc );
-  if( sysRc != 0 )
-  {
-    checkMessage( TEST_ERR_TXT, precompile ) ;
-    sysRc = 1 ;
-    goto _door ;
-  }
+               "  key1 = value1 <!-- hello wrold --> key2=value2  " ) ;
+  
   if( strcmp( (char*)gRcVoidPointer, "key1=\"value1\"key2=\"value2\"" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;
@@ -72,13 +67,8 @@ int main( int argc, const char** argv )
   doPointTest( "general test"   , \
                 RC_NOT_NULL     , \
                 precompile      , \
-               "  key1= \"value1\" key2=\"value 2\"  ", &sysRc );
-  if( sysRc != 0 )
-  {
-    checkMessage( TEST_ERR_TXT, precompile ) ;
-    sysRc = 1 ;
-    goto _door ;
-  }
+               "  key1= \"value1\" key2=\"value 2\"  " ) ;
+  
   if( strcmp( (char*)gRcVoidPointer, "key1=\"value1\"key2=\"value 2\"" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;
@@ -95,13 +85,8 @@ int main( int argc, const char** argv )
   doPointTest( "eof test"       , \
                 RC_NOT_NULL     , \
                 precompile      , \
-               "  key1= \"value1\" key2=value2", &sysRc );
-  if( sysRc != 0 )
-  {
-    checkMessage( TEST_ERR_TXT, precompile ) ;
-    sysRc = 1 ;
-    goto _door ;
-  }
+               "  key1= \"value1\" key2=value2" );
+  
   if( strcmp( (char*)gRcVoidPointer, "key1=\"value1\"key2=\"value2\"" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;
@@ -115,16 +100,11 @@ int main( int argc, const char** argv )
   // test
   // -------------------------------------------------------
 #if(1)
-  doPointTest( "digit test"        , \
-                RC_NOT_NULL           , \
-                precompile     , \
-               "  key1= 1 key2= -5 ", &sysRc );
-  if( sysRc != 0 )
-  {
-    checkMessage( TEST_ERR_TXT, precompile ) ;
-    sysRc = 1 ;
-    goto _door ;
-  }
+  doPointTest( "digit test"          , \
+                RC_NOT_NULL          , \
+                precompile           , \
+               "  key1= 1 key2= -5 " ) ;
+  
   if( strcmp( (char*)gRcVoidPointer, "key1=#1#key2=#-5#" ) != 0 )
   {
     checkMessage( TEST_ERR_TXT, precompile ) ;

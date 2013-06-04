@@ -126,6 +126,6 @@ int addChildNode( tIniNode* parent, tIniNode* child ) ;
 // ---------------------------------------------------------
 // precomp.c
 // ---------------------------------------------------------
-char* precompile( const char* inMem, int *sysRc ) ;
+char* precompile( const char* inMem ) ;
 int isIntiger( const char* mem) ;
 

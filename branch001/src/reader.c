@@ -121,6 +121,30 @@ _door :
 /******************************************************************************/
 int iniHandler( const char *mainCfg )
 {
-  
+  char* mem     = NULL ;
+  char* mainMem = NULL ;
+ 
+  int sysRc = 0 ; 
+
+  sysRc = iniReader( mainCfg, &mem ) ;
+
+  if( sysRc != 0 ) goto _door ;
+
+  mainMem = precompile( mem ) ;
+  if( mainMem == NULL )
+  {
+    goto _door ; 
+  }
+  if( strlen( mainMem ) == 0 )
+  {
+    logger( LSTD_INI_EMPTY_MAIN_FILE, mainCfg ) ;
+    goto _door ; 
+  }
+
+  sysRc = 0 ;     
+
+  _door :
+
+    return sysRc ;
 }
 

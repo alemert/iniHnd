@@ -47,7 +47,7 @@ int main( int argc, const char** argv )
 #if(1)
   {
     iniReader( "test/cfg/t_convert_000_000.ini", &iniMem ) ;
-    char *shrtMem = precompile( iniMem, &sysRc ) ;
+    char *shrtMem = precompile( iniMem ) ;
     char *tag ;
     doPointTest( "open tag"             , \
                   RC_NOT_NULL           , \

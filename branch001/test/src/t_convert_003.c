@@ -46,7 +46,7 @@ int main( int argc, const char** argv )
 #if(1)
   {
     iniReader( "test/cfg/t_convert_003_000.ini", &iniMem ) ;
-    char *shrtMem = precompile( iniMem, &sysRc ) ;
+    char *shrtMem = precompile( iniMem ) ;
     char *pMem = shrtMem ;
     tIniVal *pNode ;
     doPointTest( "int node"       , \
@@ -80,7 +80,7 @@ int main( int argc, const char** argv )
 #if(1)
   {
     iniReader( "test/cfg/t_convert_003_001.ini", &iniMem ) ;
-    char *shrtMem = precompile( iniMem, &sysRc ) ;
+    char *shrtMem = precompile( iniMem ) ;
     char *pMem = shrtMem ;
     tIniVal *pNode ;
     doPointTest( "string node"       , \
