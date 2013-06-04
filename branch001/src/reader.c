@@ -157,6 +157,18 @@ int iniHandler( const char *mainCfg )
 /******************************************************************************/
 const char* getInclude( char *mem )
 {
+  char *rcMem = NULL ;
+  char p      = mem ;
 
-  return NULL ;  
+  while( *p != '\0' )
+  {
+    if( memcmp( p, "<!include", strlen( "<!include" ) == 0 )
+    {
+    }
+    p++ ;
+  }
+
+  _door :
+
+  return rcMem ;  
 }
