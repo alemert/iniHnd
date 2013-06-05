@@ -157,17 +157,66 @@ int iniHandler( const char *mainCfg )
 /******************************************************************************/
 const char* getInclude( char *mem )
 {
+  #define OPEN_INCL "<!include="
+  #define MAX_FILE_NAME   128 
+
   char *rcMem = NULL ;
-  char p      = mem ;
+  char *p      = mem ;
 
-  while( *p != '\0' )
+  char *openIncl = NULL ;
+  char *closeIncl ;
+
+  char fileName[MAX_FILE_NAME] ;
+
+  int lng ;
+
+  while( *p != '\0' )                   // search in whole memory
+  {                                     //   for inlcude start
+    if( memcmp( p, OPEN_INCL, strlen(OPEN_INCL) ) == 0 )
+    {                                   // if include open found
+      openIncl = p ;                    //
+      p+= strlen( OPEN_INCL ) + 1 ;     //
+      continue ;                        //
+    }                                   //
+    if( *p == '>' )                     // if include close found
+    {                                   //
+      closeIncl = p ;                   //
+      p++ ;                             //
+      break ;                           //
+    }                                   //
+    p++ ;                               //
+  }                                     //
+
+  if( openIncl != NULL )                // include found
+  {                                     // get file name
+    lng = ( closeIncl - openIncl - strlen( OPEN_INCL )  ) ;
+    memcpy( fileName, ( openIncl + strlen( OPEN_INCL ) ), lng ) ;
+    fileName[lng] = '\0' ;              //
+ 
+    lng += strlen( OPEN_INCL ) + 1 ;    //
+    p = mem ;                           //
+    if( lng > 0 )                //
+    {                  //
+      while( 1 )              //
+      {                          //
+        *p = *(p+lng) ;      //
+        if( *p == '\0' ) break ;      //
+        p++ ;                //
+      }                                 //
+    }                                   //
+#if(0)
+  hier fehlt  behandlung von zweiten include
+  bitte rekrusiv
+#endif
+  }                                     //
+ 
+  if( strlen( mem ) == 0 )
   {
-    if( memcmp( p, "<!include", strlen( "<!include" ) == 0 )
-    {
-    }
-    p++ ;
+    rcMem = NULL ; 
+    goto _door ; 
   }
-
+                                       //
+  rcMem = mem ;
   _door :
 
   return rcMem ;  

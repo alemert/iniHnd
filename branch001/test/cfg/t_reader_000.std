@@ -1,3 +1,7 @@
-# TEST START getInclude >>no include found    << test/src/t_reader_000.c(0051)
-# TEST OK    getInclude >>no include found    << test/src/t_reader_000.c(0051)
-# CHECK OK   getInclude >>                    << test/src/t_reader_000.c(0053)
+# TEST START getInclude >>no include found    << test/src/t_reader_000.c(0052)
+# TEST OK    getInclude >>no include found    << test/src/t_reader_000.c(0052)
+# CHECK OK   getInclude >>                    << test/src/t_reader_000.c(0054)
+# TEST START getInclude >>include found       << test/src/t_reader_000.c(0071)
+# TEST OK    getInclude >>include found       << test/src/t_reader_000.c(0071)
+# CHECK OK   getInclude >>                    << test/src/t_reader_000.c(0073)
+>>(null)<<

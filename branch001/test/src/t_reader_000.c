@@ -45,13 +45,36 @@ int main( int argc, const char** argv )
   {
     char *iniMem ;
     iniReader( "test/cfg/t_reader_000_000.ini", &iniMem ) ;
+    char *shrtMem = precompile( iniMem ) ;
     doPointTest( "no include found"  , \
                   RC_IS_NULL         , \
                   getInclude         , \
-                  iniMem             ) ;
+                  shrtMem             ) ;
 
     checkMessage( TEST_OK_TXT, getInclude ) ;
-    free(iniMem) ;
+    free( iniMem  ) ;
+    free( shrtMem ) ;
+  }
+#endif
+
+  // -------------------------------------------------------
+  // some test 
+  // -------------------------------------------------------
+#if(1)
+  {
+    char *iniMem ;
+    iniReader( "test/cfg/t_reader_000_001.ini", &iniMem ) ;
+    char *shrtMem = precompile( iniMem ) ;
+    doPointTest( "include found"  , \
+                  RC_IS_NULL         , \
+                  getInclude         , \
+                  shrtMem             ) ;
+
+    checkMessage( TEST_OK_TXT, getInclude ) ;
+    printf(">>%s<<\n",(char*) gRcVoidPointer ) ;
+
+    free( iniMem  ) ;
+    free( shrtMem ) ;
   }
 #endif
 

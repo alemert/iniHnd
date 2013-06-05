@@ -2,8 +2,8 @@
 /* ini file handler - ini file reader                                         */
 /*                                                                            */
 /* functions:                                                                 */
-/*  - precompile      */
-/*  - isIntiger      */
+/*  - precompile                                                */
+/*  - isIntiger                */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -66,6 +66,7 @@ char* precompile( const char* inMem )
   int quoteFlag ;
   int intFlag   ;
   int commentFlag ;
+  int commandFlag ;
 
   outMem = (char*) malloc( (outLen+1) * sizeof(char) ) ;
   if( outMem == NULL )
@@ -82,11 +83,13 @@ char* precompile( const char* inMem )
   quoteFlag = 0 ;
   intFlag   = 0 ;
   commentFlag = 0 ;
+  commandFlag = 0 ;
 
   while( *pIn != '\0' )
   {
 
     copyFlag = 0 ;
+
     switch( *pIn )
     {
       case ' '  : 
@@ -124,6 +127,10 @@ char* precompile( const char* inMem )
         {
           copyFlag = 1 ;
         }
+        if( *(pIn+1) == '!' )
+        {
+          commandFlag = 1 ;
+        }
         break ;
       }
       case '-' :
@@ -139,31 +146,41 @@ char* precompile( const char* inMem )
         }
         break ;
       }
+      case '>' :
+      {
+        commandFlag = commandFlag ?  1 : 0 ;
+        copyFlag = 1 ;
+        break ;
+      }
       default    :
       {
         copyFlag = 1 ;
         break ;
       }
     }
+
     if( quoteFlag )   copyFlag = 1 ;
     if( commentFlag ) copyFlag = 0 ;
     if( copyFlag  )
     {
       if( *(pOut-1) == '=' )
       {
-        if( !quoteFlag )
+        if( !commandFlag )
         {
-          if( isIntiger( pIn ) > 0 )
+          if( !quoteFlag   )
           {
-            *pOut = '#' ;
-            pOut++ ;
-            intFlag = 1 ;
-          }
-          else
-          {
-            *pOut = '"' ;
-            pOut++ ;
-            quoteFlag = 2 ;
+            if( isIntiger( pIn ) > 0 )
+            {
+              *pOut = '#' ;
+              pOut++ ;
+              intFlag = 1 ;
+            }
+            else
+            {
+              *pOut = '"' ;
+              pOut++ ;
+              quoteFlag = 2 ;
+            }
           }
         }
       }
