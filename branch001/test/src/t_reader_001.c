@@ -51,6 +51,8 @@ int main( int argc, const char** argv )
                   getInclude         , \
                   shrtMem             ) ;
     checkMessage( TEST_OK_TXT, getInclude ) ;
+    printf(">>%s<<\n",(char*) gRcVoidPointer ) ;
+
     free( iniMem  ) ;
     free( shrtMem ) ;
   }

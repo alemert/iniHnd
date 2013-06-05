@@ -1,0 +1,2 @@
+2013-06-05 22:44:08  20926 00110 ERR failed to open file test/cfg/t_reader_000_002.ini
+                                     iniReader() in src/reader.c (line: 00077)
