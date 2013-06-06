@@ -60,7 +60,7 @@
 /*    error:  i.g. errno                                                      */
 /*            if error occures *_iniMem = NULL                                */
 /******************************************************************************/
-int iniReader( const char* fileName, char **_iniMem )
+int iniReader( char* fileName, char **_iniMem )
 {
   int sysRc = 0 ;
   long memSize ;
@@ -128,7 +128,7 @@ int iniHandler( const char *mainCfg )
  
   int sysRc = 0 ; 
 
-  sysRc = iniReader( mainCfg, &mem ) ;
+  sysRc = iniReader( (char*) mainCfg, &mem ) ;
 
   if( sysRc != 0 ) goto _door ;
 
@@ -155,21 +155,35 @@ int iniHandler( const char *mainCfg )
 /******************************************************************************/
 /* get config Include      */
 /******************************************************************************/
-const char* getInclude( char *mem )
+char** getInclude( char *mem, int inclLevel )
 {
   #define OPEN_INCL "<!include="
   #define MAX_FILE_NAME   128 
 
-  char *rcMem = NULL ;
+//char *rcMem = NULL ;
   char *inclMem ;
+  char *shrtMem ;
   char *p      = mem ;
 
   char *openIncl = NULL ;
   char *closeIncl ;
 
-  char fileName[MAX_FILE_NAME] ;
+  char  **fileName ;
+  char **subFileName ;
 
   int lng ;
+  int fileNameCnt = 0 ;
+  int i = 0 ;
+
+  if( inclLevel > 20 )
+  { 
+    logger( LSTD_INI_MAX_INCLUDE_LEVEL, inclLevel ) ;
+    fileName = NULL ;
+    goto _door ;
+  }
+
+  fileName    = (char**) malloc( sizeof(char*) * MAX_FILE_NAME )  ;
+  fileName[0] = NULL ;
 
   while( *p != '\0' )                     // search in whole memory
   {                                       //   for inlcude start
@@ -191,8 +205,10 @@ const char* getInclude( char *mem )
   if( openIncl != NULL )                  // include found
   {                                       // get file name
     lng = ( closeIncl - openIncl - strlen( OPEN_INCL )  ) ;
-    memcpy( fileName, ( openIncl + strlen( OPEN_INCL ) ), lng ) ;
-    fileName[lng] = '\0' ;                //
+    fileName[fileNameCnt] = (char*) malloc( sizeof(char) * (lng+1) ) ;
+    memcpy( fileName[fileNameCnt], ( openIncl + strlen( OPEN_INCL ) ), lng ) ;
+    fileName[fileNameCnt][lng] = '\0' ;   //
+    fileName[fileNameCnt+1] = NULL ;      //
                                           // 
     lng += strlen( OPEN_INCL ) + 1 ;      //
     p = mem ;                             //
@@ -205,26 +221,37 @@ const char* getInclude( char *mem )
         p++ ;                             //
       }                                   //
     }                                     //
-    if( iniReader(fileName,&inclMem)!=0 ) //
-    {      //
-      rcMem = NULL ;
-      goto _door ;
-    }
-
-#if(0)
-  hier fehlt  behandlung von zweiten include
-  bitte rekrusiv
-#endif
+                                          //
+    if( iniReader( fileName[fileNameCnt], &inclMem)!=0 ) 
+    {                                     //
+      fileName = NULL ;        //
+      goto _door ;          //
+    }                              //
+                              //
+    shrtMem = precompile( inclMem ) ;     //
+    subFileName = getInclude( shrtMem, inclLevel + 1 ) ;
+    if( subFileName == NULL )      //
+    {                              //
+      fileName = NULL ;        //
+    // free fehlt
+      goto _door ;                //
+    }                            //
+                                      //
+    i = 0 ;                          //
+    while( subFileName[i] != NULL )       //
+    {                                  //
+      fileNameCnt++ ;                  //
+      fileName[fileNameCnt] = subFileName[i] ;      //
+      i++ ;                          //
+    }                                    //
   }                                       //
                                           // 
-  if( strlen( mem ) == 0 )      //
-  {                                    //
-    rcMem = NULL ;                   //
-    goto _door ;                 //
-  }                                      //
-                                         //
-  rcMem = mem ;
+  if( strlen( mem ) == 0 )            //
+  {                                       //
+    goto _door ;                          //
+  }                                       //
+                                          //
   _door :
 
-  return rcMem ;  
+  return fileName ;   
 }

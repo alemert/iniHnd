@@ -46,10 +46,10 @@ int main( int argc, const char** argv )
     char *iniMem ;
     iniReader( "test/cfg/t_reader_001_000.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem ) ;
-    doPointTest( "no include found"  , \
-                  RC_NOT_NULL        , \
+    doPointTest( "recrusiv include"  , \
+                  RC_IS_NULL        , \
                   getInclude         , \
-                  shrtMem             ) ;
+                  shrtMem, 0         ) ;
     checkMessage( TEST_OK_TXT, getInclude ) ;
     printf(">>%s<<\n",(char*) gRcVoidPointer ) ;
 

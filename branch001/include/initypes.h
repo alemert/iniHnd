@@ -98,8 +98,8 @@ tIniVal* val2node(  char** mem ) ;
 // ---------------------------------------------------------
 // reader.c
 // ---------------------------------------------------------
-int iniReader( const char* fileName, char **iniMem ) ;
-const char* getInclude( char *mem ) ;
+int iniReader( char* fileName, char **_iniMem ) ;
+char** getInclude( char *mem, int inclLev ) ;
 
 // ---------------------------------------------------------
 // node.c

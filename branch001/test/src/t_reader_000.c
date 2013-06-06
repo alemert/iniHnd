@@ -47,9 +47,17 @@ int main( int argc, const char** argv )
     iniReader( "test/cfg/t_reader_000_000.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem ) ;
     doPointTest( "no include found"  , \
-                  RC_IS_NULL         , \
+                  RC_NOT_NULL        , \
                   getInclude         , \
-                  shrtMem             ) ;
+                  shrtMem, 0         ) ;
+
+    char **fileName = (char**) gRcVoidPointer ;
+    if( fileName[0] != 0 )
+    {
+      checkMessage( TEST_ERR_TXT, getInclude ) ;
+      sysRc = 1 ;
+      goto _door ;
+    }
 
     checkMessage( TEST_OK_TXT, getInclude ) ;
     free( iniMem  ) ;
@@ -66,12 +74,13 @@ int main( int argc, const char** argv )
     iniReader( "test/cfg/t_reader_000_001.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem ) ;
     doPointTest( "include found"  , \
-                  RC_IS_NULL         , \
-                  getInclude         , \
-                  shrtMem             ) ;
+                  RC_NOT_NULL     , \
+                  getInclude      , \
+                  shrtMem, 0      ) ;
 
     checkMessage( TEST_OK_TXT, getInclude ) ;
-    printf(">>%s<<\n",(char*) gRcVoidPointer ) ;
+    char **fileName = (char**) gRcVoidPointer ;
+    printf(">>%s<<\n",(char*) fileName[0] ) ;
 
     free( iniMem  ) ;
     free( shrtMem ) ;
