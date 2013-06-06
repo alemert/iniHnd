@@ -35,7 +35,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_reader_002.log", INF ) ;
+  sysRc = initLogging( "test/log/t_reader_003.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
@@ -44,7 +44,7 @@ int main( int argc, const char** argv )
 #if(1)
   {
     char *iniMem ;
-    iniReader( "test/cfg/t_reader_002_000.ini", &iniMem ) ;
+    iniReader( "test/cfg/t_reader_003_000.ini", &iniMem ) ;
     char *shrtMem = precompile( iniMem ) ;
     doPointTest( "recrusiv include"  , \
                   RC_NOT_NULL        , \

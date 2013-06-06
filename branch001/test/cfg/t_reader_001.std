@@ -1,4 +1,4 @@
-# TEST START getInclude >>no include found    << test/src/t_reader_001.c(0052)
-# TEST OK    getInclude >>no include found    << test/src/t_reader_001.c(0052)
+# TEST START getInclude >>recrusiv include    << test/src/t_reader_001.c(0052)
+# TEST OK    getInclude >>recrusiv include    << test/src/t_reader_001.c(0052)
 # CHECK OK   getInclude >>                    << test/src/t_reader_001.c(0053)
->><qmgr>name=AMXT01</qmgr><<
+>>(null)<<

@@ -224,29 +224,54 @@ char** getInclude( char *mem, int inclLevel )
                                           //
     if( iniReader( fileName[fileNameCnt], &inclMem)!=0 ) 
     {                                     //
-      fileName = NULL ;        //
-      goto _door ;          //
-    }                              //
-                              //
-    shrtMem = precompile( inclMem ) ;     //
+      fileName = NULL ;                   //
+      goto _door ;                        //
+    }                                     //
+                                          //
+    shrtMem = precompile( inclMem ) ;     // recrusive
+    free( inclMem ) ;
     subFileName = getInclude( shrtMem, inclLevel + 1 ) ;
-    if( subFileName == NULL )      //
-    {                              //
-      fileName = NULL ;        //
+    free( shrtMem ) ;
+    if( subFileName == NULL )             //
+    {                                     //
+      fileName = NULL ;                   //
     // free fehlt
-      goto _door ;                //
-    }                            //
-                                      //
-    i = 0 ;                          //
+      goto _door ;                        //
+    }                                     //
+                                          //
+    i = 0 ;                               //
     while( subFileName[i] != NULL )       //
-    {                                  //
-      fileNameCnt++ ;                  //
-      fileName[fileNameCnt] = subFileName[i] ;      //
-      i++ ;                          //
-    }                                    //
+    {                                     //
+      fileNameCnt++ ;                     //
+      fileName[fileNameCnt] = subFileName[i] ;  
+      i++ ;                               //
+    }                                     //
+
+    shrtMem = precompile( mem ) ;     // serial
+    subFileName = getInclude( shrtMem, inclLevel + 1 ) ;
+    shrtMem = precompile( inclMem ) ;     // recrusive
+    free( inclMem ) ;
+    subFileName = getInclude( shrtMem, inclLevel + 1 ) ;
+    free( shrtMem ) ;
+    if( subFileName == NULL )             //
+    {                                     //
+      fileName = NULL ;                   //
+    // free fehlt
+      goto _door ;                        //
+    }                                     //
+                                          //
+    i = 0 ;                               //
+    while( subFileName[i] != NULL )       //
+    {                                     //
+      fileNameCnt++ ;                     //
+      fileName[fileNameCnt] = subFileName[i] ;  
+      i++ ;                               //
+    }                                     //
   }                                       //
+
+
                                           // 
-  if( strlen( mem ) == 0 )            //
+  if( strlen( mem ) == 0 )                //
   {                                       //
     goto _door ;                          //
   }                                       //
