@@ -1,0 +1,6 @@
+# TEST START getInclude >>recrusiv include    << test/src/t_reader_003.c(0052)
+# TEST OK    getInclude >>recrusiv include    << test/src/t_reader_003.c(0052)
+# CHECK OK   getInclude >>                    << test/src/t_reader_003.c(0053)
+>>test/cfg/t_reader_003_001.ini<<
+>>test/cfg/t_reader_003_002.ini<<
+>>(null)<<

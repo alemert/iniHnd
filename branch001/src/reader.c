@@ -3,8 +3,9 @@
 /*                                                                            */
 /* functions:                                                                 */
 /*   - iniReader                                                              */
-/*   - iniHandler            */
-/*   - getInclude        */
+/*   - iniHandler                        */
+/*   - getInclude                */
+/*   - freeFileName          */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -158,7 +159,7 @@ int iniHandler( const char *mainCfg )
 char** getInclude( char *mem, int inclLevel )
 {
   #define OPEN_INCL "<!include="
-  #define MAX_FILE_NAME   128 
+  #define MAX_FILE_NAME   512
 
 //char *rcMem = NULL ;
   char *inclMem ;
@@ -202,81 +203,112 @@ char** getInclude( char *mem, int inclLevel )
     p++ ;                                 //
   }                                       //
                                           //
+  if( openIncl == NULL ) goto _door ;     // include not found, return from
+                                          //  function
+#if(0)
   if( openIncl != NULL )                  // include found
   {                                       // get file name
-    lng = ( closeIncl - openIncl - strlen( OPEN_INCL )  ) ;
-    fileName[fileNameCnt] = (char*) malloc( sizeof(char) * (lng+1) ) ;
-    memcpy( fileName[fileNameCnt], ( openIncl + strlen( OPEN_INCL ) ), lng ) ;
-    fileName[fileNameCnt][lng] = '\0' ;   //
-    fileName[fileNameCnt+1] = NULL ;      //
+#endif
+  lng = ( closeIncl - openIncl - strlen( OPEN_INCL )  ) ;
+  fileName[fileNameCnt] = (char*) malloc( sizeof(char) * (lng+1) ) ;
+  memcpy( fileName[fileNameCnt], ( openIncl + strlen( OPEN_INCL ) ), lng ) ;
+  fileName[fileNameCnt][lng] = '\0' ;     //
+  fileName[fileNameCnt+1] = NULL ;        //
                                           // 
-    lng += strlen( OPEN_INCL ) + 1 ;      //
-    p = mem ;                             //
-    if( lng > 0 )                         //
+  lng += strlen( OPEN_INCL ) + 1 ;        //
+  p = mem ;                               //
+  if( lng > 0 )                           //
+  {                                       //
+    while( 1 )                            //
     {                                     //
-      while( 1 )                          //
-      {                                   //
-        *p = *(p+lng) ;                   //
-        if( *p == '\0' ) break ;          //
-        p++ ;                             //
-      }                                   //
-    }                                     //
-                                          //
-    if( iniReader( fileName[fileNameCnt], &inclMem)!=0 ) 
-    {                                     //
-      fileName = NULL ;                   //
-      goto _door ;                        //
-    }                                     //
-                                          //
-    shrtMem = precompile( inclMem ) ;     // recrusive
-    free( inclMem ) ;
-    subFileName = getInclude( shrtMem, inclLevel + 1 ) ;
-    free( shrtMem ) ;
-    if( subFileName == NULL )             //
-    {                                     //
-      fileName = NULL ;                   //
-    // free fehlt
-      goto _door ;                        //
-    }                                     //
-                                          //
-    i = 0 ;                               //
-    while( subFileName[i] != NULL )       //
-    {                                     //
-      fileNameCnt++ ;                     //
-      fileName[fileNameCnt] = subFileName[i] ;  
-      i++ ;                               //
-    }                                     //
-
-    shrtMem = precompile( mem ) ;     // serial
-    subFileName = getInclude( shrtMem, inclLevel + 1 ) ;
-    shrtMem = precompile( inclMem ) ;     // recrusive
-    free( inclMem ) ;
-    subFileName = getInclude( shrtMem, inclLevel + 1 ) ;
-    free( shrtMem ) ;
-    if( subFileName == NULL )             //
-    {                                     //
-      fileName = NULL ;                   //
-    // free fehlt
-      goto _door ;                        //
-    }                                     //
-                                          //
-    i = 0 ;                               //
-    while( subFileName[i] != NULL )       //
-    {                                     //
-      fileNameCnt++ ;                     //
-      fileName[fileNameCnt] = subFileName[i] ;  
-      i++ ;                               //
+      *p = *(p+lng) ;                     //
+      if( *p == '\0' ) break ;            //
+      p++ ;                               //
     }                                     //
   }                                       //
-
-
-                                          // 
-  if( strlen( mem ) == 0 )                //
+                                          //
+  if( iniReader( fileName[fileNameCnt], &inclMem)!=0 ) 
   {                                       //
+    fileName = NULL ;                     //
     goto _door ;                          //
   }                                       //
+                                          //
+  shrtMem = precompile( inclMem ) ;       // recrusive
+  free( inclMem ) ;                       //
+  subFileName = getInclude( shrtMem, inclLevel + 1 ) ;
+  free( shrtMem ) ;                       //
+  if( subFileName == NULL )               //
+  {                                       //
+    freeFileName( fileName ) ;        //
+    fileName = NULL ;                     //
+    goto _door ;                          //
+  }                                       //
+                                          //
+  i = 0 ;                                 //
+  while( subFileName[i] != NULL )         //
+  {                                       //
+    if( fileNameCnt == MAX_FILE_NAME )  //
+    {                                    //
+      logger( LSTD_INI_MAX_INCLUDE_FILES, MAX_FILE_NAME ) ;
+    }                            //
+    fileNameCnt++ ;                     //
+    fileName[fileNameCnt] = subFileName[i] ;  
+    i++ ;                                 //
+  }                                       //
+//freeFileName( subFileName ) ;      //
+                          //
+  if( strlen( mem ) == 0 ) goto _door ;   //
+                                    // serial
+  subFileName = getInclude( mem, inclLevel ) ;
+  if( subFileName == NULL )             //
+  {                                       //
+    freeFileName( fileName ) ;      //
+    fileName = NULL ;                   //
+    goto _door ;                          //
+  }                                       //
+                                          //
+  i = 0 ;                                 //
+  while( subFileName[i] != NULL )         //
+  {                                       //
+    fileNameCnt++ ;                       //
+    fileName[fileNameCnt] = subFileName[i] ;  
+    i++ ;                                 //
+  }                                       //
+//freeFileName( subFileName ) ;           //
+#if(0)
+  }                                       //
+#endif
+                                          //
+  if( strlen( mem ) == 0 ) goto _door ;   //
                                           //
   _door :
 
   return fileName ;   
 }
+
+/******************************************************************************/
+/* free file name array      */
+/******************************************************************************/
+void freeFileName( char** _fileName )
+{
+  char **fileName ;
+
+  if( _fileName == NULL ) goto _door ;
+
+  fileName = _fileName ;
+
+  while( *fileName != NULL )
+  {
+    free( *fileName ) ;
+    *fileName = NULL ;
+    fileName++ ;
+  }
+
+  _fileName = NULL ;
+
+  _door :
+
+  return ;
+    
+}
+

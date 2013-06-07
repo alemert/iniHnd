@@ -94,12 +94,12 @@ char *getIntVal( const char* mem, int *value ) ;
 tIniNode* tag2node( char** mem ) ;
 tIniVal* val2node(  char** mem ) ;
 
-
 // ---------------------------------------------------------
 // reader.c
 // ---------------------------------------------------------
 int iniReader( char* fileName, char **_iniMem ) ;
 char** getInclude( char *mem, int inclLev ) ;
+void freeFileName( char** _fileName ) ;
 
 // ---------------------------------------------------------
 // node.c
