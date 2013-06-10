@@ -1,14 +1,66 @@
-# TEST START ini2cfg    >>zero size file      << test/src/t_reader_005.c(0053)
-# TEST OK    ini2cfg    >>zero size file      << test/src/t_reader_005.c(0053)
-# TEST START ini2cfg    >>empty tag           << test/src/t_reader_005.c(0065)
-# TEST OK    ini2cfg    >>empty tag           << test/src/t_reader_005.c(0065)
-# CHECK OK   ini2cfg    >>                    << test/src/t_reader_005.c(0073)
-# TEST START ini2cfg    >>tag with 2 values   << test/src/t_reader_005.c(0085)
-# TEST OK    ini2cfg    >>tag with 2 values   << test/src/t_reader_005.c(0085)
-# CHECK OK   ini2cfg    >>                    << test/src/t_reader_005.c(0117)
-# TEST START ini2cfg    >>2 same level nodes with 2 values<< test/src/t_reader_005.c(0129)
-# TEST OK    ini2cfg    >>2 same level nodes with 2 values<< test/src/t_reader_005.c(0129)
-# CHECK OK   ini2cfg    >>                    << test/src/t_reader_005.c(0231)
-# TEST START ini2cfg    >>simple tree 2(2)-1(2),2(2)<< test/src/t_reader_005.c(0243)
-# TEST OK    ini2cfg    >>simple tree 2(2)-1(2),2(2)<< test/src/t_reader_005.c(0243)
-# CHECK OK   ini2cfg    >>                    << test/src/t_reader_005.c(0345)
+# TEST START getInclude >>recrusiv include    << test/src/t_reader_005.c(0052)
+# TEST OK    getInclude >>recrusiv include    << test/src/t_reader_005.c(0052)
+# CHECK OK   getInclude >>                    << test/src/t_reader_005.c(0053)
+>>test/cfg/t_reader_005_010.ini<<
+>>test/cfg/t_reader_005_020.ini<<
+>>test/cfg/t_reader_005_030.ini<<
+>>test/cfg/t_reader_005_031.ini<<
+>>test/cfg/t_reader_005_032.ini<<
+>>test/cfg/t_reader_005_033.ini<<
+>>test/cfg/t_reader_005_034.ini<<
+>>test/cfg/t_reader_005_035.ini<<
+>>test/cfg/t_reader_005_021.ini<<
+>>test/cfg/t_reader_005_032.ini<<
+>>test/cfg/t_reader_005_033.ini<<
+>>test/cfg/t_reader_005_034.ini<<
+>>test/cfg/t_reader_005_035.ini<<
+>>test/cfg/t_reader_005_036.ini<<
+>>test/cfg/t_reader_005_039.ini<<
+>>test/cfg/t_reader_005_011.ini<<
+>>test/cfg/t_reader_005_020.ini<<
+>>test/cfg/t_reader_005_030.ini<<
+>>test/cfg/t_reader_005_031.ini<<
+>>test/cfg/t_reader_005_032.ini<<
+>>test/cfg/t_reader_005_033.ini<<
+>>test/cfg/t_reader_005_034.ini<<
+>>test/cfg/t_reader_005_035.ini<<
+>>test/cfg/t_reader_005_022.ini<<
+>>test/cfg/t_reader_005_034.ini<<
+>>test/cfg/t_reader_005_035.ini<<
+>>test/cfg/t_reader_005_037.ini<<
+>>test/cfg/t_reader_005_038.ini<<
+>>(null)<<
+>>(null)<<
+# TEST START uniqueFileName >>recrusiv include    << test/src/t_reader_005.c(0066)
+# TEST OK    uniqueFileName >>recrusiv include    << test/src/t_reader_005.c(0066)
+>>test/cfg/t_reader_005_010.ini<<
+>>test/cfg/t_reader_005_020.ini<<
+>>test/cfg/t_reader_005_030.ini<<
+>>test/cfg/t_reader_005_031.ini<<
+>>test/cfg/t_reader_005_032.ini<<
+>>test/cfg/t_reader_005_033.ini<<
+>>test/cfg/t_reader_005_034.ini<<
+>>test/cfg/t_reader_005_035.ini<<
+>>test/cfg/t_reader_005_021.ini<<
+>>test/cfg/t_reader_005_036.ini<<
+>>test/cfg/t_reader_005_039.ini<<
+>>test/cfg/t_reader_005_011.ini<<
+>>test/cfg/t_reader_005_022.ini<<
+>>test/cfg/t_reader_005_037.ini<<
+>>test/cfg/t_reader_005_038.ini<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+>>(null)<<
+# CHECK OK   getInclude >>                    << test/src/t_reader_005.c(0074)

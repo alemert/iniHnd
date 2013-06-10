@@ -100,6 +100,7 @@ tIniVal* val2node(  char** mem ) ;
 int iniReader( char* fileName, char **_iniMem ) ;
 char** getInclude( char *mem, int inclLev ) ;
 void freeFileName( char** _fileName ) ;
+char** uniqueFileName( char** fileName ) ;
 
 // ---------------------------------------------------------
 // node.c

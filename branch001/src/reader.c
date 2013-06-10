@@ -3,9 +3,10 @@
 /*                                                                            */
 /* functions:                                                                 */
 /*   - iniReader                                                              */
-/*   - iniHandler                        */
-/*   - getInclude                */
-/*   - freeFileName          */
+/*   - iniHandler                                                */
+/*   - getInclude                                */
+/*   - freeFileName                                */
+/*   - uniqueFileName                                    */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -205,10 +206,6 @@ char** getInclude( char *mem, int inclLevel )
                                           //
   if( openIncl == NULL ) goto _door ;     // include not found, return from
                                           //  function
-#if(0)
-  if( openIncl != NULL )                  // include found
-  {                                       // get file name
-#endif
   lng = ( closeIncl - openIncl - strlen( OPEN_INCL )  ) ;
   fileName[fileNameCnt] = (char*) malloc( sizeof(char) * (lng+1) ) ;
   memcpy( fileName[fileNameCnt], ( openIncl + strlen( OPEN_INCL ) ), lng ) ;
@@ -239,7 +236,7 @@ char** getInclude( char *mem, int inclLevel )
   free( shrtMem ) ;                       //
   if( subFileName == NULL )               //
   {                                       //
-    freeFileName( fileName ) ;        //
+    freeFileName( fileName ) ;            //
     fileName = NULL ;                     //
     goto _door ;                          //
   }                                       //
@@ -248,22 +245,22 @@ char** getInclude( char *mem, int inclLevel )
   while( subFileName[i] != NULL )         //
   {                                       //
     if( fileNameCnt == MAX_FILE_NAME )  //
-    {                                    //
+    {                                     //
       logger( LSTD_INI_MAX_INCLUDE_FILES, MAX_FILE_NAME ) ;
-    }                            //
-    fileNameCnt++ ;                     //
-    fileName[fileNameCnt] = subFileName[i] ;  
+    }                                  //
+    fileNameCnt++ ;                       //
+    fileName[fileNameCnt]   = subFileName[i] ;  
+    fileName[fileNameCnt+1] = NULL ;      //
     i++ ;                                 //
   }                                       //
-//freeFileName( subFileName ) ;      //
-                          //
+                                      //
   if( strlen( mem ) == 0 ) goto _door ;   //
-                                    // serial
+                                        // serial
   subFileName = getInclude( mem, inclLevel ) ;
-  if( subFileName == NULL )             //
+  if( subFileName == NULL )               //
   {                                       //
-    freeFileName( fileName ) ;      //
-    fileName = NULL ;                   //
+    freeFileName( fileName ) ;            //
+    fileName = NULL ;                     //
     goto _door ;                          //
   }                                       //
                                           //
@@ -272,12 +269,9 @@ char** getInclude( char *mem, int inclLevel )
   {                                       //
     fileNameCnt++ ;                       //
     fileName[fileNameCnt] = subFileName[i] ;  
+    fileName[fileNameCnt+1] = NULL ;      //
     i++ ;                                 //
   }                                       //
-//freeFileName( subFileName ) ;           //
-#if(0)
-  }                                       //
-#endif
                                           //
   if( strlen( mem ) == 0 ) goto _door ;   //
                                           //
@@ -309,6 +303,42 @@ void freeFileName( char** _fileName )
   _door :
 
   return ;
-    
 }
 
+/******************************************************************************/
+/* unique file name      */
+/******************************************************************************/
+char** uniqueFileName( char** _fileName )
+{
+  char  **p ;
+  char  **q ;
+
+  char **fileName = _fileName ;
+
+  if( *fileName     == NULL ) goto _door ;
+  if( *(fileName+1) == NULL ) goto _door ;
+
+  while( *fileName != NULL )
+  {
+    p = fileName + 1 ;
+    while(  *p != NULL )
+    {
+      if( strcmp( *fileName, *p ) == 0 )
+      {
+        q = p ;
+        free( *p ) ;
+        while( *q != NULL )
+        {
+          *q = *(q + 1) ; 
+          q++ ;
+        }
+      }
+      p++ ;
+    }
+    fileName++ ;
+  }
+ 
+  _door :
+  
+  return _fileName ;
+}
