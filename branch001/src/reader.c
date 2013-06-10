@@ -159,10 +159,8 @@ int iniHandler( const char *mainCfg )
 /******************************************************************************/
 char** getInclude( char *mem, int inclLevel )
 {
-  #define OPEN_INCL "<!include="
   #define MAX_FILE_NAME   512
 
-//char *rcMem = NULL ;
   char *inclMem ;
   char *shrtMem ;
   char *p      = mem ;

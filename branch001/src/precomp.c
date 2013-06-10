@@ -2,8 +2,9 @@
 /* ini file handler - ini file reader                                         */
 /*                                                                            */
 /* functions:                                                                 */
-/*  - precompile                                                */
-/*  - isIntiger                */
+/*  - precompile                                                              */
+/*  - isIntiger                            */
+/*  -  rmInclude                              */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -255,4 +256,39 @@ int isIntiger( const char* mem)
     }
   p++ ;
   }
+}
+
+/******************************************************************************/
+/* remove include      */
+/******************************************************************************/
+char* rmInclude( char *_mem )
+{
+  char *mem = _mem ;
+  char *openIncl ;
+  char *closeIncl ;
+
+  while( *mem != '\0' )
+  {
+    if( memcmp( mem, OPEN_INCL, strlen(OPEN_INCL) ) == 0 )
+    {
+      openIncl  = mem ;
+      closeIncl = mem + strlen(OPEN_INCL );
+      while( *closeIncl != '>' )
+      {
+        if( *closeIncl == '\0' )
+        {
+          logger( LSTD_INI_CLOSE_TAG_ERROR, OPEN_INCL ) ;
+          free( _mem );
+          _mem = NULL ;
+          goto _door ;
+        }
+        closeIncl++ ;
+      }
+    }
+    mem++ ;
+  }
+
+  _door :
+
+  return _mem ;
 }

@@ -53,10 +53,10 @@ include $(MAKE_INCLUDE_PATH)/general.modules.mk
 # tests
 # ------------------------------------------------------------------------------
 TEST = t_node_000    t_node_001    t_node_002                                 \
-       t_precomp_000                                                          \
+       t_precomp_000 t_precomp_001                                            \
        t_convert_000 t_convert_001 t_convert_002 t_convert_003                \
        t_convert_010 t_convert_011 t_convert_012 t_convert_013 t_convert_014  \
-       t_convert_020 t_convert_025                         \
+       t_convert_020 t_convert_025                               \
        t_reader_000  t_reader_001  t_reader_002  t_reader_003  t_reader_004   \
        t_reader_005        \
        t_reader_010    

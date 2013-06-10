@@ -16,6 +16,7 @@
 /******************************************************************************/
 /*   D E F I N E S                                                            */
 /******************************************************************************/
+#define OPEN_INCL "<!include="
 
 /******************************************************************************/
 /*   T Y P E S                                                                */
@@ -101,6 +102,7 @@ int iniReader( char* fileName, char **_iniMem ) ;
 char** getInclude( char *mem, int inclLev ) ;
 void freeFileName( char** _fileName ) ;
 char** uniqueFileName( char** fileName ) ;
+char* rmInclude( char *_mem ) ;
 
 // ---------------------------------------------------------
 // node.c
