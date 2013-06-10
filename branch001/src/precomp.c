@@ -272,7 +272,7 @@ char* rmInclude( char *_mem )
     if( memcmp( mem, OPEN_INCL, strlen(OPEN_INCL) ) == 0 )
     {
       openIncl  = mem ;
-      closeIncl = mem + strlen(OPEN_INCL );
+      closeIncl = mem + strlen( OPEN_INCL );
       while( *closeIncl != '>' )
       {
         if( *closeIncl == '\0' )
@@ -284,6 +284,15 @@ char* rmInclude( char *_mem )
         }
         closeIncl++ ;
       }
+      closeIncl++ ;
+      while( *closeIncl != '\0' )
+      {
+        *openIncl = *closeIncl ;
+        openIncl++  ;
+        closeIncl++ ;
+      } 
+      *openIncl = '\0' ;
+      continue ;
     }
     mem++ ;
   }

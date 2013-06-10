@@ -1,3 +1,15 @@
-# TEST START rmInclude  >>general test        << test/src/t_precomp_001.c(0053)
-# TEST OK    rmInclude  >>general test        << test/src/t_precomp_001.c(0053)
-# CHECK OK   ini2cfg    >>                    << test/src/t_precomp_001.c(0059)
+# TEST START rmInclude  >>general test        << test/src/t_precomp_001.c(0054)
+# TEST OK    rmInclude  >>general test        << test/src/t_precomp_001.c(0054)
+# CHECK OK   rmInclude  >>                    << test/src/t_precomp_001.c(0060)
+# TEST START rmInclude  >>general test        << test/src/t_precomp_001.c(0075)
+# TEST OK    rmInclude  >>general test        << test/src/t_precomp_001.c(0075)
+>>--<<
+# CHECK OK   rmInclude  >>                    << test/src/t_precomp_001.c(0084)
+# TEST START rmInclude  >>general test        << test/src/t_precomp_001.c(0099)
+# TEST OK    rmInclude  >>general test        << test/src/t_precomp_001.c(0099)
+>>-hello=world-<<
+# CHECK OK   rmInclude  >>                    << test/src/t_precomp_001.c(0108)
+# TEST START rmInclude  >>general test        << test/src/t_precomp_001.c(0124)
+# TEST OK    rmInclude  >>general test        << test/src/t_precomp_001.c(0124)
+>>-hello=world-<<
+# CHECK OK   rmInclude  >>                    << test/src/t_precomp_001.c(0133)

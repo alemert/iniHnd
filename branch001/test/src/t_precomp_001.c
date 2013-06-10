@@ -44,20 +44,96 @@ int main( int argc, const char** argv )
   // test
   // -------------------------------------------------------
 #if(1)
-   char *iniMem ;
-  iniReader( "test/cfg/t_precompile_001_000.ini", &iniMem ) ;
-  char *shrtMem = precompile( iniMem ) ;
-  doPointTest( "general test"   , \
-                RC_IS_NULL      , \
-                rmInclude       , \
-                shrtMem         ) ;
+  {
+    char *iniMem ;
+    iniReader( "test/cfg/t_precomp_001_000.ini", &iniMem ) ;
+    char *shrtMem = precompile( iniMem ) ;
+    doPointTest( "general test"   , \
+                  RC_IS_NULL      , \
+                  rmInclude       , \
+                  shrtMem         ) ;
  
 //char *noIncl = (char*)gRcVoidPointer ;
 
-  free( iniMem ) ;
+    free( iniMem ) ;
 
-  checkMessage( TEST_OK_TXT, ini2cfg ) ;
+    checkMessage( TEST_OK_TXT, rmInclude ) ;
+  }
 #endif
+
+  // -------------------------------------------------------
+  // test
+  // -------------------------------------------------------
+#if(1)
+  {
+    char *iniMem ;
+    iniReader( "test/cfg/t_precomp_001_001.ini", &iniMem ) ;
+    char *shrtMem = precompile( iniMem ) ;
+    doPointTest( "general test"   , \
+                  RC_NOT_NULL     , \
+                  rmInclude       , \
+                  shrtMem         ) ;
+   
+    char *noIncl = (char*)gRcVoidPointer ;
+  
+    printf( ">>-%s-<<\n", noIncl ) ;
+  
+    free( iniMem ) ;
+    free( shrtMem ) ;
+  
+    checkMessage( TEST_OK_TXT, rmInclude ) ;
+  }
+#endif
+
+  // -------------------------------------------------------
+  // test
+  // -------------------------------------------------------
+#if(1)
+  {
+    char *iniMem ;
+    iniReader( "test/cfg/t_precomp_001_002.ini", &iniMem ) ;
+    char *shrtMem = precompile( iniMem ) ;
+    doPointTest( "general test"   , \
+                  RC_NOT_NULL     , \
+                  rmInclude       , \
+                  shrtMem         ) ;
+  
+    char *noIncl = (char*)gRcVoidPointer ;
+ 
+    printf( ">>-%s-<<\n", noIncl ) ;
+ 
+    free( iniMem ) ;
+    free( shrtMem ) ;
+ 
+    checkMessage( TEST_OK_TXT, rmInclude ) ;
+  }
+#endif
+
+
+  // -------------------------------------------------------
+  // test
+  // -------------------------------------------------------
+#if(1)
+  {
+    char *iniMem ;
+    iniReader( "test/cfg/t_precomp_001_003.ini", &iniMem ) ;
+    char *shrtMem = precompile( iniMem ) ;
+    doPointTest( "general test"   , \
+                  RC_NOT_NULL     , \
+                  rmInclude       , \
+                  shrtMem         ) ;
+ 
+    char *noIncl = (char*)gRcVoidPointer ;
+
+    printf( ">>-%s-<<\n", noIncl ) ;
+
+    free( iniMem ) ;
+    free( shrtMem ) ;
+
+    checkMessage( TEST_OK_TXT, rmInclude ) ;
+  }
+#endif
+
 
 _door:
   return sysRc ;
