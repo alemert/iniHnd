@@ -3,10 +3,10 @@
 /*                                                                            */
 /* functions:                                                                 */
 /*   - iniReader                                                              */
-/*   - iniHandler                                                */
-/*   - getInclude                                */
-/*   - freeFileName                                */
-/*   - uniqueFileName                                    */
+/*   - iniHandler                                                             */
+/*   - getInclude                                        */
+/*   - freeFileName                                        */
+/*   - uniqueFileName                                                  */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -125,10 +125,15 @@ _door :
 /******************************************************************************/
 int iniHandler( const char *mainCfg )
 {
-  char* mem     = NULL ;
-  char* mainMem = NULL ;
+  char* mem           = NULL ;
+  char* mainMem       = NULL ;
+  char* inclMem       = NULL ;
+  char* singleInclMem = NULL ;
+
+  int inclMemLen ;
 
   char** inclFiles ;
+  char** myInclFile ;
  
   int sysRc = 0 ; 
 
@@ -139,7 +144,8 @@ int iniHandler( const char *mainCfg )
                                                //
   if( sysRc != 0 ) goto _door ;                // handle error
                                                //
-  mainMem = precompile( mem ) ;            // precompile main mem
+  mainMem = precompile( mem ) ;                // precompile main mem
+  free( mem ) ;                                //
   if( mainMem == NULL )                        // handle error 
   {                                            //
     goto _door ;                               //
@@ -164,7 +170,30 @@ int iniHandler( const char *mainCfg )
                                                //
   inclFiles = uniqueFileName( inclFiles ) ;    // sort file names to unique
                                                //   keeping logical order
-
+  myInclFile = inclFiles ;                     //
+                                               //
+  inclMemLen = 0 ;                             //
+  while( *myInclFile != NULL )                 // handle all include files
+  {                                            //
+    sysRc = iniReader( *myInclFile, &mem ) ;   // read include file
+    if( sysRc != 0 )                           // 
+    {                                          //
+      sysRc = 1 ;                              //
+      goto _door ;                             //
+    }                                          //
+    myInclFile++ ;            //
+                                               //
+    singleInclMem = precompile( mem ) ;      //
+    if( inclMemLen == 0 )        //
+    {                                //
+      inclMem = singleInclMem ;      //
+      inclMemLen += strlen( singleInclMem ) ;  //
+      continue ;                  //
+    }                                      //
+   hier folgt konkatinieren von singleInclMem zu inclMem 
+                                               //
+  }                                            //
+                                               //
   sysRc = 0 ;     
 
   _door :
