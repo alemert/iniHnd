@@ -127,25 +127,43 @@ int iniHandler( const char *mainCfg )
 {
   char* mem     = NULL ;
   char* mainMem = NULL ;
+
+  char** inclFiles ;
  
   int sysRc = 0 ; 
 
-  sysRc = iniReader( (char*) mainCfg, &mem ) ;
-
-  if( sysRc != 0 ) goto _door ;
-
-  mainMem = precompile( mem ) ;
-  if( mainMem == NULL )
-  {
-    goto _door ; 
-    sysRc = 1 ;
-  }
-  if( strlen( mainMem ) == 0 )
-  {
+  // -------------------------------------------------------
+  // read main config file
+  // -------------------------------------------------------
+  sysRc = iniReader( (char*)mainCfg, &mem ) ;  // read main ini file
+                                               //
+  if( sysRc != 0 ) goto _door ;                // handle error
+                                               //
+  mainMem = precompile( mem ) ;            // precompile main mem
+  if( mainMem == NULL )                        // handle error 
+  {                                            //
+    goto _door ;                               //
+    sysRc = 1 ;                                //
+  }                                            //
+  if( strlen( mainMem ) == 0 )                 // handle main file empty
+  {                                            //
     logger( LSTD_INI_EMPTY_MAIN_FILE, mainCfg ) ;
-    sysRc = 1 ;
-    goto _door ; 
-  }
+    sysRc = 1 ;                                //
+    goto _door ;                               //
+  }                                            //
+                                               //
+  // -------------------------------------------------------
+  // get and read include files
+  // -------------------------------------------------------
+  inclFiles = getInclude( mem, 0 ) ;           // recrusive get of all include 
+  if( inclFiles == NULL )                      //   files, 0 stands for top 
+  {                                            //   recrusive level
+    sysRc = 1 ;                                //
+    goto _door ;                               // error handle
+  }                                            //
+                                               //
+  inclFiles = uniqueFileName( inclFiles ) ;    // sort file names to unique
+                                               //   keeping logical order
 
   sysRc = 0 ;     
 
@@ -155,7 +173,12 @@ int iniHandler( const char *mainCfg )
 }
 
 /******************************************************************************/
-/* get config Include      */
+/* get config Include                                                */
+/*                                                                     */
+/*  get all include files from main config memory                  */
+/*                                                                       */
+/*  RC:                                                                       */
+/*    ok - array (char**) of all include files in logical sort       */
 /******************************************************************************/
 char** getInclude( char *mem, int inclLevel )
 {
@@ -245,15 +268,15 @@ char** getInclude( char *mem, int inclLevel )
     if( fileNameCnt == MAX_FILE_NAME )  //
     {                                     //
       logger( LSTD_INI_MAX_INCLUDE_FILES, MAX_FILE_NAME ) ;
-    }                                  //
+    }                                     //
     fileNameCnt++ ;                       //
     fileName[fileNameCnt]   = subFileName[i] ;  
     fileName[fileNameCnt+1] = NULL ;      //
     i++ ;                                 //
   }                                       //
-                                      //
+                                          //
   if( strlen( mem ) == 0 ) goto _door ;   //
-                                        // serial
+                                          // serial
   subFileName = getInclude( mem, inclLevel ) ;
   if( subFileName == NULL )               //
   {                                       //
@@ -304,7 +327,7 @@ void freeFileName( char** _fileName )
 }
 
 /******************************************************************************/
-/* unique file name      */
+/* unique file name            */
 /******************************************************************************/
 char** uniqueFileName( char** _fileName )
 {
@@ -340,3 +363,4 @@ char** uniqueFileName( char** _fileName )
   
   return _fileName ;
 }
+
