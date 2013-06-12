@@ -23,6 +23,9 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
+
+#define C_MODULE_INI_HANDLER
+
 #include <initypes.h>
 #include <inihnd.h>
 
@@ -121,7 +124,7 @@ _door :
 }
 
 /******************************************************************************/
-/* ini File Handler      */
+/* ini File Handler                                                           */
 /******************************************************************************/
 int iniHandler( const char *mainCfg )
 {
@@ -162,7 +165,7 @@ int iniHandler( const char *mainCfg )
   // -------------------------------------------------------
   // get and read include files
   // -------------------------------------------------------
-  inclFiles = getInclude( mem, 0 ) ;           // recrusive get of all include 
+  inclFiles = getInclude( mainMem, 0 ) ;       // recrusive get of all include 
   if( inclFiles == NULL )                      //   files, 0 stands for top 
   {                                            //   recrusive level
     sysRc = 1 ;                                //
@@ -185,22 +188,26 @@ int iniHandler( const char *mainCfg )
     myInclFile++ ;                             //
                                                //
     singleInclMem = precompile( mem ) ;        // read a single include file
-    singleInclMemLen = sizeof(singleInclMem) ; //
+    free( mem ) ;              //
+    singleInclMemLen = strlen(singleInclMem) ; //
     if( inclMemLen == 0 )                      // handle first single include
     {                                          //
       inclMem = singleInclMem ;                //
       inclMemLen = singleInclMemLen ;          //
       continue ;                               //
     }                                          //
-                                               //
-    inclMem = (char*) malloc( inclMemLen *     // concanated single file to
-                              sizeof(char*)) ; //  a major include memory
-    memcpy( (inclMem+inclMemLen)   ,           //
-            singleInclMem          ,           //
+                                               // concanated single file to
+    inclMem = (char*) realloc( inclMem,        //  a major include memory
+                               inclMemLen*sizeof(char*)) ;
+    memcpy( (inclMem+inclMemLen)   ,           // 
+            singleInclMem          ,           // 
             singleInclMemLen     ) ;           //
     inclMemLen += singleInclMemLen ;           //
+    free( singleInclMem ) ;                    //
   }                                            //
                                                //
+  convert to node
+
   sysRc = 0 ;     
 
   _door :
@@ -209,12 +216,13 @@ int iniHandler( const char *mainCfg )
 }
 
 /******************************************************************************/
-/* get config Include                                                */
-/*                                                                     */
-/*  get all include files from main config memory                  */
-/*                                                                       */
+/* get config Include                                                         */
+/*                                                                            */
+/*  get all include files from main config memory                             */
+/*                                                                            */
 /*  RC:                                                                       */
-/*    ok - array (char**) of all include files in logical sort       */
+/*    ok - array (char**) of all include files in logical sort                */
+/*                                                                            */
 /******************************************************************************/
 char** getInclude( char *mem, int inclLevel )
 {
@@ -301,7 +309,7 @@ char** getInclude( char *mem, int inclLevel )
   i = 0 ;                                 //
   while( subFileName[i] != NULL )         //
   {                                       //
-    if( fileNameCnt == MAX_FILE_NAME )  //
+    if( fileNameCnt == MAX_FILE_NAME )    //
     {                                     //
       logger( LSTD_INI_MAX_INCLUDE_FILES, MAX_FILE_NAME ) ;
     }                                     //
@@ -338,7 +346,7 @@ char** getInclude( char *mem, int inclLevel )
 }
 
 /******************************************************************************/
-/* free file name array      */
+/* free file name array                                                       */
 /******************************************************************************/
 void freeFileName( char** _fileName )
 {
@@ -363,7 +371,7 @@ void freeFileName( char** _fileName )
 }
 
 /******************************************************************************/
-/* unique file name            */
+/* unique file name                                                           */
 /******************************************************************************/
 char** uniqueFileName( char** _fileName )
 {

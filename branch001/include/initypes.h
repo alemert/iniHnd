@@ -63,6 +63,17 @@ struct tagFileCfg
 /******************************************************************************/
 /*   G L O B A L E S                                                          */
 /******************************************************************************/
+#ifdef C_MODULE_INI_HANDLER
+
+  tIniNode *mainIniAnchor ;
+  tIniNode *icnlIniAnchor ;
+
+#else
+
+  extern tIniNode *mainIniAnchor ;
+  extern tIniNode *icnlIniAnchor ;
+
+#endif
 
 /******************************************************************************/
 /*   M A C R O S                                                              */

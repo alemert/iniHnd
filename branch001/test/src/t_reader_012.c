@@ -39,7 +39,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_reader_011.log", INF ) ;
+  sysRc = initLogging( "test/log/t_reader_012.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
@@ -48,7 +48,7 @@ int main( int argc, const char** argv )
   doIntTest( "one incl file" , \
               0              , \
               iniHandler    ,
-              "test/cfg/t_reader_011_000.ini" ) ;
+              "test/cfg/t_reader_012_000.ini" ) ;
 
   checkMessage( TEST_OK_TXT, iniHandler ) ;
   
