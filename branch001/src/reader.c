@@ -131,6 +131,7 @@ int iniHandler( const char *mainCfg )
   char* singleInclMem = NULL ;
 
   int inclMemLen ;
+  int singleInclMemLen ;
 
   char** inclFiles ;
   char** myInclFile ;
@@ -181,17 +182,23 @@ int iniHandler( const char *mainCfg )
       sysRc = 1 ;                              //
       goto _door ;                             //
     }                                          //
-    myInclFile++ ;            //
+    myInclFile++ ;                             //
                                                //
-    singleInclMem = precompile( mem ) ;      //
-    if( inclMemLen == 0 )        //
-    {                                //
-      inclMem = singleInclMem ;      //
-      inclMemLen += strlen( singleInclMem ) ;  //
-      continue ;                  //
-    }                                      //
-   hier folgt konkatinieren von singleInclMem zu inclMem 
+    singleInclMem = precompile( mem ) ;        // read a single include file
+    singleInclMemLen = sizeof(singleInclMem) ; //
+    if( inclMemLen == 0 )                      // handle first single include
+    {                                          //
+      inclMem = singleInclMem ;                //
+      inclMemLen = singleInclMemLen ;          //
+      continue ;                               //
+    }                                          //
                                                //
+    inclMem = (char*) malloc( inclMemLen *     // concanated single file to
+                              sizeof(char*)) ; //  a major include memory
+    memcpy( (inclMem+inclMemLen)   ,           //
+            singleInclMem          ,           //
+            singleInclMemLen     ) ;           //
+    inclMemLen += singleInclMemLen ;           //
   }                                            //
                                                //
   sysRc = 0 ;     

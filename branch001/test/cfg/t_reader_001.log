@@ -1,2 +1,2 @@
-2013-06-11 16:32:04   2092 00206 ERR Maximal include level 21 reached
-                                     getInclude() in src/reader.c (line: 00203)
+2013-06-12 13:03:31  11921 00206 ERR Maximal include level 21 reached
+                                     getInclude() in src/reader.c (line: 00239)
