@@ -358,6 +358,8 @@ tIniNode* tag2node( char **_mem )
   tIniNode *rcNode = NULL ;
   char *mem = *_mem ;
 
+  if( mem == NULL ) goto _door ;
+
   char *tag ;
 
   tIniVal  *vNode ;

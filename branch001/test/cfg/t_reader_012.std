@@ -1,3 +1,17 @@
 # TEST START iniHandler >>one incl file       << test/src/t_reader_012.c(0051)
 # TEST OK    iniHandler >>one incl file       << test/src/t_reader_012.c(0051)
-# CHECK OK   iniHandler >>                    << test/src/t_reader_012.c(0053)
+
+ == main == 
+<qmgr>
+   name = ADMT01
+<\qmgr>
+
+ == include == 
+<channel>
+   name = CHL1
+<\channel>
+<channel>
+   name = CHL2
+<\channel>
+
+# CHECK OK   iniHandler >>                    << test/src/t_reader_012.c(0060)

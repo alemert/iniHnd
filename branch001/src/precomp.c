@@ -149,7 +149,7 @@ char* precompile( const char* inMem )
       }
       case '>' :
       {
-        commandFlag = commandFlag ?  1 : 0 ;
+        if( commandFlag ) commandFlag = 0 ;
         copyFlag = 1 ;
         break ;
       }

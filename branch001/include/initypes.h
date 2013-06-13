@@ -133,3 +133,8 @@ int addChildNode( tIniNode* parent, tIniNode* child ) ;
 char* precompile( const char* inMem ) ;
 int isIntiger( const char* mem) ;
 
+// ---------------------------------------------------------
+// inidbg.c
+// ---------------------------------------------------------
+void printTree( tIniNode *_node, char* offset ) ;
+

@@ -188,7 +188,7 @@ int iniHandler( const char *mainCfg )
     myInclFile++ ;                             //
                                                //
     singleInclMem = precompile( mem ) ;        // read a single include file
-    free( mem ) ;              //
+    free( mem ) ;                              //
     singleInclMemLen = strlen(singleInclMem) ; //
     if( inclMemLen == 0 )                      // handle first single include
     {                                          //
@@ -209,18 +209,21 @@ int iniHandler( const char *mainCfg )
   // -------------------------------------------------------
   // conert stream to tree for include
   // -------------------------------------------------------
-  icnlIniAnchor = tag2node( &inclMem ) ;
-  if( icnlIniAnchor == NULL ) 
-  {
-    sysRc = 1 ;
-    goto _door ;
-  }
+  if( inclMem != NULL )                        // if no include files 
+  {                                            // or all include files empty
+    icnlIniAnchor = tag2node( &inclMem ) ;     //
+    if( icnlIniAnchor == NULL )                //
+    {                                          //
+      sysRc = 1 ;                              //
+      goto _door ;                             //
+    }                                          //
+  }                                            //
 
   // -------------------------------------------------------
   // conert stream to tree for include
   // -------------------------------------------------------
-  icnlIniAnchor = tag2node( &mainMem ) ;
-  if( icnlIniAnchor == NULL ) 
+  mainIniAnchor = tag2node( &mainMem ) ;
+  if( mainIniAnchor == NULL ) 
   {
     sysRc = 1 ;
     goto _door ;

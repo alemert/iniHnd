@@ -50,6 +50,13 @@ int main( int argc, const char** argv )
               iniHandler    ,
               "test/cfg/t_reader_012_000.ini" ) ;
 
+  printf("\n == main == \n" );
+  printTree( mainIniAnchor, "" ) ;
+
+  printf("\n == include == \n" );
+  printTree( icnlIniAnchor, "" ) ;
+  printf("\n");
+
   checkMessage( TEST_OK_TXT, iniHandler ) ;
   
 _door:

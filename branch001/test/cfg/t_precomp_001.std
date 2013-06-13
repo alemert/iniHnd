@@ -7,9 +7,9 @@
 # CHECK OK   rmInclude  >>                    << test/src/t_precomp_001.c(0084)
 # TEST START rmInclude  >>general test        << test/src/t_precomp_001.c(0099)
 # TEST OK    rmInclude  >>general test        << test/src/t_precomp_001.c(0099)
->>-hello=world-<<
+>>-hello="world"-<<
 # CHECK OK   rmInclude  >>                    << test/src/t_precomp_001.c(0108)
 # TEST START rmInclude  >>general test        << test/src/t_precomp_001.c(0124)
 # TEST OK    rmInclude  >>general test        << test/src/t_precomp_001.c(0124)
->>-hello=world-<<
+>>-hello="world"-<<
 # CHECK OK   rmInclude  >>                    << test/src/t_precomp_001.c(0133)
