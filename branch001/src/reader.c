@@ -206,7 +206,25 @@ int iniHandler( const char *mainCfg )
     free( singleInclMem ) ;                    //
   }                                            //
                                                //
-  convert to node
+  // -------------------------------------------------------
+  // conert stream to tree for include
+  // -------------------------------------------------------
+  icnlIniAnchor = tag2node( &inclMem ) ;
+  if( icnlIniAnchor == NULL ) 
+  {
+    sysRc = 1 ;
+    goto _door ;
+  }
+
+  // -------------------------------------------------------
+  // conert stream to tree for include
+  // -------------------------------------------------------
+  icnlIniAnchor = tag2node( &mainMem ) ;
+  if( icnlIniAnchor == NULL ) 
+  {
+    sysRc = 1 ;
+    goto _door ;
+  }
 
   sysRc = 0 ;     
 

@@ -8,7 +8,7 @@
 /*   - getValueType                                                           */
 /*   - getStrVal                                                              */
 /*   - getIntVal                                                              */
-/*   - tag2node                                            */
+/*   - tag2node                                                               */
 /*   - val2node                                                               */
 /*                                                                            */
 /******************************************************************************/
@@ -58,7 +58,7 @@
 /******************************************************************************/
 
 /******************************************************************************/
-/* get tag type                                                          */
+/* get tag type                                                               */
 /******************************************************************************/
 char* getOpenTag( char *mem, char **pTag )
 {
@@ -309,7 +309,7 @@ _door :
 }
 
 /******************************************************************************/
-/* val to node      */
+/* val to node                      */
 /******************************************************************************/
 tIniVal* val2node( char** mem )
 {
@@ -348,7 +348,7 @@ _door:
 }
 
 /******************************************************************************/
-/* create linked list                  */
+/* create linked tree                                                */
 /******************************************************************************/
 tIniNode* tag2node( char **_mem )
 {
@@ -375,7 +375,7 @@ tIniNode* tag2node( char **_mem )
   loop = 1 ; 
   while( loop )                                 //                   |
   {                                             //                   v
-    tagStart = getOpenTag( pMem, &tag ) ;        // start of tag <tag>some
+    tagStart = getOpenTag( pMem, &tag ) ;       // start of tag <tag>some
     if( tagStart == NULL )                      //
     {                                           //
       logger( LSTD_INI_OPEN_TAG_ERROR, mem ) ;  //
@@ -407,7 +407,7 @@ tIniNode* tag2node( char **_mem )
             rcNode = NULL ;                     //
             goto _door ;                        //
           }                                     //
-          addChildNode( pNode, cNode )  ;  //
+          addChildNode( pNode, cNode )  ;       //
           if( *tagEnd != '<' )                  // check if next tag is on the
           {                                     //  same level (is it also a 
             loop = 0 ;                          //  child node)
@@ -435,7 +435,7 @@ tIniNode* tag2node( char **_mem )
         {                                       //
           pNode->nextNode = initIniNode() ;     //
           pNode = pNode->nextNode ;             //
-          pMem = tagEnd ;
+          pMem = tagEnd ;              //
         }                                       //
         break ;                                 //
       }                                         //
@@ -461,7 +461,7 @@ _door :
 
 #if(0)
 /******************************************************************************/
-/* find close tag                                    */
+/* find close tag                                            */
 /******************************************************************************/
 char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
 {
@@ -483,7 +483,7 @@ char* iniHandleCloseTag( char *mem,  const char* tag, int *rc )
         case '\0' :                               // early eof
         {                                         //
           sysRc = 1 ;                             // 
-          logger( LSTD_INI_CLOSE_TAG_ERROR, tag ) ; //
+          logger( LSTD_INI_CLOSE_TAG_ERROR,tag ); //
           goto _door ;                            //
         }                                         //
         default  :                                //
@@ -560,19 +560,19 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
       // ---------------------------------------------------
       // ignore white spaces
       // ---------------------------------------------------
-      case ' '  :           //
-      {                     //
-        memP = ignWhiteChar( memP ) ;              //
-        break ;             //
-      }                     //
+      case ' '  :                     //
+      {                               //
+        memP = ignWhiteChar( memP ) ; //
+        break ;                       //
+      }                               //
       // ---------------------------------------------------
       // eof found (ok)
       // ---------------------------------------------------
-      case '\0' :           // 
-      {                     //
-        loop1 = 0 ;         // break out of the loop
-        break ;             //
-      }                     //
+      case '\0' :                     // 
+      {                               //
+        loop1 = 0 ;                   // break out of the loop
+        break ;                       //
+      }                               //
       // ---------------------------------------------------
       // tag found
       // ---------------------------------------------------
@@ -633,9 +633,9 @@ tIniNode* ini2cfg( char* iniMem, int *rc )
               }                                      //
               memP = ignWhiteChar( memP ) ;      //
               if( memP == '<' )      //
-              {      //
+              {                      //
                 loop1 = 0 ;                          // break the loop
-              }      //
+              }                    //
               break ;                                //
             }                                        //
             case '<' :                               // sub item found 
@@ -802,11 +802,11 @@ char* iniHandleOpenTag( char* iniMem, tIniNode* iniCfg, int *rc )
     {                                 //
       case ' ' : break ;              //
       default  :                      //
-      {      //
+      {                            //
         sysRc = 6 ;                   //
         logger( LSTD_INI_MISSING_CHAR, *p, iniMem ) ;
         goto _door ;                  //
-      }      //
+      }                      //
     }                                 //
     p++ ;                             //
   }                                   //
@@ -841,21 +841,21 @@ char* iniHandleValues( char     *startValMem,
 {
   int sysRc = 0 ;
   int loop  ;
-  int lng   ;              // yet another length buffer
-                           //
-  char *p = startValMem ;  // yet another pointer
-                           //
-  char *keyStart = NULL ;  // pointer to the first letter of the key
-  char *keyEnd   = NULL ;  // pointer to the last letter of the key
-  char *valStart = NULL ;  // pointer to the first letter of the key
-  char *valEnd   = NULL ;  // pointer to the last letter of the key
-  char *pCheck   ;         // for checking if value is int or str
-                           //
-  char *key    ;           // pointer to the key   (will be allocated)
-  char *valStr ;           // pointer to the value (will be allocated)
-  int   valInt ;           // intiger value 
-                           //
-  tIniVal *iniVal = NULL ; // pointer to key/val node
+  int lng   ;                 // yet another length buffer
+                              //
+  char *p = startValMem ;     // yet another pointer
+                              //
+  char *keyStart = NULL ;     // pointer to the first letter of the key
+  char *keyEnd   = NULL ;     // pointer to the last letter of the key
+  char *valStart = NULL ;     // pointer to the first letter of the key
+  char *valEnd   = NULL ;     // pointer to the last letter of the key
+  char *pCheck   ;            // for checking if value is int or str
+                              //
+  char *key    ;              // pointer to the key   (will be allocated)
+  char *valStr ;              // pointer to the value (will be allocated)
+  int   valInt ;              // intiger value 
+                              //
+  tIniVal *iniVal = NULL ;    // pointer to key/val node
                               //
   p = ignWhiteChar( p ) ;     // move to first non-blank
     switch( *p )              //
@@ -874,7 +874,7 @@ char* iniHandleValues( char     *startValMem,
       }                       //
       case '\0' :             // unexpected end of file (error)
       {                       //
-        logger( LSTD_INI_EARLY_EOF ); //
+        logger( LSTD_INI_EARLY_EOF ) ; 
         p = NULL ;            //
         sysRc = 2 ;           //
         goto _door ;          //
@@ -893,17 +893,17 @@ char* iniHandleValues( char     *startValMem,
       }                       //
     }                         //
                               //
-  loop = 1 ;
+    loop = 1 ;                //
     while( loop )             //
     {                         //
       switch( *p )            //
       {                       //
         case ' ' :            // blank after key found (key = value)
         case '=' :            // equal after key found (key= value)
-        {
-          loop = 0 ;
-          break ;
-        }
+        {                  //
+          loop = 0 ;      //
+          break ;        //
+        }            //
         case '>' :            // unexpected start or end of tag (error)
         case '<' :            //
         {                     //
@@ -924,15 +924,15 @@ char* iniHandleValues( char     *startValMem,
       }                       //
       p++ ;                   //
     }                         //
-
-  p-- ;
-  keyEnd = p - 1 ;
-  p = ignWhiteChar( p ) ;     // move to first non-blank
+                              //
+    p-- ;                     //
+    keyEnd = p - 1 ;          //
+    p = ignWhiteChar( p ) ;   // move to first non-blank
                               //
     switch( *p )              //
     {                         //
       case '=' :              // this shuold not occure
-        break ;
+        break ;               //
       case '>' :              // unexpected start or end of tag (error)
       case '<' :              //
       {                       //
@@ -956,7 +956,7 @@ char* iniHandleValues( char     *startValMem,
         goto _door ;          //
       }                       //
     }                         //
-  p = ignWhiteChar( p+1 ) ;     // move to first non-blank
+  p = ignWhiteChar( p+1 ) ;   // move to first non-blank
                               //
     switch( *p )              //
     {                         //
@@ -989,8 +989,8 @@ char* iniHandleValues( char     *startValMem,
       }                       //
     }                         //
                               //
-  loop = 1 ;
-  while( loop )
+  loop = 1 ;                  //
+  while( loop )               //
   {                           //
     switch( *p )              //
     {                         //
@@ -998,7 +998,7 @@ char* iniHandleValues( char     *startValMem,
       case '<' :              //
       case '\0' :             // end of file
       {                       //
-        loop = 0 ;
+        loop = 0 ;            //
         break ;               //
       }                       //
   //  case '\0' :             // early end of file
@@ -1019,8 +1019,8 @@ char* iniHandleValues( char     *startValMem,
     }                         //
     p++ ;                     //
   }                           //
-  p-- ;
-  valEnd = p - 1 ;
+  p-- ;                       //
+  valEnd = p - 1 ;            //
                               //
   // -------------------------------------------------------
   // setup value node
@@ -1075,7 +1075,7 @@ _door :
 }
 
 /******************************************************************************/
-/* ignore white spaces                        */
+/* ignore white spaces                                            */
 /******************************************************************************/
 char* ignWhiteChar( char *p)
 {
