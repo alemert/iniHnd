@@ -49,6 +49,7 @@ void printVal( tIniVal *val, char* offset )  ;
 /******************************************************************************/
 void printTree( tIniNode *node, char* offset ) 
 {
+  char offsetSum[256] ;
 
   if( node == NULL ) 
   {
@@ -58,7 +59,10 @@ void printTree( tIniNode *node, char* offset )
 
   printNode( node, offset ) ;
 
-  if( node->childNode != NULL) printTree( node->childNode, OFFSET offset ) ;
+  sprintf( offsetSum, OFFSET"%s",offset );
+  if( node->childNode != NULL) printTree( node->childNode, offsetSum ) ;
+
+  printf( "%s<\\%s>\n\n", offset, node->tag ) ;
 
   if( node->nextNode != NULL ) printTree( node->nextNode, offset ) ;
 }
@@ -73,7 +77,6 @@ void printNode( tIniNode *node, char* offset )
 
   if( node->value != NULL ) printVal( node->value, offset ) ;
 
-  printf( "%s<\\%s>\n\n", offset, node->tag ) ;
 }
 
 /******************************************************************************/
@@ -85,12 +88,16 @@ void printVal( tIniVal *val, char* offset )
   {
     case STRING :
     {
-      printf( OFFSET"%s %s = %s\n", offset, val->key, val->value.strVal ) ;
+      printf( OFFSET"%s%s = %s\n", offset, val->key, val->value.strVal ) ;
       break ;
     }
     case INTIGER :
     {
       printf( OFFSET"%s %s = %d\n", offset, val->key, val->value.intVal ) ;
+      break ;
+    }
+    default :
+    {
       break ;
     }
   }

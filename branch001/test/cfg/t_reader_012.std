@@ -3,17 +3,17 @@
 
  == main == 
 <qmgr>
-   name = ADMT01
+  name = ADMT01
 <\qmgr>
 
 
  == include == 
 <channel>
-   name = CHL1
+  name = CHL1
 <\channel>
 
 <channel>
-   name = CHL2
+  name = CHL2
 <\channel>
 
 
