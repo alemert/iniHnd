@@ -215,6 +215,7 @@ int iniHandler( const char *mainCfg )
   if( inclMem != NULL )                        // if no include files 
   {                                            // or all include files empty
     icnlIniAnchor = tag2node( &inclMem ) ;     //
+    free( inclMem ) ;      //
     if( icnlIniAnchor == NULL )                //
     {                                          //
       sysRc = 1 ;                              //
@@ -231,6 +232,7 @@ int iniHandler( const char *mainCfg )
     sysRc = 1 ;
     goto _door ;
   }
+  free( mainMem ) ;
 
   sysRc = 0 ;     
 

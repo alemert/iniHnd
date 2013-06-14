@@ -7,6 +7,11 @@
 /*   - createIntValue                                                         */
 /*   - addValueNode                                                           */
 /*   - addChildNode                                                           */
+/*   - getNode                                                                */
+/*   - shiftFilter                                                        */
+/*   - getFilterTag                                                  */
+/*   - getFilterKey                                                    */
+/*   - getFilterVal                                                           */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -44,6 +49,10 @@
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
+const char* shiftFilter(  char* filter ) ;
+const char* getFilterTag( char* singleFilter ) ;
+const char* getFilterKey( char* singleFilter ) ;
+const char* getFilterVal( char* singleFilter ) ;
 
 /******************************************************************************/
 /*                                                                            */
@@ -222,3 +231,53 @@ int addChildNode( tIniNode* parent, tIniNode* child )
 _door:
   return sysRc ;
 }
+
+/******************************************************************************/
+/* get node      */
+/******************************************************************************/
+tIniNode* getNode( tIniNode *anchor, char *filter )
+{
+  tIniNode* node = anchor ;
+
+  char* singleFilter ;
+  char* tag ;
+  char* key ;
+  char* val ;
+
+  if( anchor == NULL ) node = mainIniAnchor ;
+  if( node   == NULL ) goto _door ;
+
+  singleFilter = shiftFilter( filter ) ; 
+  tag = getFilterTag( singleFilter ) ;
+  key = getFilterKey( singleFilter ) ;
+  val = getFilterVal( singleFilter ) ;
+
+  _door :
+
+    return node ;
+}
+
+/******************************************************************************/
+/* shift filter      */
+/******************************************************************************/
+const char* shiftFilter( char* filter ) 
+{}
+
+/******************************************************************************/
+/* get Filter Tag      */
+/******************************************************************************/
+const char* getFilterTag( char* singleFilter ) 
+{}
+
+/******************************************************************************/
+/* get Filter Key      */
+/******************************************************************************/
+const char* getFilterKey( char* singleFilter ) 
+{}
+
+/******************************************************************************/
+/* get Filter Val      */
+/******************************************************************************/
+const char* getFilterVal( char* singleFilter ) 
+{}
+
