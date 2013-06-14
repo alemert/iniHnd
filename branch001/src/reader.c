@@ -171,6 +171,8 @@ int iniHandler( const char *mainCfg )
     sysRc = 1 ;                                //
     goto _door ;                               // error handle
   }                                            //
+                  //
+  mainMem = rmInclude( mainMem ) ;             //
                                                //
   inclFiles = uniqueFileName( inclFiles ) ;    // sort file names to unique
                                                //   keeping logical order
@@ -188,6 +190,7 @@ int iniHandler( const char *mainCfg )
     myInclFile++ ;                             //
                                                //
     singleInclMem = precompile( mem ) ;        // read a single include file
+    singleInclMem = rmInclude( singleInclMem );//
     free( mem ) ;                              //
     singleInclMemLen = strlen(singleInclMem) ; //
     if( inclMemLen == 0 )                      // handle first single include

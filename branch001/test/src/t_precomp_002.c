@@ -5,8 +5,6 @@
 /*  reader.c                                                                  */
 /*                                                                            */
 /* testing functions :                                                        */
-/*   - iniReader                                                              */
-/*   - iniHandleOpenTag                                                       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -39,22 +37,33 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_reader_011.log", INF ) ;
+  sysRc = initLogging( "test/log/t_precomp_002.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
-  // some test
+  // test
   // -------------------------------------------------------
-  doIntTest( "one incl file" , \
-              0              , \
-              iniHandler    ,
-              "test/cfg/t_reader_011_000.ini" ) ;
+#if(1)
+  {
+    char *iniMem ;
+    iniReader( "test/cfg/t_precomp_002_000.ini", &iniMem ) ;
+    doPointTest( "general test"   , \
+                  RC_NOT_NULL     , \
+                  precompile       , \
+                  iniMem         ) ;
+ 
+    char *shrtMem = (char*)gRcVoidPointer ;
 
-  printf( "== main tree ==\n" ) ;
-  printTree( mainIniAnchor, "" ) ;
+    printf( ">>-%s-<<\n", shrtMem ) ;
 
-  checkMessage( TEST_OK_TXT, iniHandler ) ;
-  
+    free( iniMem ) ;
+    free( shrtMem ) ;
+
+    checkMessage( TEST_OK_TXT, precompile ) ;
+  }
+#endif
+
+
 _door:
   return sysRc ;
 }

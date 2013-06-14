@@ -6,4 +6,5 @@
 <qmgr>
    name = ADMT01
 <\qmgr>
+
 # CHECK OK   iniHandler >>                    << test/src/t_reader_010.c(0065)

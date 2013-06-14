@@ -44,24 +44,55 @@ void printVal( tIniVal *val, char* offset )  ;
 /*                                                                            */
 /******************************************************************************/
 
+/******************************************************************************/
+/*  print tree                                                                */
+/******************************************************************************/
 void printTree( tIniNode *node, char* offset ) 
 {
-//tIniNode *node ;
-//tIniVal
+
+  if( node == NULL ) 
+  {
+    printf( "%snull\n", offset ) ; 
+    return ;
+  }
 
   printNode( node, offset ) ;
 
-  if( node->nextNode != NULL ) printNode( node->nextNode, offset ) ;
+  if( node->childNode != NULL) printTree( node->childNode, OFFSET offset ) ;
+
+  if( node->nextNode != NULL ) printTree( node->nextNode, offset ) ;
 }
 
+/******************************************************************************/
+/* print node                                                                 */
+/******************************************************************************/
 void printNode( tIniNode *node, char* offset ) 
 {
+
   printf( "%s<%s>\n", offset, node->tag ) ;
-  printVal( node->value, offset ) ;
-  printf( "%s<\\%s>\n", offset, node->tag ) ;
+
+  if( node->value != NULL ) printVal( node->value, offset ) ;
+
+  printf( "%s<\\%s>\n\n", offset, node->tag ) ;
 }
 
+/******************************************************************************/
+/* print values                                                               */
+/******************************************************************************/
 void printVal( tIniVal *val, char* offset ) 
 {
-  printf( OFFSET"%s %s = %s\n", offset, val->key, val->value.strVal ) ;
+  switch( val->type )
+  {
+    case STRING :
+    {
+      printf( OFFSET"%s %s = %s\n", offset, val->key, val->value.strVal ) ;
+      break ;
+    }
+    case INTIGER :
+    {
+      printf( OFFSET"%s %s = %d\n", offset, val->key, val->value.intVal ) ;
+      break ;
+    }
+  }
+  if( val->nextVal != NULL ) printVal( val->nextVal, offset ) ;
 }

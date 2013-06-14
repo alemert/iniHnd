@@ -1,6 +1,8 @@
 # TEST START iniHandler >>one incl file       << test/src/t_reader_011.c(0051)
 # TEST OK    iniHandler >>one incl file       << test/src/t_reader_011.c(0051)
+== main tree ==
 <qmgr>
    name = ADMT01
 <\qmgr>
-# CHECK OK   iniHandler >>                    << test/src/t_reader_011.c(0055)
+
+# CHECK OK   iniHandler >>                    << test/src/t_reader_011.c(0056)

@@ -6,12 +6,15 @@
    name = ADMT01
 <\qmgr>
 
+
  == include == 
 <channel>
    name = CHL1
 <\channel>
+
 <channel>
    name = CHL2
 <\channel>
+
 
 # CHECK OK   iniHandler >>                    << test/src/t_reader_012.c(0060)

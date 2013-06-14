@@ -1,0 +1,4 @@
+# TEST START precompile >>general test        << test/src/t_precomp_002.c(0053)
+# TEST OK    precompile >>general test        << test/src/t_precomp_002.c(0053)
+>>-<!include=test/cfg/t_reader_013_003.ini><channel>name="CHL1"type="SDR"</channel>-<<
+# CHECK OK   precompile >>                    << test/src/t_precomp_002.c(0062)
