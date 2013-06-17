@@ -69,7 +69,7 @@ int main( int argc, const char** argv )
   #if(1)
   {
     doPointTest( "basic test"        , \
-                  RC_NOT_NULL        , \
+                  RC_IS_NULL        , \
                   setIniSearchFilter , \
                   NULL               , \
                   "name"             , \
@@ -85,8 +85,9 @@ int main( int argc, const char** argv )
   }
   #endif
 
+  sysRc = 5 ; 
 
-
+  ist zu fixen
 
 _door:
   return sysRc ;

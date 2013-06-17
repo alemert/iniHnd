@@ -5,3 +5,7 @@
 <\qmgr>
 
 # CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0062)
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0076)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0076)
+null
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0084)

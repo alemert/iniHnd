@@ -1,4 +1,4 @@
-2013-06-17 15:39:40  18154 00203 ERR ini key first_str dupplicated
+2013-06-17 20:19:48  21406 00203 WAR ini key first_str dupplicated
                                      addValueNode() in src/node.c (line: 00185)
-2013-06-17 15:39:40  18154 00203 ERR ini key first_int dupplicated
+2013-06-17 20:19:48  21406 00203 WAR ini key first_int dupplicated
                                      addValueNode() in src/node.c (line: 00185)

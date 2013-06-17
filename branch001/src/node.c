@@ -259,7 +259,7 @@ tIniNode* setIniSearchFilter( char* _tag    ,
 
   if( _tag == NULL )
   {
-    logger(
+    logger( LSTD_INI_TAG_NULL ) ;
     filter = NULL ;
     goto _door ;
   }
@@ -335,6 +335,8 @@ void freeValNode( tIniVal *val )
 /******************************************************************************/
 void freeIniNode( tIniNode *ini )
 {
+  if( ini == NULL ) goto _door ;
+
   if( ini->childNode != NULL ) 
   {
     freeIniNode( ini->childNode ) ;
@@ -350,6 +352,8 @@ void freeIniNode( tIniNode *ini )
   freeValNode( ini->value ) ;
 
   free( ini ) ;
+
+  _door :
 
   return ;
 }
