@@ -47,7 +47,7 @@ void printVal( tIniVal *val, char* offset )  ;
 /******************************************************************************/
 /*  print tree                                                                */
 /******************************************************************************/
-void printTree( tIniNode *node, char* offset ) 
+void fPrintTree( tIniNode *node, char* offset ) 
 {
   char offsetSum[256] ;
 
@@ -60,11 +60,11 @@ void printTree( tIniNode *node, char* offset )
   printNode( node, offset ) ;
 
   sprintf( offsetSum, OFFSET"%s",offset );
-  if( node->childNode != NULL) printTree( node->childNode, offsetSum ) ;
+  if( node->childNode != NULL) fPrintTree( node->childNode, offsetSum ) ;
 
   printf( "%s<\\%s>\n\n", offset, node->tag ) ;
 
-  if( node->nextNode != NULL ) printTree( node->nextNode, offset ) ;
+  if( node->nextNode != NULL ) fPrintTree( node->nextNode, offset ) ;
 }
 
 /******************************************************************************/

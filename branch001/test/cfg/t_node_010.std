@@ -1,0 +1,7 @@
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0054)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0054)
+<qmgr>
+  name = AMXT01
+<\qmgr>
+
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0062)

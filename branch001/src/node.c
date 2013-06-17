@@ -8,10 +8,9 @@
 /*   - addValueNode                                                           */
 /*   - addChildNode                                                           */
 /*   - getNode                                                                */
-/*   - shiftFilter                                                        */
-/*   - getFilterTag                                                  */
-/*   - getFilterKey                                                    */
-/*   - getFilterVal                                                           */
+/*   - setIniSearchFilter                                    */
+/*   - freeValNode                                                  */
+/*   - freeIniNode                                                */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -49,10 +48,6 @@
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
-const char* shiftFilter(  char* filter ) ;
-const char* getFilterTag( char* singleFilter ) ;
-const char* getFilterKey( char* singleFilter ) ;
-const char* getFilterVal( char* singleFilter ) ;
 
 /******************************************************************************/
 /*                                                                            */
@@ -84,7 +79,7 @@ _door :
 }
 
 /******************************************************************************/
-/* set ini tag name                                              */
+/* set ini tag name                                                           */
 /******************************************************************************/
 int setIniTagName( tIniNode *node, const char* tag, int lng )
 {
@@ -116,7 +111,7 @@ _door:
 }
 
 /******************************************************************************/
-/* create string value tag                                          */
+/* create string value tag                                                    */
 /******************************************************************************/
 tIniVal* createStrValue( char* key, char* value )
 { 
@@ -233,24 +228,14 @@ _door:
 }
 
 /******************************************************************************/
-/* get node      */
+/* get node                                            */
 /******************************************************************************/
-tIniNode* getNode( tIniNode *anchor, char *filter )
+tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
 {
   tIniNode* node = anchor ;
 
-  char* singleFilter ;
-  char* tag ;
-  char* key ;
-  char* val ;
-
   if( anchor == NULL ) node = mainIniAnchor ;
   if( node   == NULL ) goto _door ;
-
-  singleFilter = shiftFilter( filter ) ; 
-  tag = getFilterTag( singleFilter ) ;
-  key = getFilterKey( singleFilter ) ;
-  val = getFilterVal( singleFilter ) ;
 
   _door :
 
@@ -258,26 +243,113 @@ tIniNode* getNode( tIniNode *anchor, char *filter )
 }
 
 /******************************************************************************/
-/* shift filter      */
+/* set ini search filter                                  */
 /******************************************************************************/
-const char* shiftFilter( char* filter ) 
-{}
+tIniNode* setIniSearchFilter( char* _tag    , 
+                              char* _key    ,
+                              char* _strVal ,
+                              int   _intVal )
+{
+  tIniNode *filter ;
+
+  char *strVal ;
+  char *key ;
+
+  int addRc = 0 ;
+
+  if( _tag == NULL )
+  {
+    logger(
+    filter = NULL ;
+    goto _door ;
+  }
+
+  filter = initIniNode() ;
+
+  setIniTagName( filter, _tag, -1 ) ;   // allocated by setIniTagName
+                                        //
+  if( _strVal != NULL )                 // key & strVal not allocated 
+  {                                     //   by createStrValue
+    key    = (char*) malloc ( sizeof(char) * (strlen(_key)   +1) ) ; 
+    strVal = (char*) malloc ( sizeof(char) * (strlen(_strVal)+1) ) ; 
+    strcpy( strVal, _strVal ) ;         // 
+    strcpy( key   , _key    ) ;         // 
+    addRc = addValueNode( filter, createStrValue( key, strVal ) ) ;
+  }                                     // key not allocated by createIntValue
+  else                                  //
+  {                                     //
+    key = (char*) malloc ( sizeof(char) * (strlen(_key)   +1) ) ; 
+    strcpy( key, _key ) ;               // 
+    addRc = addValueNode( filter, createIntValue( key, _intVal ) ) ;
+  }
+
+  if( addRc != 0 )
+  {
+    freeIniNode( filter ) ;
+    filter = NULL ;;
+    goto _door ;
+  }
+
+  _door :
+
+  return filter ;
+}
 
 /******************************************************************************/
-/* get Filter Tag      */
+/* free value node                                          */
 /******************************************************************************/
-const char* getFilterTag( char* singleFilter ) 
-{}
+void freeValNode( tIniVal *val ) 
+{
+  if( val->nextVal != NULL )
+  {
+    freeValNode( val->nextVal ) ;
+    val->nextVal = NULL ;
+  }
+
+  switch( val->type )
+  {
+    case INTIGER :
+    {
+      break ;
+    }
+    case STRING  :
+    {
+      if( val->value.strVal != NULL ) free( val->value.strVal ) ;
+    }
+    default :
+    {
+      break ;
+    }
+  }
+  val->type = UNKNOWN ;
+  
+  free( val->key ) ;
+
+  free( val ) ;
+
+  return ;
+} 
 
 /******************************************************************************/
-/* get Filter Key      */
+/* free ini node                                                */
 /******************************************************************************/
-const char* getFilterKey( char* singleFilter ) 
-{}
+void freeIniNode( tIniNode *ini )
+{
+  if( ini->childNode != NULL ) 
+  {
+    freeIniNode( ini->childNode ) ;
+    ini->childNode = NULL ;
+  }
 
-/******************************************************************************/
-/* get Filter Val      */
-/******************************************************************************/
-const char* getFilterVal( char* singleFilter ) 
-{}
+  if( ini->nextNode != NULL  ) 
+  {
+    freeIniNode( ini->nextNode ) ;
+    ini->nextNode = NULL ;
+  }
 
+  freeValNode( ini->value ) ;
+
+  free( ini ) ;
+
+  return ;
+}

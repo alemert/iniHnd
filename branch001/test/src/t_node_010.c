@@ -2,11 +2,11 @@
 /* test c source template                                                     */
 /*                                                                            */
 /* testing file :                                                             */
-/*  reader.c                                                                  */
+/*  node.c                                                                    */
 /*                                                                            */
 /* testing functions :                                                        */
-/*   - iniReader                                                              */
-/*   - iniHandleOpenTag                                                       */
+/*  - addValueNode                                                            */
+/*  - addChildNode                                                            */
 /*                                                                            */
 /******************************************************************************/
 
@@ -25,10 +25,9 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
-#include <tutl.h>
+#include "tutl.h"
 
 #include <initypes.h>
-#include <inihnd.h>
 
 #include <ctl.h>
 
@@ -39,22 +38,57 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_reader_011.log", INF ) ;
+  sysRc = initLogging( "test/log/t_node_010.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
-  // some test
+  // some test 
   // -------------------------------------------------------
-  doIntTest( "one incl file" , \
-              0              , \
-              iniHandler    ,
-              "test/cfg/t_reader_011_000.ini" ) ;
+  #if(1)
+  {
+    doPointTest( "basic test"        , \
+                  RC_NOT_NULL        , \
+                  setIniSearchFilter , \
+                  "qmgr"             , \
+                  "name"             , \
+                  "AMXT01", 0        ) ;
 
-  printf( "== main tree ==\n" ) ;
-  printTree( mainIniAnchor );
+   tIniNode* filter = (tIniNode*) gRcVoidPointer ; 
 
-  checkMessage( TEST_OK_TXT, iniHandler ) ;
-  
+   printTree( filter ) ;
+
+   freeIniNode( filter ) ;
+
+   checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
+  }
+  #endif
+
+  // -------------------------------------------------------
+  // some test 
+  // -------------------------------------------------------
+  #if(1)
+  {
+    doPointTest( "basic test"        , \
+                  RC_NOT_NULL        , \
+                  setIniSearchFilter , \
+                  NULL               , \
+                  "name"             , \
+                  "AMXT01", 0        ) ;
+
+   tIniNode* filter = (tIniNode*) gRcVoidPointer ; 
+
+   printTree( filter ) ;
+
+   freeIniNode( filter ) ;
+
+   checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
+  }
+  #endif
+
+
+
+
 _door:
   return sysRc ;
 }
+

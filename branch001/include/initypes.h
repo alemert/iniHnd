@@ -87,6 +87,11 @@ struct tagFileCfg
 // ---------------------------------------------------------
 
 // ---------------------------------------------------------
+// node.c
+// ---------------------------------------------------------
+#define printTree( pNode ) fPrintTree( pNode, "" )
+
+// ---------------------------------------------------------
 // general
 // ---------------------------------------------------------
 
@@ -96,45 +101,61 @@ struct tagFileCfg
 // ---------------------------------------------------------
 // convert.c
 // ---------------------------------------------------------
-char* getOpenTag( char *mem, char **tag ) ;
-char* getCloseTag( const char *mem, const char *tag ) ;
-char *getKey( const char *mem, char **pKey ) ;
-tValType getValueType( char *mem ) ;
-char *getStrVal( const char* mem, char** value ) ;
-char *getIntVal( const char* mem, int *value ) ;
+  char* getOpenTag( char *mem, char **tag ) ;
+  char* getCloseTag( const char *mem, const char *tag ) ;
+  char *getKey( const char *mem, char **pKey ) ;
+  tValType getValueType( char *mem ) ;
+  char *getStrVal( const char* mem, char** value ) ;
+  char *getIntVal( const char* mem, int *value ) ;
 
-tIniNode* tag2node( char** mem ) ;
-tIniVal* val2node(  char** mem ) ;
+  tIniNode* tag2node( char** mem ) ;
+  tIniVal* val2node(  char** mem ) ;
 
 // ---------------------------------------------------------
 // reader.c
 // ---------------------------------------------------------
-int iniReader( char* fileName, char **_iniMem ) ;
-char** getInclude( char *mem, int inclLev ) ;
-void freeFileName( char** _fileName ) ;
-char** uniqueFileName( char** fileName ) ;
-char* rmInclude( char *_mem ) ;
+  int iniReader( char* fileName, char **_iniMem ) ;
+  char** getInclude( char *mem, int inclLev ) ;
+  void freeFileName( char** _fileName ) ;
+  char** uniqueFileName( char** fileName ) ;
+  char* rmInclude( char *_mem ) ;
 
 // ---------------------------------------------------------
 // node.c
 // ---------------------------------------------------------
-tIniNode* initIniNode( ) ;
-int       setIniTagName( tIniNode *node, const char* tag, int lng ) ;
 
-tIniVal* createStrValue( char* key, char* value ) ;
-tIniVal* createIntValue( char* key, int   value ) ;
+  // -------------------------------------
+  // constructor, set, add
+  // -------------------------------------
+  tIniNode* initIniNode( ) ;
+  int       setIniTagName( tIniNode *node, const char* tag, int lng ) ;
 
-int addValueNode( tIniNode* iniNode, tIniVal *value ) ;
-int addChildNode( tIniNode* parent, tIniNode* child ) ;
+  tIniVal* createStrValue( char* key, char* value ) ;
+  tIniVal* createIntValue( char* key, int   value ) ;
+
+  int addValueNode( tIniNode* iniNode, tIniVal *value ) ;
+  int addChildNode( tIniNode* parent, tIniNode* child ) ;
+
+// -------------------------------------
+// get & search
+// -------------------------------------
+  tIniNode* getNode( tIniNode *anchor, tIniNode *filter ) ;
+  tIniNode* setIniSearchFilter( char* tag, char* key, char* sVal, int iVal ) ;
+
+// -------------------------------------
+// desctuctor
+// -------------------------------------
+  void freeValNode( tIniVal *val ) ;
+  void freeIniNode( tIniNode *ini ) ;
 
 // ---------------------------------------------------------
 // precomp.c
 // ---------------------------------------------------------
-char* precompile( const char* inMem ) ;
-int isIntiger( const char* mem) ;
+  char* precompile( const char* inMem ) ;
+  int isIntiger( const char* mem) ;
 
 // ---------------------------------------------------------
 // inidbg.c
 // ---------------------------------------------------------
-void printTree( tIniNode *_node, char* offset ) ;
+  void fPrintTree( tIniNode *_node, char* offset ) ;
 

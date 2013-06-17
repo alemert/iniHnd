@@ -60,7 +60,7 @@ int main( int argc, const char** argv )
               iniHandler    ,
               "test/cfg/t_reader_010_001.ini" ) ;
 
-  printTree( mainIniAnchor, "" ) ;
+  printTree( mainIniAnchor );
 
   checkMessage( TEST_OK_TXT, iniHandler ) ;
   

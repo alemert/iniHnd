@@ -4,9 +4,9 @@
 /* functions:                                                                 */
 /*   - iniReader                                                              */
 /*   - iniHandler                                                             */
-/*   - getInclude                                        */
-/*   - freeFileName                                        */
-/*   - uniqueFileName                                                  */
+/*   - getInclude                                                          */
+/*   - freeFileName                                                    */
+/*   - uniqueFileName                                                         */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -130,7 +130,9 @@ int iniHandler( const char *mainCfg )
 {
   char* mem           = NULL ;
   char* mainMem       = NULL ;
+  char* mainMem4Free  ;
   char* inclMem       = NULL ;
+  char* inclMem4Free  ;
   char* singleInclMem = NULL ;
 
   int inclMemLen ;
@@ -149,6 +151,7 @@ int iniHandler( const char *mainCfg )
   if( sysRc != 0 ) goto _door ;                // handle error
                                                //
   mainMem = precompile( mem ) ;                // precompile main mem
+  mainMem4Free = mainMem ;                     // pointer 3 main mem for free()
   free( mem ) ;                                //
   if( mainMem == NULL )                        // handle error 
   {                                            //
@@ -171,7 +174,7 @@ int iniHandler( const char *mainCfg )
     sysRc = 1 ;                                //
     goto _door ;                               // error handle
   }                                            //
-                  //
+                                               //
   mainMem = rmInclude( mainMem ) ;             //
                                                //
   inclFiles = uniqueFileName( inclFiles ) ;    // sort file names to unique
@@ -195,13 +198,15 @@ int iniHandler( const char *mainCfg )
     singleInclMemLen = strlen(singleInclMem) ; //
     if( inclMemLen == 0 )                      // handle first single include
     {                                          //
-      inclMem = singleInclMem ;                //
-      inclMemLen = singleInclMemLen ;          //
+      inclMem      = singleInclMem    ;        //
+      inclMem4Free = singleInclMem    ;        //
+      inclMemLen   = singleInclMemLen ;        //
       continue ;                               //
     }                                          //
                                                // concanated single file to
     inclMem = (char*) realloc( inclMem,        //  a major include memory
                                inclMemLen*sizeof(char*)) ;
+    inclMem4Free = inclMem ;                   //
     memcpy( (inclMem+inclMemLen)   ,           // 
             singleInclMem          ,           // 
             singleInclMemLen     ) ;           //
@@ -215,7 +220,7 @@ int iniHandler( const char *mainCfg )
   if( inclMem != NULL )                        // if no include files 
   {                                            // or all include files empty
     icnlIniAnchor = tag2node( &inclMem ) ;     //
-    free( inclMem ) ;      //
+    free( inclMem4Free ) ;                     //
     if( icnlIniAnchor == NULL )                //
     {                                          //
       sysRc = 1 ;                              //
@@ -232,7 +237,7 @@ int iniHandler( const char *mainCfg )
     sysRc = 1 ;
     goto _door ;
   }
-  free( mainMem ) ;
+  free( mainMem4Free ) ;
 
   sysRc = 0 ;     
 

@@ -51,10 +51,10 @@ int main( int argc, const char** argv )
               "test/cfg/t_reader_012_000.ini" ) ;
 
   printf("\n == main == \n" );
-  printTree( mainIniAnchor, "" ) ;
+  printTree( mainIniAnchor ) ;
 
   printf("\n == include == \n" );
-  printTree( icnlIniAnchor, "" ) ;
+  printTree( icnlIniAnchor ) ;
   printf("\n");
 
   checkMessage( TEST_OK_TXT, iniHandler ) ;
