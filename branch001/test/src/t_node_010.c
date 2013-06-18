@@ -85,9 +85,27 @@ int main( int argc, const char** argv )
   }
   #endif
 
-  sysRc = 5 ; 
+  // -------------------------------------------------------
+  // some test 
+  // -------------------------------------------------------
+  #if(1)
+  {
+    doPointTest( "basic test"        , \
+                  RC_NOT_NULL         , \
+                  setIniSearchFilter , \
+                  "qmgr"             , \
+                  NULL               , \
+                  NULL, 0            ) ;
 
-  ist zu fixen
+   tIniNode* filter = (tIniNode*) gRcVoidPointer ; 
+
+   printTree( filter ) ;
+
+   freeIniNode( filter ) ;
+
+   checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
+  }
+  #endif
 
 _door:
   return sysRc ;

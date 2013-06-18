@@ -243,7 +243,7 @@ tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
 }
 
 /******************************************************************************/
-/* set ini search filter                                  */
+/* set ini search filter                                    */
 /******************************************************************************/
 tIniNode* setIniSearchFilter( char* _tag    , 
                               char* _key    ,
@@ -268,6 +268,8 @@ tIniNode* setIniSearchFilter( char* _tag    ,
 
   setIniTagName( filter, _tag, -1 ) ;   // allocated by setIniTagName
                                         //
+  if( _key == NULL ) goto _door ;       //
+      //
   if( _strVal != NULL )                 // key & strVal not allocated 
   {                                     //   by createStrValue
     key    = (char*) malloc ( sizeof(char) * (strlen(_key)   +1) ) ; 
@@ -275,13 +277,13 @@ tIniNode* setIniSearchFilter( char* _tag    ,
     strcpy( strVal, _strVal ) ;         // 
     strcpy( key   , _key    ) ;         // 
     addRc = addValueNode( filter, createStrValue( key, strVal ) ) ;
-  }                                     // key not allocated by createIntValue
-  else                                  //
+  }                                     // 
+  else                                  // key not allocated by createIntValue
   {                                     //
     key = (char*) malloc ( sizeof(char) * (strlen(_key)   +1) ) ; 
     strcpy( key, _key ) ;               // 
     addRc = addValueNode( filter, createIntValue( key, _intVal ) ) ;
-  }
+  }      //
 
   if( addRc != 0 )
   {
@@ -296,10 +298,12 @@ tIniNode* setIniSearchFilter( char* _tag    ,
 }
 
 /******************************************************************************/
-/* free value node                                          */
+/* free value node                                            */
 /******************************************************************************/
 void freeValNode( tIniVal *val ) 
 {
+  if( val == NULL ) goto _door ;
+
   if( val->nextVal != NULL )
   {
     freeValNode( val->nextVal ) ;
@@ -327,11 +331,13 @@ void freeValNode( tIniVal *val )
 
   free( val ) ;
 
+  _door :
+
   return ;
 } 
 
 /******************************************************************************/
-/* free ini node                                                */
+/* free ini node                                                      */
 /******************************************************************************/
 void freeIniNode( tIniNode *ini )
 {

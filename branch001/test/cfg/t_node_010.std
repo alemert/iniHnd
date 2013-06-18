@@ -9,3 +9,9 @@
 # TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0076)
 null
 # CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0084)
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0098)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0098)
+<qmgr>
+<\qmgr>
+
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0106)
