@@ -1,0 +1,2 @@
+2013-06-18 18:12:43  22121 00204 ERR main ini file test/cfg/t_node_020.ini is empty
+                                     iniHandler() in src/reader.c (line: 00163)

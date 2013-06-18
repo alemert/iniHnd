@@ -8,9 +8,10 @@
 /*   - addValueNode                                                           */
 /*   - addChildNode                                                           */
 /*   - getNode                                                                */
-/*   - setIniSearchFilter                                    */
-/*   - freeValNode                                                  */
-/*   - freeIniNode                                                */
+/*   - setIniSearchFilter                                                     */
+/*   - freeValNode                                                            */
+/*   - freeIniNode                                                            */
+/*   - findNodeUnderCursor                                                    */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -228,8 +229,9 @@ _door:
 }
 
 /******************************************************************************/
-/* get node                                            */
+/* get node                                                                   */
 /******************************************************************************/
+#if(0)
 tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
 {
   tIniNode* node = anchor ;
@@ -241,9 +243,27 @@ tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
 
     return node ;
 }
-
+#endif
 /******************************************************************************/
-/* set ini search filter                                    */
+/* set ini search filter                                                      */
+/*                                                                            */
+/*   set search filter, start searching at anchor                          */  
+/*   rules:                                                                   */
+/*    anchor:                                                                */
+/*      if _anchor is NULL, top level search filter will be set        */
+/*      if _anchor in not NULL, add filter to search filter             */
+/*                              (starting at _anchor, as a "linear" tree)     */
+/*    tag:                                                                */
+/*      if tag is NULL, error, free complete tree                         */
+/*    key:                                                               */
+/*      if key is NULL, tag will be set,                           */
+/*                      all tags on this level will be searched       */
+/*    strVal:                                                              */
+/*      if strVal is not NULL, strVal is set as a filter        */
+/*      if strVal is NULL, _intVal is set as a filter            */
+/*      if strVal is "\0", a value to key is to be found      */
+/*    intVal:                                                                 */
+/*      only if strVal is set to NULL, intVal will be set as a filter         */
 /******************************************************************************/
 tIniNode* setIniSearchFilter( tIniNode* _anchor ,
                               char*     _tag    , 
@@ -316,7 +336,7 @@ tIniNode* setIniSearchFilter( tIniNode* _anchor ,
 }
 
 /******************************************************************************/
-/* free value node                                            */
+/* free value node                                                            */
 /******************************************************************************/
 void freeValNode( tIniVal *val ) 
 {
@@ -355,7 +375,7 @@ void freeValNode( tIniVal *val )
 } 
 
 /******************************************************************************/
-/* free ini node                                                      */
+/* free ini node                                                              */
 /******************************************************************************/
 void freeIniNode( tIniNode *ini )
 {
@@ -384,5 +404,9 @@ void freeIniNode( tIniNode *ini )
 
 
 /******************************************************************************/
-/* find node    */
+/* find node                                                                  */
 /******************************************************************************/
+tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
+{
+  return NULL ;
+}

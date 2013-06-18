@@ -1,0 +1,4 @@
+# TEST START findNodeUnderCursor >>basic failed test   << test/src/t_node_020.c(0055)
+# TEST OK    findNodeUnderCursor >>basic failed test   << test/src/t_node_020.c(0055)
+null
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_020.c(0060)

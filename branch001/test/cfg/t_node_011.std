@@ -1,0 +1,31 @@
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_011.c(0053)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_011.c(0053)
+<qmgr>
+  name = AMXT01
+<\qmgr>
+
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_011.c(0064)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_011.c(0064)
+<qmgr>
+  name = AMXT01
+  <channel>
+    name = CHL1
+  <\channel>
+
+<\qmgr>
+
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_011.c(0075)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_011.c(0075)
+<qmgr>
+  name = AMXT01
+  <channel>
+    name = CHL1
+    <time>
+      min = 
+    <\time>
+
+  <\channel>
+
+<\qmgr>
+
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_011.c(0082)

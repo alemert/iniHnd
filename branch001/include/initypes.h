@@ -87,7 +87,7 @@ struct tagFileCfg
 // ---------------------------------------------------------
 
 // ---------------------------------------------------------
-// node.c
+// inidbg.c
 // ---------------------------------------------------------
 #define printTree( pNode ) fPrintTree( pNode, "" )
 
@@ -139,11 +139,15 @@ struct tagFileCfg
 // -------------------------------------
 // get & search
 // -------------------------------------
+    #if(0)
   tIniNode* getNode( tIniNode *anchor, tIniNode *filter ) ;
+    #endif
   tIniNode* setIniSearchFilter( tIniNode* anchor, char* tag , 
                                                   char* key , 
                                                   char* sVal, 
                                                   int iVal  ) ;
+
+  tIniNode* findNodeUnderCursor( tIniNode *anchor, tIniNode *search ) ;
 
 // -------------------------------------
 // desctuctor
