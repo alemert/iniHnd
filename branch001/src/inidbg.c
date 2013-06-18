@@ -62,7 +62,14 @@ void fPrintTree( tIniNode *node, char* offset )
   sprintf( offsetSum, OFFSET"%s",offset );
   if( node->childNode != NULL) fPrintTree( node->childNode, offsetSum ) ;
 
-  printf( "%s<\\%s>\n\n", offset, node->tag ) ;
+  if( node->tag == NULL )
+  {
+    printf( "%s<\\NULL>\n\n", offset ) ;
+  }
+  else
+  {
+    printf( "%s<\\%s>\n\n", offset, node->tag ) ;
+  }
 
   if( node->nextNode != NULL ) fPrintTree( node->nextNode, offset ) ;
 }
@@ -73,7 +80,14 @@ void fPrintTree( tIniNode *node, char* offset )
 void printNode( tIniNode *node, char* offset ) 
 {
 
-  printf( "%s<%s>\n", offset, node->tag ) ;
+  if( node->tag == NULL )
+  {
+    printf( "%s<NULL>\n", offset ) ;
+  }
+  else
+  {
+    printf( "%s<%s>\n", offset, node->tag ) ;
+  }
 
   if( node->value != NULL ) printVal( node->value, offset ) ;
 

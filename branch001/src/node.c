@@ -247,18 +247,18 @@ tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
 /******************************************************************************/
 /* set ini search filter                                                      */
 /*                                                                            */
-/*   set search filter, start searching at anchor                          */  
+/*   set search filter, start searching at anchor                             */
 /*   rules:                                                                   */
-/*    anchor:                                                                */
+/*    anchor:                                                                 */
 /*      if _anchor is NULL, top level search filter will be set        */
 /*      if _anchor in not NULL, add filter to search filter             */
 /*                              (starting at _anchor, as a "linear" tree)     */
-/*    tag:                                                                */
+/*    tag:                                                                  */
 /*      if tag is NULL, error, free complete tree                         */
-/*    key:                                                               */
+/*    key:                                                                   */
 /*      if key is NULL, tag will be set,                           */
 /*                      all tags on this level will be searched       */
-/*    strVal:                                                              */
+/*    strVal:                                                                 */
 /*      if strVal is not NULL, strVal is set as a filter        */
 /*      if strVal is NULL, _intVal is set as a filter            */
 /*      if strVal is "\0", a value to key is to be found      */
@@ -408,5 +408,53 @@ void freeIniNode( tIniNode *ini )
 /******************************************************************************/
 tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
 {
-  return NULL ;
+  tIniNode *anchor ;
+  tIniNode *search ;
+  tIniNode *found  = NULL ;
+  tIniVal  *vNode  ;
+
+  anchor = _anchor ;                             // check and init 
+  if( _anchor == NULL )                          //   function arguments
+  {                                              //
+    anchor = mainIniAnchor ;                  //
+  }                                              //
+  if( anchor == NULL )                    //
+  {                                              //
+    found = NULL ;                               //
+    goto _door ;                                 //
+  }                                              //
+                                                 //
+  if( search == NULL )                        //
+  {                                              //
+    found = NULL ;                      //
+    goto _door ;                        //
+  }                                              //
+                                                 //
+  if( strcmp( search->tag, anchor->tag ) == 0 )  //
+  {                                        //
+    vNode = findValueNode( search->value->key ,  //
+                           anchor->value    ) ;  //
+  }                                          //
+                                                 //
+  _door :
+
+  return found ;
+}
+
+/******************************************************************************/
+/* find node                                                                  */
+/******************************************************************************/
+tIniVal * findValueNode( char *_key, tIniVal *_anchor ) 
+{
+  tIniVal *result ;
+
+  if( _key == NULL ) 
+  {
+    result = NULL ;
+    goto _door ;
+  }
+
+  _door :
+  
+  return result ;
 }
