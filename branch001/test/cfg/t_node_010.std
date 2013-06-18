@@ -1,17 +1,17 @@
-# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0054)
-# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0054)
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0055)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0055)
 <qmgr>
   name = AMXT01
 <\qmgr>
 
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0062)
-# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0076)
-# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0076)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0063)
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0078)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0078)
 null
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0084)
-# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0098)
-# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0098)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0086)
+# TEST START setIniSearchFilter >>basic test          << test/src/t_node_010.c(0101)
+# TEST OK    setIniSearchFilter >>basic test          << test/src/t_node_010.c(0101)
 <qmgr>
 <\qmgr>
 
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0106)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_010.c(0109)

@@ -140,7 +140,10 @@ struct tagFileCfg
 // get & search
 // -------------------------------------
   tIniNode* getNode( tIniNode *anchor, tIniNode *filter ) ;
-  tIniNode* setIniSearchFilter( char* tag, char* key, char* sVal, int iVal ) ;
+  tIniNode* setIniSearchFilter( tIniNode* anchor, char* tag , 
+                                                  char* key , 
+                                                  char* sVal, 
+                                                  int iVal  ) ;
 
 // -------------------------------------
 // desctuctor

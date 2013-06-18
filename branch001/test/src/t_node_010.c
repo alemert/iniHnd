@@ -49,6 +49,7 @@ int main( int argc, const char** argv )
     doPointTest( "basic test"        , \
                   RC_NOT_NULL        , \
                   setIniSearchFilter , \
+                  NULL               , \
                   "qmgr"             , \
                   "name"             , \
                   "AMXT01", 0        ) ;
@@ -69,8 +70,9 @@ int main( int argc, const char** argv )
   #if(1)
   {
     doPointTest( "basic test"        , \
-                  RC_IS_NULL        , \
+                  RC_IS_NULL         , \
                   setIniSearchFilter , \
+                  NULL               , \
                   NULL               , \
                   "name"             , \
                   "AMXT01", 0        ) ;
@@ -93,6 +95,7 @@ int main( int argc, const char** argv )
     doPointTest( "basic test"        , \
                   RC_NOT_NULL         , \
                   setIniSearchFilter , \
+                  NULL               , \
                   "qmgr"             , \
                   NULL               , \
                   NULL, 0            ) ;

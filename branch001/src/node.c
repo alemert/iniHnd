@@ -245,12 +245,14 @@ tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
 /******************************************************************************/
 /* set ini search filter                                    */
 /******************************************************************************/
-tIniNode* setIniSearchFilter( char* _tag    , 
-                              char* _key    ,
-                              char* _strVal ,
-                              int   _intVal )
+tIniNode* setIniSearchFilter( tIniNode* _anchor ,
+                              char*     _tag    , 
+                              char*     _key    ,
+                              char*     _strVal ,
+                              int       _intVal )
 {
   tIniNode *filter ;
+  tIniNode *p ;
 
   char *strVal ;
   char *key ;
@@ -269,7 +271,7 @@ tIniNode* setIniSearchFilter( char* _tag    ,
   setIniTagName( filter, _tag, -1 ) ;   // allocated by setIniTagName
                                         //
   if( _key == NULL ) goto _door ;       //
-      //
+                                        //
   if( _strVal != NULL )                 // key & strVal not allocated 
   {                                     //   by createStrValue
     key    = (char*) malloc ( sizeof(char) * (strlen(_key)   +1) ) ; 
@@ -283,17 +285,33 @@ tIniNode* setIniSearchFilter( char* _tag    ,
     key = (char*) malloc ( sizeof(char) * (strlen(_key)   +1) ) ; 
     strcpy( key, _key ) ;               // 
     addRc = addValueNode( filter, createIntValue( key, _intVal ) ) ;
-  }      //
-
-  if( addRc != 0 )
-  {
-    freeIniNode( filter ) ;
-    filter = NULL ;;
-    goto _door ;
-  }
-
-  _door :
-
+  }                                     //
+                                        //
+  if( addRc != 0 )                      //
+  {                                     //
+    freeIniNode( filter ) ;             //
+    filter = NULL ;                     //
+    goto _door ;                        //
+  }                                     //
+                                        //
+  _door :                               //
+                                        //
+  if( filter == NULL )                  // error handling
+  {                                     // ( filter could not be set )
+    freeIniNode( _anchor ) ;            //
+  }                                     //
+                                        //
+  if( _anchor != NULL )                 // function called with _anchor == NULL
+  {                                     //   filter is anchor of the search tree
+    p = _anchor ;                       // _anchor != NULL
+    while( p->childNode != NULL )       //   add filter at the botom of the
+    {                                   //   "linear" tree 
+      p = p->childNode ;                //
+    }                                   //
+    p->childNode = filter ;             //
+    filter = _anchor ;                  //
+  }                                     //
+                                        //
   return filter ;
 }
 
@@ -363,3 +381,8 @@ void freeIniNode( tIniNode *ini )
 
   return ;
 }
+
+
+/******************************************************************************/
+/* find node    */
+/******************************************************************************/

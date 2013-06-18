@@ -1,2 +1,2 @@
-2013-06-17 20:28:11  27347 00208 ERR ini tag is NULL
-                                     setIniSearchFilter() in src/node.c (line: 00262)
+2013-06-18 14:22:40  12583 00208 ERR ini tag is NULL
+                                     setIniSearchFilter() in src/node.c (line: 00264)
