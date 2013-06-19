@@ -1,22 +1,26 @@
-# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0060)
-# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0060)
-# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0062)
-# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0068)
-# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0068)
+# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0061)
+# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0061)
+# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0063)
+# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0071)
+# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0071)
   hell0 = world1
   hell1 = world2
   hell2 = world3
-# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0074)
-# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0080)
-# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0080)
+# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0077)
+# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0085)
+# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0085)
   hell1 = world2
   hell2 = world3
-# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0086)
-# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0092)
-# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0092)
+# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0091)
+# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0099)
+# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0099)
   hell2 = world3
-# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0098)
-# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0104)
-# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0104)
+# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0105)
+# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0113)
+# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0113)
   (tIniVal*) NULL
-# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0110)
+# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0119)
+# TEST START findValueNode >>find anchor         << test/src/t_node_003.c(0127)
+# TEST OK    findValueNode >>find anchor         << test/src/t_node_003.c(0127)
+  (tIniVal*) NULL
+# CHECK OK   findValueNode >>                    << test/src/t_node_003.c(0133)

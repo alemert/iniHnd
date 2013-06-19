@@ -48,6 +48,7 @@ int main( int argc, const char** argv )
 {
   tIniNode *anchor = initIniNode() ;
   tIniVal  *val ; 
+  tIniVal  *search ; 
 
   addValueNode( anchor, createStrValue( "hell0", "world1" ) ) ;
   addValueNode( anchor, createStrValue( "hell1", "world2" ) ) ;
@@ -61,10 +62,12 @@ int main( int argc, const char** argv )
 
   checkMessage( TEST_OK_TXT, findValueNode ) ;
 
+  search = createStrValue( "hell0", "world1" ) ;
+
   doPointTest( "find anchor"  , 
                 RC_NOT_NULL   ,
                 findValueNode , 
-                "hell0"       ,
+                search        ,
                 anchor->value );
 
   val = (tIniVal*) gRcVoidPointer ;
@@ -73,10 +76,12 @@ int main( int argc, const char** argv )
 
   checkMessage( TEST_OK_TXT, findValueNode ) ;
 
+  search = createStrValue( "hell1", "world2" ) ;
+
   doPointTest( "find anchor"  , 
                 RC_NOT_NULL   ,
                 findValueNode , 
-                "hell1"       ,
+                search        ,
                 anchor->value );
 
   val = (tIniVal*) gRcVoidPointer ;
@@ -85,10 +90,12 @@ int main( int argc, const char** argv )
 
   checkMessage( TEST_OK_TXT, findValueNode ) ;
 
+  search = createStrValue( "hell2", "world3" ) ;
+
   doPointTest( "find anchor"  , 
                 RC_NOT_NULL   ,
                 findValueNode , 
-                "hell2"       ,
+                search        ,
                 anchor->value );
 
   val = (tIniVal*) gRcVoidPointer ;
@@ -96,11 +103,13 @@ int main( int argc, const char** argv )
   printVal( val, "" ) ;
 
   checkMessage( TEST_OK_TXT, findValueNode ) ;
+
+  search = createStrValue( "!exists", "world3" ) ;
 
   doPointTest( "find anchor"  , 
                 RC_IS_NULL   ,
                 findValueNode , 
-                "!exist"       ,
+                search        ,
                 anchor->value );
 
   val = (tIniVal*) gRcVoidPointer ;
@@ -109,6 +118,19 @@ int main( int argc, const char** argv )
 
   checkMessage( TEST_OK_TXT, findValueNode ) ;
 
+  search = createStrValue( "hell2", "l" ) ;
+
+  doPointTest( "find anchor"  , 
+                RC_IS_NULL   ,
+                findValueNode , 
+                search        ,
+                anchor->value );
+
+  val = (tIniVal*) gRcVoidPointer ;
+
+  printVal( val, "" ) ;
+
+  checkMessage( TEST_OK_TXT, findValueNode ) ;
 }
 #endif
 

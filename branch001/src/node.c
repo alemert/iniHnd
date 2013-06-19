@@ -7,11 +7,11 @@
 /*   - createIntValue                                                         */
 /*   - addValueNode                                                           */
 /*   - addChildNode                                                           */
-/*   - getNode                                                                */
 /*   - setIniSearchFilter                                                     */
 /*   - freeValNode                                                            */
 /*   - freeIniNode                                                            */
 /*   - findNodeUnderCursor                                                    */
+/*   - compareValueNode            */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -229,22 +229,6 @@ _door:
 }
 
 /******************************************************************************/
-/* get node                                                                   */
-/******************************************************************************/
-#if(0)
-tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
-{
-  tIniNode* node = anchor ;
-
-  if( anchor == NULL ) node = mainIniAnchor ;
-  if( node   == NULL ) goto _door ;
-
-  _door :
-
-    return node ;
-}
-#endif
-/******************************************************************************/
 /* set ini search filter                                                      */
 /*                                                                            */
 /*   set search filter, start searching at anchor                             */
@@ -431,14 +415,35 @@ tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
   }                                              //
   search = _search ;                             //
                                                  //
-  if( strcmp( search->tag, anchor->tag ) == 0 )  //
+  if( strcmp( search->tag, anchor->tag ) == 0 )  // compare tags on this level
   {                                              //
-    vNode = findValueNode( search->valuey ,  //
-                           anchor->value  ) ;  //
-    if( vNode != NULL )              //
-    {                                    //
-      found = anchor ;                    //
-    }                                    //
+    vNode = findValueNode( search->value ,       // check if searchd value is 
+                           anchor->value ) ;     //   attached to this node
+                                                 //
+    if( vNode != NULL )                          // if node found 
+    {                                            //   (on this level)
+      if( search->childNode == NULL )            //
+      {                                          // check if recrusive search 
+        found = anchor ;                         //   is necessary, 
+        goto _door ;                             // if not, found, return
+      }                                          //
+                                                 //
+      if( anchor->childNode == NULL )            // check if recrusive search
+      {                                          //   is possible
+        found = NULL ;                           //
+        goto _door ;                             //
+      }                                          //
+                                                 //
+      search = search->childNode ;               // recrusive search
+      anchor = anchor->childNode ;               // 
+      found = findNodeUnderCursor(anchor,search);//
+    }                                            //
+  }                                              //
+                                                 //
+  if( anchor->nextNode != NULL )                 //
+  {                                              //
+    anchor = anchor->nextNode ;                  //
+    found = findNodeUnderCursor(anchor,search);  //
   }                                              //
                                                  //
   _door :
@@ -477,4 +482,57 @@ tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor )
   _door :
   
   return result ;
+}
+
+/******************************************************************************/
+/* comapre value nodes       */
+/******************************************************************************/
+int compareValueNode( tIniVal* a, tIniVal* b )
+{
+  int rc = 0 ;
+
+  if( a == NULL ) { rc = -1 ; goto _door ; }
+  if( b == NULL ) { rc = -1 ; goto _door ; }
+
+  if( a->type != b->type ) { rc = 1 ; goto _door ; }
+
+  if( a->key == NULL ) { rc = -1 ; goto _door ; }
+  if( b->key == NULL ) { rc = -1 ; goto _door ; }
+
+  if( strcmp( a->key, b->key ) != 0 )
+  {
+    rc = 1 ;
+    goto _door ;
+  }
+
+  switch( a->type )
+  {
+    case INTIGER :
+    {
+      if( a->value.intVal == b->value.intVal )
+      {
+        rc = 0 ; 
+        goto _door ;
+      }
+    }
+    case STRING  :
+    {
+      if( a->value.strVal == NULL ) { rc = -1 ; goto _door ; }
+      if( b->value.strVal == NULL ) { rc = -1 ; goto _door ; }
+      if( strcmp( a->value.strVal, b->value.strVal ) == 0 )
+      {
+        rc = 0 ; 
+        goto _door ;
+      }
+    }
+    case UNKNOWN :
+    {
+      rc = -1 ; 
+      goto _door ; 
+    }
+  }
+
+  _door :
+
+  return rc ;
 }

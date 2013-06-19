@@ -148,7 +148,9 @@ struct tagFileCfg
                                                   int iVal  ) ;
 
   tIniNode* findNodeUnderCursor( tIniNode *anchor, tIniNode *search ) ;
-  tIniVal * findValueNode( char* key, tIniVal *anchor ) ;
+  tIniVal * findValueNode( tIniVal* search, tIniVal *anchor ) ;
+
+  int compareValueNode( tIniVal* a, tIniVal* b ) ;
 
 // -------------------------------------
 // desctuctor
