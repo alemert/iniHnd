@@ -1,0 +1,8 @@
+# TEST START findNodeUnderCursor >>basic failed test   << test/src/t_node_021.c(0056)
+# TEST OK    findNodeUnderCursor >>basic failed test   << test/src/t_node_021.c(0056)
+<qmgr>
+  name = ADMT01
+  logging = linear
+<\qmgr>
+
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_021.c(0061)

@@ -250,13 +250,13 @@ tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
 /*   set search filter, start searching at anchor                             */
 /*   rules:                                                                   */
 /*    anchor:                                                                 */
-/*      if _anchor is NULL, top level search filter will be set        */
-/*      if _anchor in not NULL, add filter to search filter             */
+/*      if _anchor is NULL, top level search filter will be set               */
+/*      if _anchor in not NULL, add filter to search filter               */
 /*                              (starting at _anchor, as a "linear" tree)     */
-/*    tag:                                                                  */
-/*      if tag is NULL, error, free complete tree                         */
-/*    key:                                                                   */
-/*      if key is NULL, tag will be set,                           */
+/*    tag:                                                                    */
+/*      if tag is NULL, error, free complete tree                           */
+/*    key:                                                                    */
+/*      if key is NULL, tag will be set,                                   */
 /*                      all tags on this level will be searched       */
 /*    strVal:                                                                 */
 /*      if strVal is not NULL, strVal is set as a filter        */
@@ -429,12 +429,16 @@ tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
     found = NULL ;                               //
     goto _door ;                                 //
   }                                              //
-  search = _search ;                      //
+  search = _search ;                             //
                                                  //
   if( strcmp( search->tag, anchor->tag ) == 0 )  //
   {                                              //
     vNode = findValueNode( search->value->key ,  //
                            anchor->value    ) ;  //
+    if( vNode != NULL )              //
+    {                                    //
+      found = anchor ;                    //
+    }                                    //
   }                                              //
                                                  //
   _door :
