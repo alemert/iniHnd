@@ -37,10 +37,10 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_node_022.log", INF ) ;
+  sysRc = initLogging( "test/log/t_node_023.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
-  iniHandler( "test/cfg/t_node_022_000.ini" );
+  iniHandler( "test/cfg/t_node_023_000.ini" );
 
   // -------------------------------------------------------
   // some test 

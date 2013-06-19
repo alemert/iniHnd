@@ -1,0 +1,13 @@
+# TEST START findNodeUnderCursor >>basic failed test   << test/src/t_node_022.c(0058)
+# TEST OK    findNodeUnderCursor >>basic failed test   << test/src/t_node_022.c(0058)
+<qmgr>
+  name = ADMT01
+  logging = linear
+  <channel>
+    name = CHL1
+     trigger = 5
+  <\channel>
+
+<\qmgr>
+
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_022.c(0063)

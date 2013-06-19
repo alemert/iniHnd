@@ -251,17 +251,17 @@ tIniNode* getNode( tIniNode *anchor, tIniNode *filter )
 /*   rules:                                                                   */
 /*    anchor:                                                                 */
 /*      if _anchor is NULL, top level search filter will be set               */
-/*      if _anchor in not NULL, add filter to search filter               */
+/*      if _anchor in not NULL, add filter to search filter                   */
 /*                              (starting at _anchor, as a "linear" tree)     */
 /*    tag:                                                                    */
-/*      if tag is NULL, error, free complete tree                           */
+/*      if tag is NULL, error, free complete tree                             */
 /*    key:                                                                    */
-/*      if key is NULL, tag will be set,                                   */
-/*                      all tags on this level will be searched       */
+/*      if key is NULL, tag will be set,                                      */
+/*                      all tags on this level will be searched               */
 /*    strVal:                                                                 */
-/*      if strVal is not NULL, strVal is set as a filter        */
-/*      if strVal is NULL, _intVal is set as a filter            */
-/*      if strVal is "\0", a value to key is to be found      */
+/*      if strVal is not NULL, strVal is set as a filter                      */
+/*      if strVal is NULL, _intVal is set as a filter                         */
+/*      if strVal is "\0", a value to key is to be found                      */
 /*    intVal:                                                                 */
 /*      only if strVal is set to NULL, intVal will be set as a filter         */
 /******************************************************************************/
