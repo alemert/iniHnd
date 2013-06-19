@@ -52,7 +52,8 @@ include $(MAKE_INCLUDE_PATH)/general.modules.mk
 # ------------------------------------------------------------------------------
 # tests
 # ------------------------------------------------------------------------------
-TEST = t_node_000    t_node_001    t_node_002    t_node_010    t_node_011     \
+TEST = t_node_000    t_node_001    t_node_002    t_node_003        \
+       t_node_010    t_node_011           \
        t_precomp_000 t_precomp_001 t_precomp_002                              \
        t_convert_000 t_convert_001 t_convert_002 t_convert_003                \
        t_convert_010 t_convert_011 t_convert_012 t_convert_013 t_convert_014  \

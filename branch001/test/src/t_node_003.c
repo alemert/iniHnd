@@ -38,11 +38,6 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-//char *iniMem = NULL ;
-//char *startVal = NULL ;
-//char *endVal   = NULL ;
-  tIniVal* p ;
-
   sysRc = initLogging( "test/log/t_node_003.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
@@ -58,9 +53,62 @@ int main( int argc, const char** argv )
   addValueNode( anchor, createStrValue( "hell1", "world2" ) ) ;
   addValueNode( anchor, createStrValue( "hell2", "world3" ) ) ;
 
+  doPointTest( "find anchor"  , 
+                RC_IS_NULL    ,
+                findValueNode , 
+                NULL          ,
+                anchor->value );
 
+  checkMessage( TEST_OK_TXT, findValueNode ) ;
 
-  checkMessage( TEST_OK_TXT, addChildNode ) ;
+  doPointTest( "find anchor"  , 
+                RC_NOT_NULL   ,
+                findValueNode , 
+                "hell0"       ,
+                anchor->value );
+
+  val = (tIniVal*) gRcVoidPointer ;
+
+  printVal( val, "" ) ;
+
+  checkMessage( TEST_OK_TXT, findValueNode ) ;
+
+  doPointTest( "find anchor"  , 
+                RC_NOT_NULL   ,
+                findValueNode , 
+                "hell1"       ,
+                anchor->value );
+
+  val = (tIniVal*) gRcVoidPointer ;
+
+  printVal( val, "" ) ;
+
+  checkMessage( TEST_OK_TXT, findValueNode ) ;
+
+  doPointTest( "find anchor"  , 
+                RC_NOT_NULL   ,
+                findValueNode , 
+                "hell2"       ,
+                anchor->value );
+
+  val = (tIniVal*) gRcVoidPointer ;
+
+  printVal( val, "" ) ;
+
+  checkMessage( TEST_OK_TXT, findValueNode ) ;
+
+  doPointTest( "find anchor"  , 
+                RC_IS_NULL   ,
+                findValueNode , 
+                "!exist"       ,
+                anchor->value );
+
+  val = (tIniVal*) gRcVoidPointer ;
+
+  printVal( val, "" ) ;
+
+  checkMessage( TEST_OK_TXT, findValueNode ) ;
+
 }
 #endif
 

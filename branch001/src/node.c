@@ -416,25 +416,26 @@ tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
   anchor = _anchor ;                             // check and init 
   if( _anchor == NULL )                          //   function arguments
   {                                              //
-    anchor = mainIniAnchor ;                  //
+    anchor = mainIniAnchor ;                     //
   }                                              //
-  if( anchor == NULL )                    //
+  if( anchor == NULL )                           //
   {                                              //
     found = NULL ;                               //
     goto _door ;                                 //
   }                                              //
                                                  //
-  if( search == NULL )                        //
+  if( _search == NULL )                          //
   {                                              //
-    found = NULL ;                      //
-    goto _door ;                        //
+    found = NULL ;                               //
+    goto _door ;                                 //
   }                                              //
+  search = _search ;                      //
                                                  //
   if( strcmp( search->tag, anchor->tag ) == 0 )  //
-  {                                        //
+  {                                              //
     vNode = findValueNode( search->value->key ,  //
                            anchor->value    ) ;  //
-  }                                          //
+  }                                              //
                                                  //
   _door :
 
@@ -453,6 +454,20 @@ tIniVal * findValueNode( char *_key, tIniVal *_anchor )
     result = NULL ;
     goto _door ;
   }
+
+  if( strcmp( _key, _anchor->key ) == 0 )
+  {
+    result = _anchor ;
+    goto _door ;
+  }
+
+  if( _anchor->nextVal == NULL) 
+  {
+    result = NULL ;
+    goto _door ;
+  }
+
+  result = findValueNode( _key, _anchor->nextVal ) ;
 
   _door :
   

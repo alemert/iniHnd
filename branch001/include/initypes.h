@@ -166,4 +166,5 @@ struct tagFileCfg
 // inidbg.c
 // ---------------------------------------------------------
   void fPrintTree( tIniNode *_node, char* offset ) ;
+  void printVal( tIniVal *val, char* offset )  ;
 

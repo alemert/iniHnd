@@ -36,7 +36,7 @@
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
 void printNode( tIniNode *node, char* offset ) ;
-void printVal( tIniVal *val, char* offset )  ;
+// void printVal( tIniVal *val, char* offset )  ;
 
 /******************************************************************************/
 /*                                                                            */
@@ -98,6 +98,13 @@ void printNode( tIniNode *node, char* offset )
 /******************************************************************************/
 void printVal( tIniVal *val, char* offset ) 
 {
+
+  if( val == NULL ) 
+  {
+    printf( OFFSET"(tIniVal*) NULL\n");
+    goto _door ;
+  }
+
   switch( val->type )
   {
     case STRING :
@@ -115,5 +122,10 @@ void printVal( tIniVal *val, char* offset )
       break ;
     }
   }
+
   if( val->nextVal != NULL ) printVal( val->nextVal, offset ) ;
+
+  _door :
+
+  return ;
 }
