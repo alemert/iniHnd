@@ -433,8 +433,8 @@ tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
                                                  //
   if( strcmp( search->tag, anchor->tag ) == 0 )  //
   {                                              //
-    vNode = findValueNode( search->value->key ,  //
-                           anchor->value    ) ;  //
+    vNode = findValueNode( search->valuey ,  //
+                           anchor->value  ) ;  //
     if( vNode != NULL )              //
     {                                    //
       found = anchor ;                    //
@@ -449,17 +449,18 @@ tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
 /******************************************************************************/
 /* find node                                                                  */
 /******************************************************************************/
-tIniVal * findValueNode( char *_key, tIniVal *_anchor ) 
+tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor ) 
 {
   tIniVal *result ;
 
-  if( _key == NULL ) 
+  if( _search == NULL ) 
   {
     result = NULL ;
     goto _door ;
   }
 
-  if( strcmp( _key, _anchor->key ) == 0 )
+//if( strcmp( _search->key, _anchor->key ) == 0 )
+  if( compareValueNode( _search, _anchor ) == 0 )
   {
     result = _anchor ;
     goto _door ;
@@ -471,7 +472,7 @@ tIniVal * findValueNode( char *_key, tIniVal *_anchor )
     goto _door ;
   }
 
-  result = findValueNode( _key, _anchor->nextVal ) ;
+  result = findValueNode( _search, _anchor->nextVal ) ;
 
   _door :
   
