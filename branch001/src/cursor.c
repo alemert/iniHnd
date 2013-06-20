@@ -43,17 +43,15 @@
 /*                                                                            */
 /******************************************************************************/
 
-tCursorCfg* addCursorNode( tCursorCfg *_anchor, tIniNode *_next )
+tCursorCfg* addCursorNode( tCursorCfg *_anchor, tCursorCfg *_next )
 {
   tCursorCfg *p ;
 
-  tCursorCfg *newNode = (tCursorCfg*) malloc( sizeof( tCursorCfg ) ) ;
+//tCursorCfg *newNode = (tCursorCfg*) malloc( sizeof( tCursorCfg ) ) ;
 
   if( _anchor == NULL ) 
   {
-    _anchor = newNode ;
-    _anchor->iniNode    = _next ;
-    _anchor->nextCursor = NULL ;
+    _anchor = _next ;
     goto _door ;
   }
 
@@ -63,11 +61,21 @@ tCursorCfg* addCursorNode( tCursorCfg *_anchor, tIniNode *_next )
     p = p->nextCursor ;
   }
 
-  p->nextCursor = newNode ;
-  p = p->nextCursor ;
-  p->nextCursor = NULL ;
+//p->nextCursor = newNode ;
+//p = p->nextCursor ;
+  p->nextCursor = _next ;
   
   _door :
  
   return _anchor ; 
+}
+
+tCursorCfg* createCursorNode( tIniNode *_ini )
+{
+  tCursorCfg *newNode = (tCursorCfg*) malloc( sizeof( tCursorCfg ) ) ;
+ 
+  newNode->iniNode = _ini ; 
+  newNode->nextCursor = NULL ;
+
+  return newNode ;
 }

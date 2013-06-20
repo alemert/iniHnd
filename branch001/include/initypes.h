@@ -182,7 +182,8 @@ struct tagCfgCursor
 // ---------------------------------------------------------
 // cursor.c
 // ---------------------------------------------------------
-  tCursorCfg* addCursorNode( tCursorCfg *_anchor, tIniNode *_next ) ;
+  tCursorCfg* addCursorNode( tCursorCfg *_anchor, tCursorCfg *_next ) ;
+  tCursorCfg* createCursorNode( tIniNode *_ini ) ;
 
 
 

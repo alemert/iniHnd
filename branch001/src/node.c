@@ -431,9 +431,9 @@ tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
 {
   tIniNode *anchor ;
   tIniNode *search ;
-  tIniNode *rcNode ;
   tIniVal  *vNode  ;
   tCursorCfg *cursor = NULL ;
+  tCursorCfg *rcNode ;
 
   anchor = _anchor ;                               // check and init 
   if( _anchor == NULL )                            //   function arguments
@@ -462,7 +462,16 @@ tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
     {                                              //   (on this level)
       if( search->childNode == NULL )              //
       {                                            // check if recrusive search 
-        cursor = addCursorNode( cursor, anchor ) ;//   is necessary, 
+        if( cursor == NULL )      //
+        {                  //
+          cursor = createCursorNode( anchor ) ;     //
+        }                    //
+#if(0)
+        else            //
+        {            //
+          cursor = addCursorNode( cursor, anchor );//   is necessary, 
+        }                  //
+#endif
         goto _door ;                               // if not, found, return
       }                                            //
                                                    //
