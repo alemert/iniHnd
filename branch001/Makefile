@@ -60,7 +60,8 @@ TEST = t_node_000    t_node_001    t_node_002    t_node_003        \
        t_convert_020 t_convert_025                                            \
        t_reader_000  t_reader_001  t_reader_002  t_reader_003  t_reader_004   \
        t_reader_005  t_reader_010  t_reader_011  t_reader_012  t_reader_013   \
-       t_node_020    t_node_021    t_node_022    t_node_023    
+       t_node_020    t_node_021    t_node_022    t_node_023          \
+       t_node_030    
 
 include $(MAKE_INCLUDE_PATH)/test.mk
 

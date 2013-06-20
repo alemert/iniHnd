@@ -10,7 +10,7 @@
 /*   - setIniSearchFilter                                                     */
 /*   - freeValNode                                                            */
 /*   - freeIniNode                                                            */
-/*   - findNodeUnderCursor                                                    */
+/*   - buildNodeCursor                                                    */
 /*   - compareValueNode            */
 /******************************************************************************/
 
@@ -394,7 +394,7 @@ tIniNode* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
 {
   tIniNode *anchor ;
   tIniNode *search ;
-  tIniNode *found  = NULL ;
+  tIniNode *cursor  = NULL ;
   tIniVal  *vNode  ;
 
   anchor = _anchor ;                             // check and init 
@@ -404,13 +404,13 @@ tIniNode* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
   }                                              //
   if( anchor == NULL )                           //
   {                                              //
-    found = NULL ;                               //
+    cursor = NULL ;                               //
     goto _door ;                                 //
   }                                              //
                                                  //
   if( _search == NULL )                          //
   {                                              //
-    found = NULL ;                               //
+    cursor = NULL ;                               //
     goto _door ;                                 //
   }                                              //
   search = _search ;                             //
@@ -424,31 +424,31 @@ tIniNode* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
     {                                            //   (on this level)
       if( search->childNode == NULL )            //
       {                                          // check if recrusive search 
-        found = anchor ;                         //   is necessary, 
+        cursor = anchor ;                         //   is necessary, 
         goto _door ;                             // if not, found, return
       }                                          //
                                                  //
       if( anchor->childNode == NULL )            // check if recrusive search
       {                                          //   is possible
-        found = NULL ;                           //
+        cursor = NULL ;                           //
         goto _door ;                             //
       }                                          //
                                                  //
       search = search->childNode ;               // recrusive search
       anchor = anchor->childNode ;               // 
-      found = buildNodeCursor(anchor,search);    //
+      cursor = buildNodeCursor(anchor,search);    //
     }                                            //
   }                                              //
                                                  //
   if( anchor->nextNode != NULL )                 //
   {                                              //
     anchor = anchor->nextNode ;                  //
-    found = buildNodeCursor(anchor,search);      //
+    cursor = buildNodeCursor(anchor,search);      //
   }                                              //
                                                  //
   _door :
 
-  return found ;
+  return cursor ;
 }
 
 /******************************************************************************/
