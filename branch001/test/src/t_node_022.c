@@ -53,7 +53,7 @@ int main( int argc, const char** argv )
 
     doPointTest( "basic failed test"  , \
                   RC_NOT_NULL         , \
-                  findNodeUnderCursor , \
+                  buildNodeCursor     , \
                   NULL                , \
                   filter              ) ;
 

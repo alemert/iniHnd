@@ -147,7 +147,7 @@ struct tagFileCfg
                                                   char* sVal, 
                                                   int iVal  ) ;
 
-  tIniNode* findNodeUnderCursor( tIniNode *anchor, tIniNode *search ) ;
+  tIniNode* buildNodeCursor( tIniNode *anchor, tIniNode *search ) ;
   tIniVal * findValueNode( tIniVal* search, tIniVal *anchor ) ;
 
   int compareValueNode( tIniVal* a, tIniVal* b ) ;

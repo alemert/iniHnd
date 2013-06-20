@@ -1,5 +1,5 @@
-# TEST START findNodeUnderCursor >>basic failed test   << test/src/t_node_022.c(0058)
-# TEST OK    findNodeUnderCursor >>basic failed test   << test/src/t_node_022.c(0058)
+# TEST START buildNodeCursor >>basic failed test   << test/src/t_node_022.c(0058)
+# TEST OK    buildNodeCursor >>basic failed test   << test/src/t_node_022.c(0058)
 <channel>
   name = CHL1
    trigger = 5

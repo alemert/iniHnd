@@ -48,10 +48,10 @@ int main( int argc, const char** argv )
     iniHandler( "test/cfg/t_node_020.ini" );
     tIniNode *filter = setIniSearchFilter( NULL, "qmgr", "name", "AMXT01", 0 ) ;
 
-    doPointTest( "basic failed test"         , \
+    doPointTest( "basic failed test" , \
                   RC_IS_NULL         , \
-                  findNodeUnderCursor , \
-                  NULL                , \
+                  buildNodeCursor    , \
+                  NULL               , \
                   filter              ) ;
 
    tIniNode* result = (tIniNode*) gRcVoidPointer ; 

@@ -390,7 +390,7 @@ void freeIniNode( tIniNode *ini )
 /******************************************************************************/
 /* find node                                                                  */
 /******************************************************************************/
-tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
+tIniNode* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
 {
   tIniNode *anchor ;
   tIniNode *search ;
@@ -436,14 +436,14 @@ tIniNode* findNodeUnderCursor( tIniNode *_anchor, tIniNode *_search )
                                                  //
       search = search->childNode ;               // recrusive search
       anchor = anchor->childNode ;               // 
-      found = findNodeUnderCursor(anchor,search);//
+      found = buildNodeCursor(anchor,search);    //
     }                                            //
   }                                              //
                                                  //
   if( anchor->nextNode != NULL )                 //
   {                                              //
     anchor = anchor->nextNode ;                  //
-    found = findNodeUnderCursor(anchor,search);  //
+    found = buildNodeCursor(anchor,search);      //
   }                                              //
                                                  //
   _door :
