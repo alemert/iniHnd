@@ -55,8 +55,8 @@ int main( int argc, const char** argv )
                   NULL                , \
                   filter              ) ;
 
-    tIniNode* result = (tIniNode*) gRcVoidPointer ; 
-    printTree( result ) ;
+    tCursorCfg* result = (tCursorCfg*) gRcVoidPointer ; 
+    printCursor( result ) ;
  
     checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
 

@@ -129,3 +129,17 @@ void printVal( tIniVal *val, char* offset )
 
   return ;
 }
+
+/******************************************************************************/
+/* print cursor                                                               */
+/******************************************************************************/
+void printCursor( tCursorCfg *cursor )
+{
+  tCursorCfg *p = cursor ; 
+
+  while( p != NULL )
+  {
+    printTree( p->iniNode ) ;
+    p = p->nextCursor ;
+  }
+}

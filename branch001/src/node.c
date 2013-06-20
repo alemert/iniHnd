@@ -5,13 +5,14 @@
 /*   - setIniTagName                                                          */
 /*   - createStrValue                                                         */
 /*   - createIntValue                                                         */
+/*   - adddNode                                    */
 /*   - addValueNode                                                           */
 /*   - addChildNode                                                           */
 /*   - setIniSearchFilter                                                     */
 /*   - freeValNode                                                            */
 /*   - freeIniNode                                                            */
-/*   - buildNodeCursor                                                    */
-/*   - compareValueNode            */
+/*   - buildNodeCursor                                                        */
+/*   - compareValueNode                            */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -195,6 +196,42 @@ int addValueNode( tIniNode* iniNode, tIniVal *value )
 
 _door:
   return sysRc ;
+}
+
+/******************************************************************************/
+/* add node                                                                   */
+/******************************************************************************/
+int addNode( tIniNode* this, tIniNode* next )
+{
+  tIniNode *p = this ;
+  int sysRc = 0 ;
+
+  if( next == NULL )
+  {
+    goto _door ;
+  }
+
+  if( this == NULL )
+  {
+    this = next ;
+    goto _door ;
+  }
+
+  if( this->nextNode == NULL ) 
+  {
+    this->nextNode = next ;
+    goto _door ;
+  }
+
+  while( p->nextNode != NULL )
+  {
+    p = p->nextNode ;
+  }
+
+  p->nextNode = next ; 
+
+  _door :
+    return sysRc ; 
 }
 
 /******************************************************************************/
@@ -390,62 +427,71 @@ void freeIniNode( tIniNode *ini )
 /******************************************************************************/
 /* find node                                                                  */
 /******************************************************************************/
-tIniNode* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
+tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
 {
   tIniNode *anchor ;
   tIniNode *search ;
-  tIniNode *cursor  = NULL ;
+  tIniNode *rcNode ;
   tIniVal  *vNode  ;
+  tCursorCfg *cursor = NULL ;
 
-  anchor = _anchor ;                             // check and init 
-  if( _anchor == NULL )                          //   function arguments
-  {                                              //
-    anchor = mainIniAnchor ;                     //
-  }                                              //
-  if( anchor == NULL )                           //
-  {                                              //
-    cursor = NULL ;                               //
-    goto _door ;                                 //
-  }                                              //
-                                                 //
-  if( _search == NULL )                          //
-  {                                              //
-    cursor = NULL ;                               //
-    goto _door ;                                 //
-  }                                              //
-  search = _search ;                             //
-                                                 //
-  if( strcmp( search->tag, anchor->tag ) == 0 )  // compare tags on this level
-  {                                              //
-    vNode = findValueNode( search->value ,       // check if searchd value is 
-                           anchor->value ) ;     //   attached to this node
-                                                 //
-    if( vNode != NULL )                          // if node found 
-    {                                            //   (on this level)
-      if( search->childNode == NULL )            //
-      {                                          // check if recrusive search 
-        cursor = anchor ;                         //   is necessary, 
-        goto _door ;                             // if not, found, return
-      }                                          //
-                                                 //
-      if( anchor->childNode == NULL )            // check if recrusive search
-      {                                          //   is possible
-        cursor = NULL ;                           //
-        goto _door ;                             //
-      }                                          //
-                                                 //
-      search = search->childNode ;               // recrusive search
-      anchor = anchor->childNode ;               // 
-      cursor = buildNodeCursor(anchor,search);    //
-    }                                            //
-  }                                              //
-                                                 //
-  if( anchor->nextNode != NULL )                 //
-  {                                              //
-    anchor = anchor->nextNode ;                  //
-    cursor = buildNodeCursor(anchor,search);      //
-  }                                              //
-                                                 //
+  anchor = _anchor ;                               // check and init 
+  if( _anchor == NULL )                            //   function arguments
+  {                                                //
+    anchor = mainIniAnchor ;                       //
+  }                                                //
+  if( anchor == NULL )                             //
+  {                                                //
+    cursor = NULL ;                                //
+    goto _door ;                                   //
+  }                                                //
+                                                   //
+  if( _search == NULL )                            //
+  {                                                //
+    cursor = NULL ;                                //
+    goto _door ;                                   //
+  }                                                //
+  search = _search ;                               //
+                                                   //
+  if( strcmp( search->tag, anchor->tag ) == 0 )    // compare tags on this level
+  {                                                //
+    vNode = findValueNode( search->value ,         // check if searchd value is 
+                           anchor->value ) ;       //   attached to this node
+                                                   //
+    if( vNode != NULL )                            // if node found 
+    {                                              //   (on this level)
+      if( search->childNode == NULL )              //
+      {                                            // check if recrusive search 
+        cursor = addCursorNode( cursor, anchor ) ;//   is necessary, 
+        goto _door ;                               // if not, found, return
+      }                                            //
+                                                   //
+      if( anchor->childNode == NULL )              // check if recrusive search
+      {                                            //   is possible
+        cursor = NULL ;                            //
+        goto _door ;                               //
+      }                                            //
+                                                   //
+      rcNode = buildNodeCursor( anchor->childNode, // recrusive search
+                                search->childNode);//
+      cursor = addCursorNode( cursor, rcNode ) ;   //
+                                                   //
+      if( anchor->nextNode != NULL )               //
+      {                                            //
+        anchor = anchor->nextNode ;                // check next node on same 
+        rcNode = buildNodeCursor( anchor, search );//   level
+        cursor = addCursorNode( cursor, rcNode ) ; //
+      }                                            //
+    }                                              //
+  }                                                //
+                                                   //
+  if( anchor->nextNode != NULL )                   // this node does not fit,
+  {                                                //   check next one
+    anchor = anchor->nextNode ;                    //
+    rcNode = buildNodeCursor( anchor, search ) ;   //
+    cursor = addCursorNode( cursor, rcNode ) ;     //
+  }                                                //
+                                                   //
   _door :
 
   return cursor ;
@@ -485,7 +531,7 @@ tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor )
 }
 
 /******************************************************************************/
-/* comapre value nodes       */
+/* comapre value nodes                               */
 /******************************************************************************/
 int compareValueNode( tIniVal* a, tIniVal* b )
 {

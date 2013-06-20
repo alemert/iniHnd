@@ -21,11 +21,12 @@
 /******************************************************************************/
 /*   T Y P E S                                                                */
 /******************************************************************************/
-typedef struct tagIniNode tIniNode ;
-typedef struct tagIniVal  tIniVal  ;
-typedef struct tagFileCfg tFileCfg ;
-typedef union  tagValue   tVal     ;
-typedef enum   tagValType tValType    ;
+typedef struct tagIniNode   tIniNode   ;
+typedef struct tagIniVal    tIniVal    ;
+typedef struct tagFileCfg   tFileCfg   ;
+typedef struct tagCfgCursor tCursorCfg ;
+typedef union  tagValue     tVal       ;
+typedef enum   tagValType   tValType   ;
 
 /******************************************************************************/
 /*   S T R U C T S                                                            */
@@ -58,6 +59,12 @@ struct tagFileCfg
 {
   tIniNode *include ;
   tIniNode *main    ;
+} ;
+
+struct tagCfgCursor
+{
+  tIniNode   *iniNode ;
+  tCursorCfg *nextCursor ;
 } ;
 
 /******************************************************************************/
@@ -133,6 +140,7 @@ struct tagFileCfg
   tIniVal* createStrValue( char* key, char* value ) ;
   tIniVal* createIntValue( char* key, int   value ) ;
 
+  int addNode( tIniNode* this, tIniNode* next ) ;
   int addValueNode( tIniNode* iniNode, tIniVal *value ) ;
   int addChildNode( tIniNode* parent, tIniNode* child ) ;
 
@@ -147,7 +155,7 @@ struct tagFileCfg
                                                   char* sVal, 
                                                   int iVal  ) ;
 
-  tIniNode* buildNodeCursor( tIniNode *anchor, tIniNode *search ) ;
+  tCursorCfg* buildNodeCursor( tIniNode *anchor, tIniNode *search ) ;
   tIniVal * findValueNode( tIniVal* search, tIniVal *anchor ) ;
 
   int compareValueNode( tIniVal* a, tIniVal* b ) ;
@@ -169,4 +177,12 @@ struct tagFileCfg
 // ---------------------------------------------------------
   void fPrintTree( tIniNode *_node, char* offset ) ;
   void printVal( tIniVal *val, char* offset )  ;
+  void printCursor( tCursorCfg *cursor ) ;
+
+// ---------------------------------------------------------
+// cursor.c
+// ---------------------------------------------------------
+  tCursorCfg* addCursorNode( tCursorCfg *_anchor, tIniNode *_next ) ;
+
+
 
