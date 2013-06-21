@@ -73,9 +73,16 @@ tCursorCfg* addCursorNode( tCursorCfg *_anchor, tCursorCfg *_next )
 tCursorCfg* createCursorNode( tIniNode *_ini )
 {
   tCursorCfg *newNode = (tCursorCfg*) malloc( sizeof( tCursorCfg ) ) ;
+  if( newNode == NULL )
+  {
+    logger( LSTD_MEM_ALLOC_ERROR ) ;
+    goto _door ;
+  }
  
   newNode->iniNode = _ini ; 
   newNode->nextCursor = NULL ;
+
+  _door :
 
   return newNode ;
 }
