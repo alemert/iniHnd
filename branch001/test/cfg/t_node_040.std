@@ -1,0 +1,18 @@
+# TEST START buildNodeCursor >>basic failed test   << test/src/t_node_040.c(0058)
+# TEST OK    buildNodeCursor >>basic failed test   << test/src/t_node_040.c(0058)
+<channel>
+  name = CHL1
+   trigger = 4
+<\channel>
+
+<channel>
+  name = CHL1
+   trigger = 5
+<\channel>
+
+<channel>
+  name = CHL1
+   trigger = 6
+<\channel>
+
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_040.c(0063)
