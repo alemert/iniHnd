@@ -453,6 +453,12 @@ tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
   }                                                //
   search = _search ;                               //
                                                    //
+#define LOOP 1
+
+#ifdef LOOP 
+while( anchor != NULL )
+{
+#endif
   if( strcmp( search->tag, anchor->tag ) == 0 )    // compare tags on this level
   {                                                //
     vNode = findValueNode( search->value ,         // check if searchd value is 
@@ -462,16 +468,10 @@ tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
     {                                              //   (on this level)
       if( search->childNode == NULL )              //
       {                                            // check if recrusive search 
-        if( cursor == NULL )      //
-        {                  //
-          cursor = createCursorNode( anchor ) ;     //
-        }                    //
-#if(0)
-        else            //
-        {            //
-          cursor = addCursorNode( cursor, anchor );//   is necessary, 
-        }                  //
-#endif
+        if( cursor == NULL )                       //
+        {                                          //
+          cursor = createCursorNode( anchor ) ;    //
+        }                                          //
         goto _door ;                               // if not, found, return
       }                                            //
                                                    //
@@ -485,21 +485,29 @@ tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
                                 search->childNode);//
       cursor = addCursorNode( cursor, rcNode ) ;   //
                                                    //
+#ifndef LOOP
       if( anchor->nextNode != NULL )               //
       {                                            //
         anchor = anchor->nextNode ;                // check next node on same 
         rcNode = buildNodeCursor( anchor, search );//   level
         cursor = addCursorNode( cursor, rcNode ) ; //
       }                                            //
+#endif
     }                                              //
   }                                                //
+#ifdef LOOP
+  anchor = anchor->nextNode ;
+}
                                                    //
+  
+#else
   if( anchor->nextNode != NULL )                   // this node does not fit,
   {                                                //   check next one
     anchor = anchor->nextNode ;                    //
     rcNode = buildNodeCursor( anchor, search ) ;   //
     cursor = addCursorNode( cursor, rcNode ) ;     //
   }                                                //
+#endif
                                                    //
   _door :
 

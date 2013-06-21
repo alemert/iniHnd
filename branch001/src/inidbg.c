@@ -80,16 +80,25 @@ void fPrintTree( tIniNode *node, char* offset )
 void printNode( tIniNode *node, char* offset ) 
 {
 
+  if( node == NULL )
+  {
+    printf( "NULL NODE\n" ) ;
+    goto _door ;
+  }
+
   if( node->tag == NULL )
   {
     printf( "%s<NULL>\n", offset ) ;
-  }
-  else
-  {
-    printf( "%s<%s>\n", offset, node->tag ) ;
+    goto _door ;
   }
 
+  printf( "%s<%s>\n", offset, node->tag ) ;
+
   if( node->value != NULL ) printVal( node->value, offset ) ;
+
+  _door :
+
+  return ;
 
 }
 

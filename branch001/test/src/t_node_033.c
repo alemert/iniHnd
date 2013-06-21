@@ -37,10 +37,10 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_node_032.log", INF ) ;
+  sysRc = initLogging( "test/log/t_node_033.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
-  iniHandler( "test/cfg/t_node_032_000.ini" );
+  iniHandler( "test/cfg/t_node_033_000.ini" );
 
   // -------------------------------------------------------
   // some test 
@@ -57,8 +57,8 @@ int main( int argc, const char** argv )
                   NULL                , \
                   filter              ) ;
 
-    tIniNode* result = (tIniNode*) gRcVoidPointer ; 
-    printTree( result ) ;
+    tCursorCfg* result = (tCursorCfg*) gRcVoidPointer ; 
+    printCursor( result ) ;
  
     checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
 
