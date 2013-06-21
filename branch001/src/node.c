@@ -453,61 +453,38 @@ tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
   }                                                //
   search = _search ;                               //
                                                    //
-#define LOOP 1
-
-#ifdef LOOP 
-while( anchor != NULL )
-{
-#endif
-  if( strcmp( search->tag, anchor->tag ) == 0 )    // compare tags on this level
+  while( anchor != NULL )                          //
   {                                                //
-    vNode = findValueNode( search->value ,         // check if searchd value is 
-                           anchor->value ) ;       //   attached to this node
+    if( strcmp( search->tag, anchor->tag ) == 0 )  // compare tags on this level
+    {                                              //
+      vNode = findValueNode( search->value ,       // check if searchd value is 
+                             anchor->value ) ;     //   attached to this node
                                                    //
-    if( vNode != NULL )                            // if node found 
-    {                                              //   (on this level)
-      if( search->childNode == NULL )              //
-      {                                            // check if recrusive search 
-        if( cursor == NULL )                       //
-        {                                          //
-          cursor = createCursorNode( anchor ) ;    //
+      if( vNode != NULL )                          // if node found 
+      {                                            //   (on this level)
+        if( search->childNode == NULL )            //
+        {                                          // check if recrusive search 
+          if( cursor == NULL )                     //
+          {                                        //
+            cursor = createCursorNode( anchor ) ;  //
+          }                                        //
+          goto _door ;                             // if not, found, return
         }                                          //
-        goto _door ;                               // if not, found, return
-      }                                            //
                                                    //
-      if( anchor->childNode == NULL )              // check if recrusive search
-      {                                            //   is possible
-        cursor = NULL ;                            //
-        goto _door ;                               //
-      }                                            //
+        if( anchor->childNode == NULL )            // check if recrusive search
+        {                                          //   is possible
+          cursor = NULL ;                          //
+          goto _door ;                             //
+        }                                          //
                                                    //
-      rcNode = buildNodeCursor( anchor->childNode, // recrusive search
+        rcNode=buildNodeCursor( anchor->childNode, // recrusive search
                                 search->childNode);//
-      cursor = addCursorNode( cursor, rcNode ) ;   //
-                                                   //
-#ifndef LOOP
-      if( anchor->nextNode != NULL )               //
-      {                                            //
-        anchor = anchor->nextNode ;                // check next node on same 
-        rcNode = buildNodeCursor( anchor, search );//   level
         cursor = addCursorNode( cursor, rcNode ) ; //
-      }                                            //
-#endif
-    }                                              //
-  }                                                //
-#ifdef LOOP
-  anchor = anchor->nextNode ;
-}
                                                    //
-  
-#else
-  if( anchor->nextNode != NULL )                   // this node does not fit,
-  {                                                //   check next one
-    anchor = anchor->nextNode ;                    //
-    rcNode = buildNodeCursor( anchor, search ) ;   //
-    cursor = addCursorNode( cursor, rcNode ) ;     //
-  }                                                //
-#endif
+      }                                            //
+    }                                              //
+    anchor = anchor->nextNode ;                    // move to next node on 
+  }                                                //   same level
                                                    //
   _door :
 
