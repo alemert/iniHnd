@@ -5,14 +5,14 @@
 /*   - setIniTagName                                                          */
 /*   - createStrValue                                                         */
 /*   - createIntValue                                                         */
-/*   - adddNode                                    */
+/*   - adddNode                                          */
 /*   - addValueNode                                                           */
 /*   - addChildNode                                                           */
 /*   - setIniSearchFilter                                                     */
 /*   - freeValNode                                                            */
 /*   - freeIniNode                                                            */
 /*   - buildNodeCursor                                                        */
-/*   - compareValueNode                            */
+/*   - compareValueNode                                */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -504,7 +504,6 @@ tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor )
     goto _door ;
   }
 
-//if( strcmp( _search->key, _anchor->key ) == 0 )
   if( compareValueNode( _search, _anchor ) == 0 )
   {
     result = _anchor ;
@@ -525,7 +524,7 @@ tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor )
 }
 
 /******************************************************************************/
-/* comapre value nodes                               */
+/* comapre value nodes                                     */
 /******************************************************************************/
 int compareValueNode( tIniVal* a, tIniVal* b )
 {
@@ -575,4 +574,46 @@ int compareValueNode( tIniVal* a, tIniVal* b )
   _door :
 
   return rc ;
+}
+
+/******************************************************************************//* exists ini node            */
+/******************************************************************************/
+tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
+{
+  tIniNode *result = NULL ;
+  tIniNode *search ;
+  tIniNode *iNode ;
+
+  tIniVal *vNode ;
+
+  iNode = _anchor ;
+  if( iNode == NULL ) iNode=mainIniAnchor ;   //
+  if( iNode == NULL ) goto _door ;
+
+  search = _search ; 
+  if( search == NULL ) goto _door ;
+
+  while( iNode != NULL )
+  {
+    if( strcmp(iNode->tag,search->tag) == 0 ) //
+    {
+      vNode = findValueNode( iNode->value  , //
+                             search->value );//
+      if( vNode != NULL )
+      {
+        if( search->childNode == NULL )
+        {
+          result = iNode ;
+          goto _door ;
+        }
+        result = existsIniNode( iNode->childNode, search ) ;
+        if( result != NULL ) goto _door ;
+      }
+    }
+    iNode = iNode->nextNode ;
+  }
+
+  _door :
+
+  return result ;
 }

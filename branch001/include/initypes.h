@@ -144,9 +144,9 @@ struct tagCfgCursor
   int addValueNode( tIniNode* iniNode, tIniVal *value ) ;
   int addChildNode( tIniNode* parent, tIniNode* child ) ;
 
-// -------------------------------------
-// get & search
-// -------------------------------------
+  // -------------------------------------
+  // get & search
+  // -------------------------------------
     #if(0)
   tIniNode* getNode( tIniNode *anchor, tIniNode *filter ) ;
     #endif
@@ -157,12 +157,16 @@ struct tagCfgCursor
 
   tCursorCfg* buildNodeCursor( tIniNode *anchor, tIniNode *search ) ;
   tIniVal * findValueNode( tIniVal* search, tIniVal *anchor ) ;
+  tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search ) ;
 
+  // -------------------------------------
+  // compare
+  // -------------------------------------
   int compareValueNode( tIniVal* a, tIniVal* b ) ;
 
-// -------------------------------------
-// desctuctor
-// -------------------------------------
+  // -------------------------------------
+  // desctuctor
+  // -------------------------------------
   void freeValNode( tIniVal *val ) ;
   void freeIniNode( tIniNode *ini ) ;
 
