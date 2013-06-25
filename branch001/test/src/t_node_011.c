@@ -46,7 +46,7 @@ int main( int argc, const char** argv )
   {
     doPointTest( "basic test"        , \
                   RC_NOT_NULL        , \
-                  setIniSearchFilter , \
+                  setIniSingleSearchNode , \
                   NULL               , \
                   "qmgr"             , \
                   "name"             , \
@@ -57,7 +57,7 @@ int main( int argc, const char** argv )
 
    doPointTest( "basic test"        , \
                  RC_NOT_NULL        , \
-                 setIniSearchFilter , \
+                 setIniSingleSearchNode , \
                  filter             , \
                  "channel"          , \
                  "name"             , \
@@ -68,7 +68,7 @@ int main( int argc, const char** argv )
 
    doPointTest( "basic test"        , \
                  RC_NOT_NULL        , \
-                 setIniSearchFilter , \
+                 setIniSingleSearchNode , \
                  filter             , \
                  "time"             , \
                  "min"              , \

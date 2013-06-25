@@ -8,7 +8,7 @@
 /*   - adddNode                                                               */
 /*   - addValueNode                                                           */
 /*   - addChildNode                                                           */
-/*   - setIniSearchFilter                                                     */
+/*   - setIniSingleSearchNode                                                 */
 /*   - freeValNode                                                            */
 /*   - freeIniNode                                                            */
 /*   - buildNodeCursor                                                        */
@@ -287,11 +287,11 @@ _door:
 /*    intVal:                                                                 */
 /*      only if strVal is set to NULL, intVal will be set as a filter         */
 /******************************************************************************/
-tIniNode* setIniSearchFilter( tIniNode* _anchor ,
-                              char*     _tag    , 
-                              char*     _key    ,
-                              char*     _strVal ,
-                              int       _intVal )
+tIniNode* setIniSingleSearchNode( tIniNode* _anchor ,
+                                  char*     _tag    , 
+                                  char*     _key    ,
+                                  char*     _strVal ,
+                                  int       _intVal )
 {
   tIniNode *filter ;
   tIniNode *p ;
@@ -577,7 +577,8 @@ int compareValueNode( tIniVal* a, tIniVal* b )
   return rc ;
 }
 
-/******************************************************************************//* exists ini node            */
+/******************************************************************************/
+/* exists ini node            */
 /******************************************************************************/
 tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
 {
@@ -619,3 +620,15 @@ tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
 
   return result ;
 }
+
+/******************************************************************************/
+/* create ini search node           */
+/*      */
+/* this function is an interface to setIniSearchFilter which only set one search node. setIniSearchFilter        setIniSingleSearchNode */
+/******************************************************************************/
+#if(0)
+tIniNode* createIniSearchNode( const char* first, ... )
+{
+   
+}
+#endif

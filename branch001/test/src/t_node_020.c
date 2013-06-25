@@ -46,7 +46,8 @@ int main( int argc, const char** argv )
   #if(1)
   {
     iniHandler( "test/cfg/t_node_020.ini" );
-    tIniNode *filter = setIniSearchFilter( NULL, "qmgr", "name", "AMXT01", 0 ) ;
+    tIniNode *filter = setIniSingleSearchNode( NULL, "qmgr", "name", 
+                                               "AMXT01", 0 ) ;
 
     doPointTest( "basic failed test" , \
                   RC_IS_NULL         , \

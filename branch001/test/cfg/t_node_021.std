@@ -1,8 +1,8 @@
-# TEST START buildNodeCursor >>basic failed test   << test/src/t_node_021.c(0056)
-# TEST OK    buildNodeCursor >>basic failed test   << test/src/t_node_021.c(0056)
+# TEST START buildNodeCursor >>basic failed test   << test/src/t_node_021.c(0057)
+# TEST OK    buildNodeCursor >>basic failed test   << test/src/t_node_021.c(0057)
 <qmgr>
   name = ADMT01
   logging = linear
 <\qmgr>
 
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_021.c(0061)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_021.c(0062)

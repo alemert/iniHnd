@@ -47,7 +47,8 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
   #if(1)
   {
-    tIniNode *filter = setIniSearchFilter( NULL, "qmgr", "name", "ADMT01", 0 ) ;
+    tIniNode *filter = setIniSingleSearchNode( NULL, "qmgr", "name", 
+                                               "ADMT01", 0 ) ;
 
     doPointTest( "basic failed test"  , \
                   RC_NOT_NULL         , \

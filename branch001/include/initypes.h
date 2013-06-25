@@ -147,13 +147,10 @@ struct tagCfgCursor
   // -------------------------------------
   // get & search
   // -------------------------------------
-    #if(0)
-  tIniNode* getNode( tIniNode *anchor, tIniNode *filter ) ;
-    #endif
-  tIniNode* setIniSearchFilter( tIniNode* anchor, char* tag , 
-                                                  char* key , 
-                                                  char* sVal, 
-                                                  int iVal  ) ;
+  tIniNode* setIniSingleSearchNode( tIniNode* anchor, char* tag , 
+                                                      char* key , 
+                                                      char* sVal, 
+                                                      int iVal  ) ;
 
   tCursorCfg* buildNodeCursor( tIniNode *anchor, tIniNode *search ) ;
   tIniVal * findValueNode( tIniVal* search, tIniVal *anchor ) ;
