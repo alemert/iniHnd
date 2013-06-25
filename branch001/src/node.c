@@ -12,8 +12,9 @@
 /*   - freeValNode                                                            */
 /*   - freeIniNode                                                            */
 /*   - buildNodeCursor                                                        */
-/*   - compareValueNode                                                */
-/*   - existsIniNode                              */
+/*   - compareValueNode                                                       */
+/*   - existsIniNode                                    */
+/*   - setIniSearchNode                  */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -24,6 +25,7 @@
 // system
 // ---------------------------------------------------------
 #include <string.h>
+#include <stdarg.h>
 
 // ---------------------------------------------------------
 // own 
@@ -622,13 +624,47 @@ tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
 }
 
 /******************************************************************************/
-/* create ini search node           */
-/*      */
-/* this function is an interface to setIniSearchFilter which only set one search node. setIniSearchFilter        setIniSingleSearchNode */
+/* create ini search node                       */
+/*                                                    */
+/*   description:                                      */
+/*     this function convert string search attributes to the iniNode search   */
+/*     structure. it is an interface to setIniSearchFilter which only set     */
+/*     one search node.                               */
 /******************************************************************************/
-#if(0)
-tIniNode* createIniSearchNode( const char* first, ... )
+#if(1)
+tIniNode* fSetIniSearchNode( const char* first, ... )
 {
-   
+  tIniNode *pNode ;   
+  tIniNode *result ;   
+
+  va_list argp = NULL ;
+  char *arg ;
+
+  if( first == NULL )
+  {
+    result = NULL ; 
+    goto _door ;
+  }
+
+  va_start( argp, first ) ;
+  arg = (char*) first ;
+
+  while( arg != NULL )
+  {
+    arg = va_arg( argp, char* ) ;
+  
+    if( arg == NULL ) 
+    {
+      printf("NULL\n" );
+    }
+    else
+    {
+      printf("%s\n",arg) ;
+    }
+  }
+
+  _door :
+
+  return NULL ;
 }
 #endif

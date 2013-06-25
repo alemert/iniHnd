@@ -52,17 +52,18 @@ include $(MAKE_INCLUDE_PATH)/general.modules.mk
 # ------------------------------------------------------------------------------
 # tests
 # ------------------------------------------------------------------------------
-TEST = t_node_000    t_node_001    t_node_002    t_node_003          \
-       t_node_010    t_node_011                         \
+TEST = t_node_000    t_node_001    t_node_002    t_node_003                   \
+       t_node_010    t_node_011                                               \
        t_precomp_000 t_precomp_001 t_precomp_002                              \
        t_convert_000 t_convert_001 t_convert_002 t_convert_003                \
        t_convert_010 t_convert_011 t_convert_012 t_convert_013 t_convert_014  \
        t_convert_020 t_convert_025                                            \
        t_reader_000  t_reader_001  t_reader_002  t_reader_003  t_reader_004   \
        t_reader_005  t_reader_010  t_reader_011  t_reader_012  t_reader_013   \
-       t_node_020    t_node_021    t_node_022    t_node_023                  \
+       t_node_020    t_node_021    t_node_022    t_node_023                   \
        t_node_030    t_node_031    t_node_032    t_node_033    t_node_034     \
-       t_node_039    t_node_040  
+       t_node_039    t_node_040                                               \
+       t_node_050  
 
 include $(MAKE_INCLUDE_PATH)/test.mk
 
