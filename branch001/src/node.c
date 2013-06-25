@@ -5,14 +5,15 @@
 /*   - setIniTagName                                                          */
 /*   - createStrValue                                                         */
 /*   - createIntValue                                                         */
-/*   - adddNode                                          */
+/*   - adddNode                                                               */
 /*   - addValueNode                                                           */
 /*   - addChildNode                                                           */
 /*   - setIniSearchFilter                                                     */
 /*   - freeValNode                                                            */
 /*   - freeIniNode                                                            */
 /*   - buildNodeCursor                                                        */
-/*   - compareValueNode                                */
+/*   - compareValueNode                                                */
+/*   - existsIniNode                              */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -586,33 +587,34 @@ tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
 
   tIniVal *vNode ;
 
-  iNode = _anchor ;
-  if( iNode == NULL ) iNode=mainIniAnchor ;   //
-  if( iNode == NULL ) goto _door ;
-
-  search = _search ; 
-  if( search == NULL ) goto _door ;
-
-  while( iNode != NULL )
-  {
-    if( strcmp(iNode->tag,search->tag) == 0 ) //
-    {
-      vNode = findValueNode( iNode->value  , //
-                             search->value );//
-      if( vNode != NULL )
-      {
-        if( search->childNode == NULL )
-        {
-          result = iNode ;
-          goto _door ;
-        }
-        result = existsIniNode( iNode->childNode, search ) ;
-        if( result != NULL ) goto _door ;
-      }
-    }
-    iNode = iNode->nextNode ;
-  }
-
+  iNode = _anchor ;                             //
+  if( iNode == NULL ) iNode=inclIniAnchor ;     //
+  if( iNode == NULL ) goto _door ;              //
+                                                //
+  search = _search ;                            //
+  if( search == NULL ) goto _door ;             //
+                                                //
+  while( iNode != NULL )                        //
+  {                                             //
+    if( strcmp(iNode->tag,search->tag) == 0 )   //
+    {                                           //
+      vNode = findValueNode( iNode->value  ,    //
+                             search->value );   //
+      if( vNode != NULL )                       //
+      {                                         //
+        if( search->childNode == NULL )         //
+        {                                       //
+          result = iNode ;                      //
+          goto _door ;                          //
+        }                                       //
+        result=existsIniNode(iNode->childNode  ,//
+                             search->childNode);//
+        if( result != NULL ) goto _door ;       //
+      }                                         //
+    }                                           //
+    iNode = iNode->nextNode ;                   //
+  }                                             //
+                                                //
   _door :
 
   return result ;

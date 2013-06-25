@@ -2,11 +2,9 @@
 /* test c source template                                                     */
 /*                                                                            */
 /* testing file :                                                             */
-/*  reader.c                                                                  */
+/*  node.c                                                                    */
 /*                                                                            */
 /* testing functions :                                                        */
-/*   - iniReader                                                              */
-/*   - iniHandleOpenTag                                                       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -25,7 +23,7 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
-#include <tutl.h>
+#include "tutl.h"
 
 #include <initypes.h>
 #include <inihnd.h>
@@ -39,26 +37,36 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_reader_013.log", INF ) ;
+  sysRc = initLogging( "test/log/t_node_039.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
+  iniHandler( "test/cfg/t_node_039_000.ini" );
+
   // -------------------------------------------------------
-  // some test
+  // some test 
   // -------------------------------------------------------
-  doIntTest( "one incl file" , \
-              0              , \
-              iniHandler    ,
-              "test/cfg/t_reader_013_000.ini" ) ;
+  #if(1)
+  {
+    tIniNode *filter = setIniSearchFilter( NULL, "qmgr", "name", "ADMT01", 0 ) ;
 
-  printf("\n == main == \n" );
-  printTree( mainIniAnchor ) ;
+    filter = setIniSearchFilter( filter, "channel", "name", "CHL1", 0 ) ;
 
-  printf("\n == include == \n" );
-  printTree( inclIniAnchor ) ;
-  printf("\n");
+    doPointTest( "basic failed test"  , \
+                  RC_NOT_NULL         , \
+                  buildNodeCursor     , \
+                  NULL                , \
+                  filter              ) ;
 
-  checkMessage( TEST_OK_TXT, iniHandler ) ;
-  
-_door:
+    tCursorCfg* result = (tCursorCfg*) gRcVoidPointer ; 
+    printCursor( result ) ;
+ 
+    checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
+
+    freeIniNode( filter ) ;
+  }
+  #endif
+
+  _door:
   return sysRc ;
 }
+

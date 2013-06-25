@@ -73,12 +73,12 @@ struct tagCfgCursor
 #ifdef C_MODULE_INI_HANDLER
 
   tIniNode *mainIniAnchor ;
-  tIniNode *icnlIniAnchor ;
+  tIniNode *inclIniAnchor ;
 
 #else
 
   extern tIniNode *mainIniAnchor ;
-  extern tIniNode *icnlIniAnchor ;
+  extern tIniNode *inclIniAnchor ;
 
 #endif
 

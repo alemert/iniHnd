@@ -53,12 +53,12 @@ int main( int argc, const char** argv )
 
     doPointTest( "basic failed test"  , \
                   RC_NOT_NULL         , \
-                  buildNodeCursor     , \
+                  existsIniNode       , \
                   NULL                , \
                   filter              ) ;
 
-    tCursorCfg* result = (tCursorCfg*) gRcVoidPointer ; 
-    printCursor( result ) ;
+    tIniNode* result = (tIniNode*) gRcVoidPointer ; 
+    printTree( result ) ;
  
     checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
 

@@ -54,7 +54,7 @@ int main( int argc, const char** argv )
   printTree( mainIniAnchor ) ;
 
   printf("\n == include == \n" );
-  printTree( icnlIniAnchor ) ;
+  printTree( inclIniAnchor ) ;
   printf("\n");
 
   checkMessage( TEST_OK_TXT, iniHandler ) ;
