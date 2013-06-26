@@ -176,6 +176,12 @@ int iniHandler( const char *mainCfg )
   }                                            //
                                                //
   mainMem = rmInclude( mainMem ) ;             //
+  if( strlen( mainMem ) == 0 )                 // handle main file empty
+  {                                            //
+    logger( LSTD_INI_EMPTY_MAIN_FILE, mainCfg ) ;
+    sysRc = 1 ;                                //
+    goto _door ;                               //
+  }                                            //
                                                //
   inclFiles = uniqueFileName( inclFiles ) ;    // sort file names to unique
                                                //   keeping logical order

@@ -25,6 +25,7 @@
 #include "tutl.h"
 
 #include <initypes.h>
+#include <inihnd.h>
 
 #include <ctl.h>
 
@@ -35,7 +36,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_convert_030.log", INF ) ;
+  sysRc = initLogging( "test/log/t_convert_036.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
 
@@ -44,8 +45,12 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   {
-    iniHandler( "test/cfg/t_convert_030_000.ini" ) ;
-    
+    iniHandler( "test/cfg/t_convert_036_000.ini" ) ;
+
+    printf("=== include ===\n"    );
+    printTree( inclIniAnchor ) ;
+
+    printf("=== main ===\n"    );
     printTree( mainIniAnchor ) ;
   }
 #endif

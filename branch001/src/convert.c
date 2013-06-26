@@ -309,7 +309,7 @@ _door :
 }
 
 /******************************************************************************/
-/* val to node                      */
+/* val to node                              */
 /******************************************************************************/
 tIniVal* val2node( char** mem )
 {
@@ -348,7 +348,7 @@ _door:
 }
 
 /******************************************************************************/
-/* create linked tree                                                */
+/* create linked tree                                                      */
 /******************************************************************************/
 tIniNode* tag2node( char **_mem )
 {
@@ -359,7 +359,7 @@ tIniNode* tag2node( char **_mem )
   char *mem = *_mem ;
 
   if( mem == NULL ) goto _door ;
-
+  // check if strlen(mem) is empty might be necessary
   char *tag ;
 
   tIniVal  *vNode ;
@@ -369,6 +369,7 @@ tIniNode* tag2node( char **_mem )
 
   char *pMem = mem ;
   char *pEndStream ;
+  char *pLink      ;
 
   int loop ;
 
@@ -403,6 +404,13 @@ tIniNode* tag2node( char **_mem )
       {                                         //
         case '<' :                              // assume sub tag (child tag)
         {                                       //
+          pLink = getLinkString( pMem ) ;       // check fot the link 
+          if( pLink != NULL )                   //
+          {                                     //
+            // a link has to be handelt here    // 
+            pMem = getLinkEnd( pLink ) ;        //
+            continue ;
+          }                                     //
           cNode = tag2node( &pMem ) ;           //
           if( cNode == NULL )                   //
           {                                     //

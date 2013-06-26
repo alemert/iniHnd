@@ -13,7 +13,7 @@
 /*   - freeIniNode                                                            */
 /*   - buildNodeCursor                                                        */
 /*   - compareValueNode                                                       */
-/*   - existsIniNode                                                */
+/*   - existsIniNode                                                      */
 /*   - fSetIniSearchNode                          */
 /******************************************************************************/
 
@@ -633,7 +633,6 @@ tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
 /******************************************************************************/
 tIniNode* fSetIniSearchNode( int cnt , ... )
 {
-  tIniNode *pNode ;   
   tIniNode *result = NULL ;   
 
   va_list argp ;

@@ -17,6 +17,7 @@
 /*   D E F I N E S                                                            */
 /******************************************************************************/
 #define OPEN_INCL "<!include="
+#define OPEN_LINK "<!link="
 
 /******************************************************************************/
 /*   T Y P E S                                                                */
@@ -182,6 +183,8 @@ struct tagCfgCursor
 // ---------------------------------------------------------
   char* precompile( const char* inMem ) ;
   int isIntiger( const char* mem) ;
+  char* getLinkString( char* stream ) ;
+  char* getLinkEnd( char* stream ) ;
 
 // ---------------------------------------------------------
 // inidbg.c

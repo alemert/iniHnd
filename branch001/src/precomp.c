@@ -4,7 +4,9 @@
 /* functions:                                                                 */
 /*  - precompile                                                              */
 /*  - isIntiger                                                               */
-/*  -  rmInclude                                            */
+/*  - rmInclude                                                               */
+/*  - getLinkString                              */
+/*  - getLinkEnd                              */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -300,4 +302,62 @@ char* rmInclude( char *_mem )
   _door :
 
   return _mem ;
+}
+
+/******************************************************************************/
+/*  get link string      */
+/*                        */
+/*  description:                */
+/*    check for link at adress _stream       */
+/*                            */
+/*  return code :          */
+/*    if link:  pointer to the first link argument <!link="tag","key","value">*/
+/*    if not : NULL          */
+/*                                    */
+/******************************************************************************/
+char* getLinkString( char* _stream )
+{
+  char* stream = _stream ;
+
+  int len ;
+
+  if( stream == NULL ) goto _door ;        //
+                                           //
+  len = strlen( OPEN_LINK ) ;              //
+                                           //
+  if( memcmp(_stream,OPEN_LINK,len) != 0 ) //
+  {                                        //
+    stream = NULL ;                        //
+    goto _door ;                           //
+  }                                        //
+                                           //
+  stream += len ;                          //
+
+  _door :
+  
+  return stream ; 
+}
+/******************************************************************************/
+/* get link end */
+/******************************************************************************/
+char* getLinkEnd( char* _stream )
+{
+  char *stream = _stream ;
+
+  if( stream == NULL ) goto _door ;
+
+  while( *stream != '>' )
+  {
+    if( stream == '\0' ) 
+    {
+      stream = NULL ;
+      goto _door ;
+    }
+    stream++ ;
+  }
+  stream++ ;
+
+  _door :
+  
+  return stream ; 
 }
