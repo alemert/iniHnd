@@ -13,8 +13,8 @@
 /*   - freeIniNode                                                            */
 /*   - buildNodeCursor                                                        */
 /*   - compareValueNode                                                       */
-/*   - existsIniNode                                    */
-/*   - fSetIniSearchNode                  */
+/*   - existsIniNode                                                */
+/*   - fSetIniSearchNode                          */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -527,7 +527,7 @@ tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor )
 }
 
 /******************************************************************************/
-/* comapre value nodes                                     */
+/* comapre value nodes                                             */
 /******************************************************************************/
 int compareValueNode( tIniVal* a, tIniVal* b )
 {
@@ -580,7 +580,7 @@ int compareValueNode( tIniVal* a, tIniVal* b )
 }
 
 /******************************************************************************/
-/* exists ini node            */
+/* exists ini node                                  */
 /******************************************************************************/
 tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
 {
@@ -624,12 +624,12 @@ tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
 }
 
 /******************************************************************************/
-/* create ini search node                       */
-/*                                                    */
-/*   description:                                      */
+/* create ini search node                               */
+/*                                                              */
+/*   description:                                                */
 /*     this function convert string search attributes to the iniNode search   */
 /*     structure. it is an interface to setIniSearchFilter which only set     */
-/*     one search node.                               */
+/*     one search node.                                                 */
 /******************************************************************************/
 tIniNode* fSetIniSearchNode( int cnt , ... )
 {
@@ -641,36 +641,36 @@ tIniNode* fSetIniSearchNode( int cnt , ... )
 
   int i,j ;
 
-  if( cnt == 0 )                             //
+  if( cnt == 0 )                             // check if result empty
   {                                          //
-    result = NULL ;               //
-    goto _door ;                  //
+    result = NULL ;                          //
+    goto _door ;                             //
   }                                          //
                                              //
-  if( (cnt % 3) > 0 )              //
-  {                                          //
-    result = NULL ;                     //
-    logger(LSTD_INI_SEARCH_STR_CNT_ERR);   //
-    goto _door ;                          //
+  if( (cnt % 3) > 0 )                        // check for <tag> key=value </tag>
+  {                                          //             ^    ^    ^
+    result = NULL ;                          //             |    |    |
+    logger(LSTD_INI_SEARCH_STR_CNT_ERR);     //             1    2    3
+    goto _door ;                             //
   }                                          //
                                              //
-  va_start( argp, cnt ) ;            //
+  va_start( argp, cnt ) ;                    // init va_arg
                                              //
-  for( i=0; i<cnt; i+=3 )          //
-  {                                          //
-    for( j=0; j<3; j++ )        //
+  for( i=0; i<cnt; i+=3 )                    // handle one complete 
+  {                                          //   troika (tag,key,value)
+    for( j=0; j<3; j++ )                     //
     {                                        //
       arg[j] = va_arg( argp, char* ) ;       //
-      if( arg[j] == NULL )        //
-      {                                //
+      if( arg[j] == NULL )                   //
+      {                                      //
         logger(LSTD_INI_SEARCH_STR_CNT_ERR); //
-      }                                 //
-    }                                    //
+      }                                      //
+    }                                        //
     result = setIniSingleSearchNode( result, //
-                                     arg[0], //
-                                     arg[1], //
-                                     arg[2], //
-                                     0    ); //
+                                     arg[0], // <tag>
+                                     arg[1], // key
+                                     arg[2], // value
+                                     0    ); // (intiger dummy)
   }                                          //
                                              //
   _door :     
