@@ -14,7 +14,7 @@
 /*   - buildNodeCursor                                                        */
 /*   - compareValueNode                                                       */
 /*   - existsIniNode                                    */
-/*   - setIniSearchNode                  */
+/*   - fSetIniSearchNode                  */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -631,40 +631,50 @@ tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
 /*     structure. it is an interface to setIniSearchFilter which only set     */
 /*     one search node.                               */
 /******************************************************************************/
-#if(1)
-tIniNode* fSetIniSearchNode( const char* first, ... )
+tIniNode* fSetIniSearchNode( int cnt , ... )
 {
   tIniNode *pNode ;   
-  tIniNode *result ;   
+  tIniNode *result = NULL ;   
 
-  va_list argp = NULL ;
-  char *arg ;
+  va_list argp ;
+  char *arg[3] ;
 
-  if( first == NULL )
-  {
-    result = NULL ; 
-    goto _door ;
-  }
+  int i,j ;
 
-  va_start( argp, first ) ;
-  arg = (char*) first ;
+  if( cnt == 0 )                             //
+  {                                          //
+    result = NULL ;               //
+    goto _door ;                  //
+  }                                          //
+                                             //
+  if( (cnt % 3) > 0 )              //
+  {                                          //
+    result = NULL ;                     //
+    logger(LSTD_INI_SEARCH_STR_CNT_ERR);   //
+    goto _door ;                          //
+  }                                          //
+                                             //
+  va_start( argp, cnt ) ;            //
+                                             //
+  for( i=0; i<cnt; i+=3 )          //
+  {                                          //
+    for( j=0; j<3; j++ )        //
+    {                                        //
+      arg[j] = va_arg( argp, char* ) ;       //
+      if( arg[j] == NULL )        //
+      {                                //
+        logger(LSTD_INI_SEARCH_STR_CNT_ERR); //
+      }                                 //
+    }                                    //
+    result = setIniSingleSearchNode( result, //
+                                     arg[0], //
+                                     arg[1], //
+                                     arg[2], //
+                                     0    ); //
+  }                                          //
+                                             //
+  _door :     
 
-  while( arg != NULL )
-  {
-    arg = va_arg( argp, char* ) ;
-  
-    if( arg == NULL ) 
-    {
-      printf("NULL\n" );
-    }
-    else
-    {
-      printf("%s\n",arg) ;
-    }
-  }
-
-  _door :
-
-  return NULL ;
+  return result ;
 }
-#endif
+

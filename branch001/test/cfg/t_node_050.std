@@ -1,0 +1,19 @@
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0051)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0051)
+null
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0056)
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0068)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0068)
+null
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0073)
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0085)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0085)
+null
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0090)
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0102)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0102)
+<qmgr>
+  name = ADMT01
+<\qmgr>
+
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0107)

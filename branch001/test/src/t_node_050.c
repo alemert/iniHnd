@@ -37,16 +37,13 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  setIniSearchNode( "qmgr" ) ;
-
-
   sysRc = initLogging( "test/log/t_node_050.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
   // -------------------------------------------------------
   // some test 
   // -------------------------------------------------------
-  #if(0)
+  #if(1)
   {
     doPointTest( "basic test"  , \
                   RC_IS_NULL         , \
@@ -63,12 +60,46 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
   // some test 
   // -------------------------------------------------------
-  #if(0)
+  #if(1)
   {
-    doPointTest( "basic test"  , \
-                  RC_IS_NULL         , \
-                  setIniSearchNode    , \
-                  "qmgr"                ) ;
+    doPointTest( "basic test"      , \
+                  RC_IS_NULL       , \
+                  setIniSearchNode , \
+                  "qmgr"           ) ;
+
+    tIniNode* result = (tIniNode*) gRcVoidPointer ; 
+    printTree( result ) ;
+ 
+    checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
+  }
+  #endif
+
+  // -------------------------------------------------------
+  // some test 
+  // -------------------------------------------------------
+  #if(1)
+  {
+    doPointTest( "basic test"      , \
+                  RC_IS_NULL       , \
+                  setIniSearchNode , \
+                  "qmgr", "name"   ) ;
+
+    tIniNode* result = (tIniNode*) gRcVoidPointer ; 
+    printTree( result ) ;
+ 
+    checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
+  }
+  #endif
+
+  // -------------------------------------------------------
+  // some test 
+  // -------------------------------------------------------
+  #if(1)
+  {
+    doPointTest( "basic test"              , \
+                  RC_NOT_NULL              , \
+                  setIniSearchNode         , \
+                  "qmgr", "name", "ADMT01" ) ;
 
     tIniNode* result = (tIniNode*) gRcVoidPointer ; 
     printTree( result ) ;

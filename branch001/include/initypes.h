@@ -92,9 +92,15 @@ struct tagCfgCursor
 // ---------------------------------------------------------
 // node.c
 // ---------------------------------------------------------
-#define setIniSearchNode( first, ... ) fSetIniSearchNode( first, \
-      __VA_ARGS__ \
-      NULL ) 
+   // for non gcc comp
+   //#define NR__VA_ARGS__ (sizeof((int[]){__VA_ARGS__})/sizeof(int))
+   // for gcc
+   // #define NR__VA_ARGS__ (sizeof((int[]){0,##__VA_ARGS__})/sizeof(int)-1)
+
+#define setIniSearchNode(  ... )    \
+        fSetIniSearchNode( ( sizeof( (char*[]){NULL,##__VA_ARGS__} ) \
+                             / sizeof(char*)-1), \
+                           ##__VA_ARGS__    )
 
 // ---------------------------------------------------------
 // inidbg.c
@@ -158,7 +164,7 @@ struct tagCfgCursor
   tCursorCfg* buildNodeCursor( tIniNode *anchor, tIniNode *search ) ;
   tIniVal * findValueNode( tIniVal* search, tIniVal *anchor ) ;
   tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search ) ;
-  tIniNode* fSetIniSearchNode( const char* first, ... ) ;
+  tIniNode* fSetIniSearchNode( int cnt, ... ) ;
 
   // -------------------------------------
   // compare
