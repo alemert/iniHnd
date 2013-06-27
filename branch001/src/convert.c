@@ -10,6 +10,7 @@
 /*   - getIntVal                                                              */
 /*   - tag2node                                                               */
 /*   - val2node                                                               */
+/*   - str2arg            */
 /*                                                                            */
 /******************************************************************************/
 
@@ -370,6 +371,7 @@ tIniNode* tag2node( char **_mem )
   char *pMem = mem ;
   char *pEndStream ;
   char *pLink      ;
+  char **search     ;
 
   int loop ;
 
@@ -408,8 +410,8 @@ tIniNode* tag2node( char **_mem )
           if( pLink != NULL )                   //
           {                                     //
             pMem = getLinkEnd( pLink ) ;        //
-         // split
-            continue ;
+            search = str2arg( pLink, pMem ) ;   //
+            continue ;                  //
           }                                     //
           cNode = tag2node( &pMem ) ;           //
           if( cNode == NULL )                   //
@@ -470,3 +472,106 @@ _door :
 }
 
 /******************************************************************************/
+/*  string to arg                        */
+/*                                        */
+/*  description:                              */
+/*    convert "qmgr","name","ADMT02" into char** = {"qmgr","name","ADMT02"}   */
+/******************************************************************************/
+char** str2arg( char *_start, char *_end )
+{
+  char *p ;
+  char **arg ;
+  int argv = 0 ;
+  int argOpen = 0 ;
+  int i ;
+
+  char *start = _start ;
+  char *end   = _end   ;
+
+  if( start == NULL )
+  {
+    arg = NULL ; 
+    goto _door ;
+  }
+
+  if( end == NULL )
+  {
+    end = getLinkEnd(start) ;
+  }
+
+  // -------------------------------------------------------
+  // count ',' 
+  // -------------------------------------------------------
+  for( p=start; p<end; p++ )
+  {
+    switch( *p )
+    {
+      case '"' :
+      {
+        if( argOpen ) { argOpen = 0 ; }
+        else          { argOpen = 1 ; }
+        break ;
+      }
+      case ',' :
+      {
+        if( !argOpen ) { argv++ ; }
+        break ;
+      }
+      case '\0' :
+      {
+        arg = NULL ;
+        goto _door ;
+      }
+      default :
+      {
+        break ;
+      }
+    }
+  }
+  argv++ ;
+
+  // -------------------------------------------------------
+  // alloc argv, has to be freed outside this function
+  // -------------------------------------------------------
+  arg = (char**) malloc( sizeof(char*) * (argv+1) ) ;
+
+  // -------------------------------------------------------
+  // split the words
+  // -------------------------------------------------------
+  argOpen = 0 ;                   // init vara
+  i = 0 ;                         //
+                                  //
+  for( p=start; p<end; p++ )      //
+  {                               //
+    switch( *p )                  //
+    {                             //
+      case '"' :                  // find out if it is an openening
+      {                           //  or closing '"'
+        if( argOpen )             // replace " by EO-String '\0' if closing '"'
+        {                         //
+          argOpen = 0 ;           //
+          *p = '\0' ;             //
+        }                         //
+        else                      // it is an opening '"'
+        {                         //
+          argOpen = 1 ;           //
+        }                         //
+        break ;                   //
+      }                           //
+      default :                   //
+      {                           //
+        if( argOpen == 1 )        // set arg pointer to first char 
+        {                         //   after opening "'"
+          arg[i] = p ;            //
+          argOpen = 2 ;           //
+          i++ ;                   //
+        }                         //
+        break ;                   //
+      }                           //
+    }                             //
+  }                               //
+                                  //
+  _door :
+
+  return arg ;
+}

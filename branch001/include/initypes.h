@@ -128,6 +128,8 @@ struct tagCfgCursor
   tIniNode* tag2node( char** mem ) ;
   tIniVal* val2node(  char** mem ) ;
 
+  char** str2arg( char*, char* ) ;
+
 // ---------------------------------------------------------
 // reader.c
 // ---------------------------------------------------------
@@ -161,11 +163,11 @@ struct tagCfgCursor
                                                       char* key , 
                                                       char* sVal, 
                                                       int iVal  ) ;
+  tIniNode* fSetIniSearchNode( int cnt, ... ) ;
 
   tCursorCfg* buildNodeCursor( tIniNode *anchor, tIniNode *search ) ;
   tIniVal * findValueNode( tIniVal* search, tIniVal *anchor ) ;
   tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search ) ;
-  tIniNode* fSetIniSearchNode( int cnt, ... ) ;
 
   // -------------------------------------
   // compare
@@ -177,6 +179,10 @@ struct tagCfgCursor
   // -------------------------------------
   void freeValNode( tIniVal *val ) ;
   void freeIniNode( tIniNode *ini ) ;
+
+  // -------------------------------------
+  // other
+  // -------------------------------------
 
 // ---------------------------------------------------------
 // precomp.c

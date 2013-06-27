@@ -1,0 +1,15 @@
+# TEST START str2arg    >>basic test          << test/src/t_convert_015.c(0048)
+# TEST OK    str2arg    >>basic test          << test/src/t_convert_015.c(0048)
+# CHECK OK   str2arg    >>                    << test/src/t_convert_015.c(0050)
+# TEST START str2arg    >>basic test          << test/src/t_convert_015.c(0065)
+# TEST OK    str2arg    >>basic test          << test/src/t_convert_015.c(0065)
+0 qmgr
+1 name
+2 admt01
+# CHECK OK   str2arg    >>                    << test/src/t_convert_015.c(0073)
+# TEST START str2arg    >>basic test          << test/src/t_convert_015.c(0088)
+# TEST OK    str2arg    >>basic test          << test/src/t_convert_015.c(0088)
+0 qmgr
+1 name
+2 admt01
+# CHECK OK   str2arg    >>                    << test/src/t_convert_015.c(0096)
