@@ -1,19 +1,23 @@
-# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0051)
-# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0051)
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0050)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0050)
 null
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0056)
-# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0068)
-# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0068)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0055)
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0067)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0067)
 null
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0073)
-# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0085)
-# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0085)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0072)
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0084)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0084)
 null
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0090)
-# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0102)
-# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0102)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0089)
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0101)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0101)
+null
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0106)
+# TEST START setIniSearchNode >>basic test          << test/src/t_node_050.c(0118)
+# TEST OK    setIniSearchNode >>basic test          << test/src/t_node_050.c(0118)
 <qmgr>
   name = ADMT01
 <\qmgr>
 
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0107)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_050.c(0123)

@@ -47,6 +47,22 @@ int main( int argc, const char** argv )
   {
     doPointTest( "basic test"  , \
                   RC_IS_NULL         , \
+                  setIniSearchNode    ) ;
+
+    tIniNode* result = (tIniNode*) gRcVoidPointer ; 
+    printTree( result ) ;
+ 
+    checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
+  }
+  #endif
+
+  // -------------------------------------------------------
+  // some test 
+  // -------------------------------------------------------
+  #if(1)
+  {
+    doPointTest( "basic test"  , \
+                  RC_IS_NULL         , \
                   setIniSearchNode    , \
                   NULL                ) ;
 

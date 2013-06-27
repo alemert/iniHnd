@@ -1,0 +1,15 @@
+=== include ===
+<channel>
+  name = CHL1
+  logging = linear
+<\channel>
+
+=== main ===
+<qmgr>
+  <channel>
+    name = CHL1
+    logging = linear
+  <\channel>
+
+<\qmgr>
+

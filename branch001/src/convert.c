@@ -411,7 +411,11 @@ tIniNode* tag2node( char **_mem )
           {                                     //
             pMem = getLinkEnd( pLink ) ;        //
             search = str2arg( pLink, pMem ) ;   //
-            continue ;                  //
+            cNode = existsIniNode( NULL,        //
+                                   setIniSearchNodeArray(search) ) ;
+            free( search ) ;                    //
+            addChildNode( pNode, cNode ) ;      //
+            continue ;                          //
           }                                     //
           cNode = tag2node( &pMem ) ;           //
           if( cNode == NULL )                   //
