@@ -380,6 +380,9 @@ tIniNode* tag2node( char **_mem )
   loop = 1 ; 
   while( loop )                                 //                   |
   {                                             //                   v
+    
+    pLink = getLinkString( pMem ) ;             // 
+handle link wie weiter unten
     tagStart = getOpenTag( pMem, &tag ) ;       // start of tag <tag>some
     if( tagStart == NULL )                      //
     {                                           //
@@ -411,8 +414,8 @@ tIniNode* tag2node( char **_mem )
           {                                     //
             pMem = getLinkEnd( pLink ) ;        //
             search = str2arg( pLink, pMem ) ;   //
-            cNode = existsIniNode( NULL,        //
-                                   setIniSearchNodeArray(search) ) ;
+            cNode = existsIniNode( NULL, setIniSearchNodeArray(search) ) ;
+memory leak rc setIniSearch
             free( search ) ;                    //
             addChildNode( pNode, cNode ) ;      //
             continue ;                          //
@@ -449,9 +452,10 @@ tIniNode* tag2node( char **_mem )
         }                                       //
         else                                    // next tag is on same level
         {                                       //
+handle link as a nexte node, wird wahrscheinlich gelöst am anfang der schleife
           pNode->nextNode = initIniNode() ;     //
           pNode = pNode->nextNode ;             //
-          pMem = tagEnd ;              //
+          pMem = tagEnd ;                       //
         }                                       //
         break ;                                 //
       }                                         //
