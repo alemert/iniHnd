@@ -363,26 +363,39 @@ tIniNode* tag2node( char **_mem )
   // check if strlen(mem) is empty might be necessary
   char *tag ;
 
-  tIniVal  *vNode ;
-
-  tIniNode *pNode ;
-  tIniNode *anchorNode = initIniNode() ;
+  tIniVal  *vNode ;    // general pointer to value node
+                       //
+  tIniNode *sNode ;    // general pointer to seach node
+  tIniNode *pNode ;    // general pointer to ini node
+  tIniNode *nNode ;    // general pointer to next node
+  tIniNode *anchorNode = initIniNode() ;  // pointer to anchor ini Node
 
   char *pMem = mem ;
   char *pEndStream ;
   char *pLink      ;
-  char **search     ;
+  char **searchAtt ;
 
   int loop ;
 
   pNode = anchorNode ;
 
   loop = 1 ; 
-  while( loop )                                 //                   |
-  {                                             //                   v
-    
+  while( loop )                                 //
+  {                                             //
     pLink = getLinkString( pMem ) ;             // 
-handle link wie weiter unten
+    if( pLink != NULL )                         //
+    {                                           //
+      pMem = getLinkEnd( pLink ) ;              //
+      searchAtt = str2arg( pLink, pMem );       //
+      sNode = setIniSearchNodeArray(searchAtt); //
+      free( searchAtt ) ;                       //
+      nNode = existsIniNode( NULL, sNode ) ;    //
+      freeIniNode( sNode ) ;                    //
+      pNode->nextNode = nNode ;                 //
+      pNode = nNode ;                           //
+      continue ;                                //
+    }                                           //                   |
+                                                //                   v
     tagStart = getOpenTag( pMem, &tag ) ;       // start of tag <tag>some
     if( tagStart == NULL )                      //
     {                                           //
@@ -413,11 +426,16 @@ handle link wie weiter unten
           if( pLink != NULL )                   //
           {                                     //
             pMem = getLinkEnd( pLink ) ;        //
-            search = str2arg( pLink, pMem ) ;   //
-            cNode = existsIniNode( NULL, setIniSearchNodeArray(search) ) ;
-memory leak rc setIniSearch
-            free( search ) ;                    //
+            searchAtt = str2arg( pLink, pMem ); //
+            sNode=setIniSearchNodeArray(searchAtt);
+            free( searchAtt ) ;                 //
+            cNode = existsIniNode( NULL,sNode );//
+            freeIniNode( sNode ) ;              //
             addChildNode( pNode, cNode ) ;      //
+            if( memcmp(pMem,"</",2) == 0 )        // next tag is on higher level
+            {                                   //
+              loop = 0 ;
+            }
             continue ;                          //
           }                                     //
           cNode = tag2node( &pMem ) ;           //
@@ -449,14 +467,17 @@ memory leak rc setIniSearch
         if( *(tagEnd+1) == '/' )                // next tag is on higher level
         {                                       //
           loop = 0 ;                            //
+          break ;
         }                                       //
-        else                                    // next tag is on same level
-        {                                       //
-handle link as a nexte node, wird wahrscheinlich gelöst am anfang der schleife
-          pNode->nextNode = initIniNode() ;     //
-          pNode = pNode->nextNode ;             //
-          pMem = tagEnd ;                       //
-        }                                       //
+        pLink = getLinkString( tagEnd ) ;       // check fot the link 
+        if( pLink != NULL )                  //
+        {
+          pMem = tagEnd ;
+          break ;
+        }
+        pNode->nextNode = initIniNode() ;     // next tag is on same level
+        pNode = pNode->nextNode ;             //
+        pMem = tagEnd ;                       //
         break ;                                 //
       }                                         //
       case '\0' :                               // end of stream
