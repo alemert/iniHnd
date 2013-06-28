@@ -393,6 +393,8 @@ tIniNode* tag2node( char **_mem )
       freeIniNode( sNode ) ;                    //
       pNode->nextNode = nNode ;                 //
       pNode = nNode ;                           //
+      tagEnd = pMem ;      //
+      loop = 0 ;      //
       continue ;                                //
     }                                           //                   |
                                                 //                   v
@@ -400,6 +402,7 @@ tIniNode* tag2node( char **_mem )
     if( tagStart == NULL )                      //
     {                                           //
       logger( LSTD_INI_OPEN_TAG_ERROR, mem ) ;  //
+      freeIniNode( anchorNode );      //
       rcNode = NULL ;                           //
       goto _door ;                              //
     }                                           //
@@ -432,10 +435,11 @@ tIniNode* tag2node( char **_mem )
             cNode = existsIniNode( NULL,sNode );//
             freeIniNode( sNode ) ;              //
             addChildNode( pNode, cNode ) ;      //
-            if( memcmp(pMem,"</",2) == 0 )        // next tag is on higher level
+            if( memcmp(pMem,"</",2) == 0 )      // next tag is on higher level
             {                                   //
-              loop = 0 ;
-            }
+              loop = 0 ;      //
+            }      //
+// set tagEnd might be missing
             continue ;                          //
           }                                     //
           cNode = tag2node( &pMem ) ;           //
