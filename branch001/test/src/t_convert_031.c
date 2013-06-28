@@ -36,7 +36,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_convert_037.log", INF ) ;
+  sysRc = initLogging( "test/log/t_convert_031.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
 
@@ -45,7 +45,7 @@ int main( int argc, const char** argv )
   // -------------------------------------------------------
 #if(1)
   {
-    iniHandler( "test/cfg/t_convert_037_000.ini" ) ;
+    iniHandler( "test/cfg/t_convert_031_000.ini" ) ;
 
     printf("=== include ===\n"    );
     printTree( inclIniAnchor ) ;
