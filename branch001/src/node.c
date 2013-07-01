@@ -14,7 +14,8 @@
 /*   - buildNodeCursor                                                        */
 /*   - compareValueNode                                                       */
 /*   - existsIniNode                                                          */
-/*   - fSetIniSearchNode                          */
+/*   - fSetIniSearchNode                                                      */
+/*   - iniStrValue                                                    */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -527,7 +528,7 @@ tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor )
 }
 
 /******************************************************************************/
-/* comapre value nodes                                             */
+/* comapre value nodes                                                        */
 /******************************************************************************/
 int compareValueNode( tIniVal* a, tIniVal* b )
 {
@@ -580,7 +581,7 @@ int compareValueNode( tIniVal* a, tIniVal* b )
 }
 
 /******************************************************************************/
-/* exists ini node                                              */
+/* exists ini node                                                            */
 /******************************************************************************/
 tIniNode*  existsIniNode( int anchorType    , 
                           tIniNode *_anchor , 
@@ -747,16 +748,16 @@ tIniNode* fSetIniSearchNode( int cnt , ... )
 }
 
 /******************************************************************************/
-/* set ini search node from array      */
+/* set ini search node from array                    */
 /*                                                                            */
 /*   description:                                                             */
 /*     this function convert string search attributes to the iniNode search   */
 /*     structure. it is an interface to setIniSearchFilter which only set     */
 /*     one search node.                                                       */
-/*                    */
+/*                                                  */
 /*     the differance between this func and fSetIniSearchNode is that this    */
 /*     function handels attributes of a type char*, and fSetIniSearchNode     */
-/*     takes va_args            */
+/*     takes va_args                                */
 /******************************************************************************/
 tIniNode* setIniSearchNodeArray( char** _attr )
 {
@@ -796,6 +797,33 @@ tIniNode* setIniSearchNodeArray( char** _attr )
                                                  //
                                                  //
   _door :     
+
+  return result ;
+}
+
+/******************************************************************************/
+/* get string value                                    */
+/******************************************************************************/
+char* iniStrValue( tIniNode *_iniNode, char* _key )
+{
+  tIniVal *valNode ;
+  char    *result = NULL ;
+
+  valNode = _iniNode->value ;
+
+  if( valNode == NULL ) goto _door ;
+
+  while( valNode != NULL )
+  {
+    if( strcmp( _key, valNode->key ) == 0 )
+    {
+      result = valNode->value.strVal ;
+      goto _door ;
+    }
+    valNode = valNode->nextVal ;
+  }
+
+  _door :
 
   return result ;
 }

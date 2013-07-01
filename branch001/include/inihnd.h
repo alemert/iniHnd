@@ -49,4 +49,4 @@ int iniHandler( const char *mainCfg ) ;
 tIniNode*  existsIniNode( int anchorType    ,
                           tIniNode *_anchor ,
                           tIniNode *_search ) ;
-
+char* iniStrValue( tIniNode *iniNode, char* key ) ;

@@ -1,2 +1,2 @@
-2013-06-25 20:55:27  14212 00208 ERR ini tag is NULL
-                                     setIniSingleSearchNode() in src/node.c (line: 00308)
+2013-07-01 20:47:25  10374 00208 ERR ini tag is NULL
+                                     setIniSingleSearchNode() in src/node.c (line: 00309)

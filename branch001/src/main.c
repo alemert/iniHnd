@@ -44,6 +44,7 @@ int main(int argc, const char* argv[] )
   char * iniFile ;
   char * treeType ;
   char **filter ;
+  char * key ;
 
   // -------------------------------------------------------
   // read and check command line attributes
@@ -87,12 +88,16 @@ int main(int argc, const char* argv[] )
   }
   
   // -------------------------------------------------------
-  // cmdln --single
+  // cmdln --path
   // -------------------------------------------------------
-  filter = getStrArrayAttr( "single" ) ;
+  filter = getStrArrayAttr( "path" ) ;
   if(  filter )
   {
-    printTree( existsMainIniNode( setIniSearchNodeArray( filter ) ) ) ;
+    key = getStrAttr( "key" ) ;    
+    printf( "%s\t:%s\n", 
+            key, 
+            iniStrValue(existsMainIniNode(setIniSearchNodeArray(filter)),key));
+    
     goto _door ;
   }
   
