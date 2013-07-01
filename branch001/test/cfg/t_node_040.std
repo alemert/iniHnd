@@ -1,8 +1,8 @@
-# TEST START existsIniNode >>basic failed test   << test/src/t_node_040.c(0058)
-# TEST OK    existsIniNode >>basic failed test   << test/src/t_node_040.c(0058)
+# TEST START existsIniNode >>basic failed test   << test/src/t_node_040.c(0059)
+# TEST OK    existsIniNode >>basic failed test   << test/src/t_node_040.c(0059)
 <channel>
   name = CHL1
    trigger = 4
 <\channel>
 
-# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_040.c(0063)
+# CHECK OK   setIniSearchFilter >>                    << test/src/t_node_040.c(0064)

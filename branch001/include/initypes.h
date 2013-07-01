@@ -166,7 +166,11 @@ struct tagCfgCursor
 
   tCursorCfg* buildNodeCursor( tIniNode *anchor, tIniNode *search ) ;
   tIniVal * findValueNode( tIniVal* search, tIniVal *anchor ) ;
-  tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search ) ;
+  #if(0)
+  tIniNode*  existsIniNode( int anchorType    , 
+                            tIniNode *_anchor , 
+                            tIniNode *_search ) ;
+  #endif
 
   // -------------------------------------
   // compare

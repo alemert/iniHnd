@@ -1,6 +1,6 @@
-2013-06-27 18:33:41   9808 00209 ERR Wrong nr. of search string <tag><key><value>
-                                     fSetIniSearchNode() in src/node.c (line: 00700)
-2013-06-27 18:33:41   9808 00209 ERR Wrong nr. of search string <tag><key><value>
-                                     fSetIniSearchNode() in src/node.c (line: 00700)
-2013-06-27 18:33:41   9808 00209 ERR Wrong nr. of search string <tag><key><value>
-                                     fSetIniSearchNode() in src/node.c (line: 00700)
+2013-07-01 16:39:24  31708 00209 ERR Wrong nr. of search string <tag><key><value>
+                                     fSetIniSearchNode() in src/node.c (line: 00717)
+2013-07-01 16:39:24  31708 00209 ERR Wrong nr. of search string <tag><key><value>
+                                     fSetIniSearchNode() in src/node.c (line: 00717)
+2013-07-01 16:39:24  31708 00209 ERR Wrong nr. of search string <tag><key><value>
+                                     fSetIniSearchNode() in src/node.c (line: 00717)

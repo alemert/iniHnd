@@ -9,6 +9,7 @@
 // ---------------------------------------------------------
 // system
 // ---------------------------------------------------------
+#include <string.h>
 
 // ---------------------------------------------------------
 // own 
@@ -39,8 +40,10 @@
 
 int main(int argc, const char* argv[] )
 {
-  int sysRc ;
+  int sysRc = 0 ;
   char * iniFile ;
+  char * treeType ;
+  char **filter ;
 
   // -------------------------------------------------------
   // read and check command line attributes
@@ -55,11 +58,44 @@ int main(int argc, const char* argv[] )
 
   iniHandler( iniFile ) ;
 
-  if( ! getFlagAttr( "all" ) )
+  // -------------------------------------------------------
+  // cmdln --all 
+  // -------------------------------------------------------
+  treeType = getStrAttr( "all" ) ;
+  if(  treeType )
   {
-    printTree( mainIniAnchor ) ;
+    if( strcmp( treeType, "main" ) )
+    {
+      printTree( mainIniAnchor ) ;
+      goto _door ;
+    }
+    if( strcmp( treeType, "include" ) )
+    {
+      printTree( mainIniAnchor ) ;
+      goto _door ;
+    }
   }
 
+  // -------------------------------------------------------
+  // cmdln --list
+  // -------------------------------------------------------
+  filter = getStrArrayAttr( "list" ) ;
+  if(  filter )
+  {
+    printCursor( buildNodeCursor( NULL, setIniSearchNodeArray( filter ) ) ) ;
+    goto _door ;
+  }
+  
+  // -------------------------------------------------------
+  // cmdln --single
+  // -------------------------------------------------------
+  filter = getStrArrayAttr( "single" ) ;
+  if(  filter )
+  {
+    printTree( existsMainIniNode( setIniSearchNodeArray( filter ) ) ) ;
+    goto _door ;
+  }
+  
 _door :
 
   return sysRc ;

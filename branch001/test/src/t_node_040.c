@@ -54,6 +54,7 @@ int main( int argc, const char** argv )
     doPointTest( "basic failed test"  , \
                   RC_NOT_NULL         , \
                   existsIniNode       , \
+                  A_INCLUDE           , \
                   NULL                , \
                   filter              ) ;
 

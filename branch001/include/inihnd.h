@@ -19,6 +19,9 @@
 /******************************************************************************/
 /*   D E F I N E S                                                            */
 /******************************************************************************/
+#define  A_MAIN     1
+#define  A_INCLUDE  2
+#define  A_FREE     3
 
 /******************************************************************************/
 /*   T Y P E S                                                                */
@@ -35,8 +38,15 @@
 /******************************************************************************/
 /*   M A C R O S                                                              */
 /******************************************************************************/
+#define existsInclIniNode( search   ) existsIniNode( A_INCLUDE, NULL  , search )
+#define existsMainIniNode( search   ) existsIniNode( A_MAIN,    NULL  , search )
+#define findIniNode( anchor, search ) existsIniNode( A_FREE,    anchor, search )
 
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
 int iniHandler( const char *mainCfg ) ;
+tIniNode*  existsIniNode( int anchorType    ,
+                          tIniNode *_anchor ,
+                          tIniNode *_search ) ;
+

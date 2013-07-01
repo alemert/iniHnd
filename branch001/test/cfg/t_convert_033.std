@@ -11,6 +11,7 @@
 
 === main ===
 <qmgr>
+  name = ADM01
   <channel>
     name = CHL1
     logging = linear

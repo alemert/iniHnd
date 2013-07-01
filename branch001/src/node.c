@@ -13,7 +13,7 @@
 /*   - freeIniNode                                                            */
 /*   - buildNodeCursor                                                        */
 /*   - compareValueNode                                                       */
-/*   - existsIniNode                                                      */
+/*   - existsIniNode                                                          */
 /*   - fSetIniSearchNode                          */
 /******************************************************************************/
 
@@ -580,9 +580,11 @@ int compareValueNode( tIniVal* a, tIniVal* b )
 }
 
 /******************************************************************************/
-/* exists ini node                                        */
+/* exists ini node                                              */
 /******************************************************************************/
-tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
+tIniNode*  existsIniNode( int anchorType    , 
+                          tIniNode *_anchor , 
+                          tIniNode *_search )
 {
   tIniNode *result = NULL ;
   tIniNode *search ;
@@ -591,7 +593,22 @@ tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
   tIniVal *vNode ;
 
   iNode = _anchor ;                             //
-  if( iNode == NULL ) iNode=inclIniAnchor ;     //
+  if( iNode == NULL )                           //
+  {                                             //
+    switch( anchorType )                        //
+    {                                           //
+      case A_INCLUDE :                          //
+      {                                         //
+        iNode = inclIniAnchor ;                 //
+        break ;                                 //
+      }                                         //
+      case A_MAIN :                             //
+      {                                         //
+        iNode = mainIniAnchor ;                 //
+        break ;                                 //
+      }                                         //
+    }                                           //
+  }                                             //
   if( iNode == NULL ) goto _door ;              //
                                                 //
   search = _search ;                            //
@@ -610,7 +627,7 @@ tIniNode*  existsIniNode( tIniNode *_anchor, tIniNode *_search )
           result = iNode ;                      //
           goto _door ;                          //
         }                                       //
-        result=existsIniNode(iNode->childNode  ,//
+        result = findIniNode(iNode->childNode , //
                              search->childNode);//
         if( result != NULL ) goto _door ;       //
       }                                         //

@@ -389,7 +389,7 @@ tIniNode* tag2node( char **_mem )
       searchAtt = str2arg( pLink, pMem ) ;             //  link attributes
       sNode = setIniSearchNodeArray( searchAtt ) ;     // set search node
       free( searchAtt ) ;                              //
-      nNode = existsIniNode( NULL, sNode ) ;           // node to be find is
+      nNode = existsInclIniNode( sNode ) ;             // node to be find is
       freeIniNode( sNode ) ;                           //  a next node
       pNode->nextNode = nNode ;                        // attach next node
       pNode = nNode ;                                  //
@@ -432,7 +432,7 @@ tIniNode* tag2node( char **_mem )
             searchAtt = str2arg( pLink, pMem ) ;       //
             sNode = setIniSearchNodeArray( searchAtt );//
             free( searchAtt ) ;                        //
-            cNode = existsIniNode( NULL, sNode ) ;     //
+            cNode = existsInclIniNode( sNode ) ;       //
             freeIniNode( sNode ) ;                     //
             addChildNode( pNode, cNode ) ;             //
             if( memcmp(pMem,"</",2) == 0 )             // next tag on
