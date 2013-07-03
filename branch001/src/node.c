@@ -15,7 +15,7 @@
 /*   - compareValueNode                                                       */
 /*   - existsIniNode                                                          */
 /*   - fSetIniSearchNode                                                      */
-/*   - iniStrValue                                                    */
+/*   - iniStrValue                                                            */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -66,6 +66,8 @@
 /******************************************************************************/
 tIniNode* initIniNode()
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniNode *node = NULL ;
 
   node = (tIniNode*) malloc( sizeof(tIniNode) ); 
@@ -80,7 +82,9 @@ tIniNode* initIniNode()
   node->value     = NULL ;
   node->childNode = NULL ;
 
-_door :
+  _door :
+
+  logger( LSYS_FUNC_EXIT ) ;
   return node ; 
 }
 
@@ -89,6 +93,7 @@ _door :
 /******************************************************************************/
 int setIniTagName( tIniNode *node, const char* tag, int lng )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   int sysRc = 0 ;
 
   if( lng < 0 )                        // tag ends with '\0' if lng<0 
@@ -112,7 +117,9 @@ int setIniTagName( tIniNode *node, const char* tag, int lng )
   memcpy( node->tag, tag, lng ) ;      // copy to struct
   node->tag[lng-1] = '\0' ;            // set end of string
                                        //
-_door:
+  _door:
+
+  logger( LSYS_FUNC_EXIT ) ;
   return sysRc ;
 }
 
@@ -121,6 +128,8 @@ _door:
 /******************************************************************************/
 tIniVal* createStrValue( char* key, char* value )
 { 
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniVal *this;
   tIniVal *pRc = NULL ;
 
@@ -138,7 +147,9 @@ tIniVal* createStrValue( char* key, char* value )
   
   pRc = this ;
 
-_door :
+  _door :
+
+  logger( LSYS_FUNC_EXIT ) ;
   return pRc ;  
 }
 
@@ -147,6 +158,8 @@ _door :
 /******************************************************************************/
 tIniVal* createIntValue( char* key, int value )
 { 
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniVal *this;
   tIniVal *pRc = NULL ;
 
@@ -164,7 +177,9 @@ tIniVal* createIntValue( char* key, int value )
   
   pRc = this ;
 
-_door :
+  _door :
+
+  logger( LSYS_FUNC_EXIT ) ;
   return pRc ;  
 }
 
@@ -173,6 +188,7 @@ _door :
 /******************************************************************************/
 int addValueNode( tIniNode* iniNode, tIniVal *value )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   tIniVal *p ;
   int sysRc = 0 ;
 
@@ -198,7 +214,9 @@ int addValueNode( tIniNode* iniNode, tIniVal *value )
  
   p->nextVal = value ; 
 
-_door:
+  _door:
+
+  logger( LSYS_FUNC_EXIT ) ;
   return sysRc ;
 }
 
@@ -207,6 +225,8 @@ _door:
 /******************************************************************************/
 int addNode( tIniNode* this, tIniNode* next )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniNode *p = this ;
   int sysRc = 0 ;
 
@@ -235,7 +255,9 @@ int addNode( tIniNode* this, tIniNode* next )
   p->nextNode = next ; 
 
   _door :
-    return sysRc ; 
+
+  logger( LSYS_FUNC_EXIT ) ;
+  return sysRc ; 
 }
 
 /******************************************************************************/
@@ -243,6 +265,8 @@ int addNode( tIniNode* this, tIniNode* next )
 /******************************************************************************/
 int addChildNode( tIniNode* parent, tIniNode* child )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniNode *p ;
   int sysRc = 0 ;
 
@@ -265,7 +289,9 @@ int addChildNode( tIniNode* parent, tIniNode* child )
     p = p->nextNode ;
   }
 
-_door:
+  _door:
+
+  logger( LSYS_FUNC_EXIT ) ;
   return sysRc ;
 }
 
@@ -296,6 +322,8 @@ tIniNode* setIniSingleSearchNode( tIniNode* _anchor ,
                                   char*     _strVal ,
                                   int       _intVal )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniNode *filter ;
   tIniNode *p ;
 
@@ -357,6 +385,8 @@ tIniNode* setIniSingleSearchNode( tIniNode* _anchor ,
     filter = _anchor ;                  //
   }                                     //
                                         //
+  logger( LSYS_FUNC_EXIT ) ;
+
   return filter ;
 }
 
@@ -365,6 +395,8 @@ tIniNode* setIniSingleSearchNode( tIniNode* _anchor ,
 /******************************************************************************/
 void freeValNode( tIniVal *val ) 
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   if( val == NULL ) goto _door ;
 
   if( val->nextVal != NULL )
@@ -396,6 +428,7 @@ void freeValNode( tIniVal *val )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return ;
 } 
 
@@ -404,6 +437,8 @@ void freeValNode( tIniVal *val )
 /******************************************************************************/
 void freeIniNode( tIniNode *ini )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   if( ini == NULL ) goto _door ;
 
   if( ini->childNode != NULL ) 
@@ -424,6 +459,7 @@ void freeIniNode( tIniNode *ini )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return ;
 }
 
@@ -433,6 +469,8 @@ void freeIniNode( tIniNode *ini )
 /******************************************************************************/
 tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniNode *iNode ;
   tIniNode *search ;
   tIniVal  *vNode  ;
@@ -492,6 +530,7 @@ tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
                                                    //
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return cursor ;
 }
 
@@ -500,6 +539,7 @@ tCursorCfg* buildNodeCursor( tIniNode *_anchor, tIniNode *_search )
 /******************************************************************************/
 tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor ) 
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   tIniVal *result ;
 
   if( _search == NULL ) 
@@ -524,6 +564,7 @@ tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor )
 
   _door :
   
+  logger( LSYS_FUNC_EXIT ) ;
   return result ;
 }
 
@@ -532,6 +573,8 @@ tIniVal * findValueNode( tIniVal *_search, tIniVal *_anchor )
 /******************************************************************************/
 int compareValueNode( tIniVal* a, tIniVal* b )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   int rc = 0 ;
 
   if( a == NULL ) { rc = -1 ; goto _door ; }
@@ -577,6 +620,7 @@ int compareValueNode( tIniVal* a, tIniVal* b )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return rc ;
 }
 
@@ -587,6 +631,8 @@ tIniNode*  existsIniNode( int anchorType    ,
                           tIniNode *_anchor , 
                           tIniNode *_search )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniNode *result = NULL ;
   tIniNode *search ;
   tIniNode *iNode ;
@@ -638,6 +684,7 @@ tIniNode*  existsIniNode( int anchorType    ,
                                                 //
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return result ;
 }
 
@@ -651,6 +698,8 @@ tIniNode*  existsIniNode( int anchorType    ,
 /******************************************************************************/
 tIniNode* fSetIniSearchNode( int cnt , ... )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniNode *result = NULL ;   
 
   va_list argp ;
@@ -744,6 +793,7 @@ tIniNode* fSetIniSearchNode( int cnt , ... )
                                                  //
   _door :     
 
+  logger( LSYS_FUNC_EXIT ) ;
   return result ;
 }
 
@@ -761,6 +811,8 @@ tIniNode* fSetIniSearchNode( int cnt , ... )
 /******************************************************************************/
 tIniNode* setIniSearchNodeArray( char** _attr )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniNode *result = NULL ;   
 
   char *arg[3] ;
@@ -798,6 +850,7 @@ tIniNode* setIniSearchNodeArray( char** _attr )
                                                  //
   _door :     
 
+  logger( LSYS_FUNC_EXIT ) ;
   return result ;
 }
 
@@ -806,6 +859,8 @@ tIniNode* setIniSearchNodeArray( char** _attr )
 /******************************************************************************/
 char* iniStrValue( tIniNode *_iniNode, char* _key )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniVal *valNode ;
   char    *result = NULL ;
 
@@ -825,6 +880,7 @@ char* iniStrValue( tIniNode *_iniNode, char* _key )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return result ;
 }
 

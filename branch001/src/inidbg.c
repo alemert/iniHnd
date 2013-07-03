@@ -36,7 +36,6 @@
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
 void printNode( tIniNode *node, char* offset ) ;
-// void printVal( tIniVal *val, char* offset )  ;
 
 /******************************************************************************/
 /*                                                                            */
@@ -49,12 +48,14 @@ void printNode( tIniNode *node, char* offset ) ;
 /******************************************************************************/
 void fPrintTree( tIniNode *node, char* offset ) 
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   char offsetSum[256] ;
 
   if( node == NULL ) 
   {
     printf( "%snull\n", offset ) ; 
-    return ;
+    goto _door ; ;
   }
 
   printNode( node, offset ) ;
@@ -72,6 +73,10 @@ void fPrintTree( tIniNode *node, char* offset )
   }
 
   if( node->nextNode != NULL ) fPrintTree( node->nextNode, offset ) ;
+
+  _door :
+
+  logger( LSYS_FUNC_EXIT ) ;
 }
 
 /******************************************************************************/
@@ -79,6 +84,7 @@ void fPrintTree( tIniNode *node, char* offset )
 /******************************************************************************/
 void printNode( tIniNode *node, char* offset ) 
 {
+  logger( LSYS_FUNC_ENTRY ) ;
 
   if( node == NULL )
   {
@@ -98,8 +104,8 @@ void printNode( tIniNode *node, char* offset )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return ;
-
 }
 
 /******************************************************************************/
@@ -107,6 +113,7 @@ void printNode( tIniNode *node, char* offset )
 /******************************************************************************/
 void printVal( tIniVal *val, char* offset ) 
 {
+  logger( LSYS_FUNC_ENTRY ) ;
 
   if( val == NULL ) 
   {
@@ -136,6 +143,7 @@ void printVal( tIniVal *val, char* offset )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return ;
 }
 
@@ -144,6 +152,8 @@ void printVal( tIniVal *val, char* offset )
 /******************************************************************************/
 void printCursor( tCursorCfg *cursor )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tCursorCfg *p = cursor ; 
 
   while( p != NULL )
@@ -151,4 +161,6 @@ void printCursor( tCursorCfg *cursor )
     printTree( p->iniNode ) ;
     p = p->nextCursor ;
   }
+
+  logger( LSYS_FUNC_EXIT ) ;
 }

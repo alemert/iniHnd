@@ -16,8 +16,6 @@
 #include <initypes.h>
 #include <inihnd.h>
 
-// #include <genlib.h>
-
 #include <msgcat/lgstd.h>
 #include <ctl.h>
 
@@ -45,9 +43,8 @@
 
 tCursorCfg* addCursorNode( tCursorCfg *_anchor, tCursorCfg *_next )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   tCursorCfg *p ;
-
-//tCursorCfg *newNode = (tCursorCfg*) malloc( sizeof( tCursorCfg ) ) ;
 
   if( _anchor == NULL ) 
   {
@@ -61,17 +58,18 @@ tCursorCfg* addCursorNode( tCursorCfg *_anchor, tCursorCfg *_next )
     p = p->nextCursor ;
   }
 
-//p->nextCursor = newNode ;
-//p = p->nextCursor ;
   p->nextCursor = _next ;
   
   _door :
  
+  logger( LSYS_FUNC_EXIT ) ;
   return _anchor ; 
 }
 
 tCursorCfg* createCursorNode( tIniNode *_ini )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tCursorCfg *newNode = (tCursorCfg*) malloc( sizeof( tCursorCfg ) ) ;
   if( newNode == NULL )
   {
@@ -84,5 +82,6 @@ tCursorCfg* createCursorNode( tIniNode *_ini )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return newNode ;
 }

@@ -37,7 +37,7 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_node_039.log", INF ) ;
+  sysRc = initLogging( "test/log/t_node_039.log", FLW ) ;
   if( sysRc != 0 ) goto _door ;
 
   iniHandler( "test/cfg/t_node_039_000.ini" );

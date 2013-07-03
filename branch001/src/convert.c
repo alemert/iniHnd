@@ -10,7 +10,7 @@
 /*   - getIntVal                                                              */
 /*   - tag2node                                                               */
 /*   - val2node                                                               */
-/*   - str2arg                        */
+/*   - str2arg                                    */
 /*                                                                            */
 /******************************************************************************/
 
@@ -63,6 +63,7 @@
 /******************************************************************************/
 char* getOpenTag( char *mem, char **pTag )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   char* p = mem ;
   char* tag ;
   int loop = 1 ;
@@ -101,6 +102,7 @@ char* getOpenTag( char *mem, char **pTag )
   p++ ;
 
 _door :
+  logger( LSYS_FUNC_EXIT ) ;
   return p ;
 }
 
@@ -109,6 +111,7 @@ _door :
 /******************************************************************************/
 char* getCloseTag( const char *mem, const char *tag )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   char* p = (char*) mem ;
   int lng ;
   int loop ;
@@ -129,6 +132,7 @@ char* getCloseTag( const char *mem, const char *tag )
 
 _door :   
 
+  logger( LSYS_FUNC_EXIT ) ;
   return p ; 
 }
 
@@ -137,6 +141,7 @@ _door :
 /******************************************************************************/
 char *getKey( const char *mem, char **pKey )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   char* p = (char*) mem ;
   char *key ;
   int lng   ;
@@ -182,6 +187,11 @@ char *getKey( const char *mem, char **pKey )
 
   lng = p - mem ;
   key = (char*) malloc( (lng+1) * sizeof(char) ) ;
+  if( key == NULL )
+  {
+    logger( LSTD_MEM_ALLOC_ERROR ) ;
+    goto _door ;
+  }
   memcpy( key, mem, lng ) ;
   key[lng] = '\0' ;
 
@@ -190,6 +200,7 @@ char *getKey( const char *mem, char **pKey )
 
 _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return p ;
 }
 
@@ -198,12 +209,16 @@ _door :
 /******************************************************************************/
 tValType getValueType( char *mem )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   switch( *mem )
   {
     case '"' : return STRING  ;
     case '#' : return INTIGER ;
     default :  return UNKNOWN  ;
   }
+
+  logger( LSYS_FUNC_EXIT ) ;
 }
 
 /******************************************************************************/
@@ -211,6 +226,8 @@ tValType getValueType( char *mem )
 /******************************************************************************/
 char *getStrVal( const char* mem, char** pValue )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   char *p = (char*) mem ;
   char *value ;
   int lng ;
@@ -245,12 +262,20 @@ char *getStrVal( const char* mem, char** pValue )
 
   lng = p - mem - 1 ;
   value = (char*) malloc( (lng+1) * sizeof(char) ) ; 
+  if( value == NULL )
+  {
+    logger( LSTD_MEM_ALLOC_ERROR ) ;
+    goto _door ;
+  }
   memcpy( value, (mem+1), lng ) ;
   value[lng] = '\0' ;
   *pValue =  value ;
 
   p++ ; 
+
 _door :
+
+  logger( LSYS_FUNC_EXIT ) ;
   return p ;  
 }
 
@@ -259,6 +284,8 @@ _door :
 /******************************************************************************/
 char *getIntVal( const char* mem, int *value )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   #define STR_LEN  32
 
   char *p = (char*) mem ;
@@ -305,15 +332,20 @@ char *getIntVal( const char* mem, int *value )
   *value = atoi( strVal ) ;
 
   p++ ;
-_door :
+
+  _door :
+
+  logger( LSYS_FUNC_EXIT ) ;
   return p ;
 }
 
 /******************************************************************************/
-/* val to node                                */
+/* val to node                                    */
 /******************************************************************************/
 tIniVal* val2node( char** mem )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   tIniVal *vNode = NULL ;
 
   char *key ;
@@ -343,8 +375,11 @@ tIniVal* val2node( char** mem )
     }
   }
 
-_door:
+  _door:
+
   *mem = p ;
+
+  logger( LSYS_FUNC_EXIT ) ;
   return vNode ; 
 }
 
@@ -353,6 +388,8 @@ _door:
 /******************************************************************************/
 tIniNode* tag2node( char **_mem )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   char *tagStart ;
   char *tagEnd   ;
   tIniNode *cNode ;
@@ -499,18 +536,21 @@ tIniNode* tag2node( char **_mem )
   rcNode = anchorNode ;
   *_mem = tagEnd ;
 
-_door :
+  _door :
+
+  logger( LSYS_FUNC_EXIT ) ;
   return rcNode ;
 }
 
 /******************************************************************************/
-/*  string to arg                                    */
-/*                                                  */
-/*  description:                                        */
+/*  string to arg                                        */
+/*                                                      */
+/*  description:                                                    */
 /*    convert "qmgr","name","ADMT02" into char** = {"qmgr","name","ADMT02"}   */
 /******************************************************************************/
 char** str2arg( char *_start, char *_end )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   char *p ;
   char **arg ;
   int argv = 0 ;
@@ -607,5 +647,6 @@ char** str2arg( char *_start, char *_end )
                                   //
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return arg ;
 }

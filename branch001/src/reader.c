@@ -76,6 +76,8 @@ int iniReader( char* fileName, char **_iniMem )
 
   char *iniMem = NULL ;
   errno = 0 ;
+
+  logger( LSYS_FUNC_ENTRY ) ;
                                                  //
   if( (ini = fopen( fileName, "r" ) ) == NULL )  // open ini file
   {                                              //  & handle error
@@ -120,6 +122,7 @@ _door :
 
   *_iniMem = iniMem ;
 
+  logger( LSYS_FUNC_EXIT ) ;
   return sysRc ;
 }
 
@@ -128,6 +131,8 @@ _door :
 /******************************************************************************/
 int iniHandler( const char *mainCfg )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   char* mem           = NULL ;
   char* mainMem       = NULL ;
   char* mainMem4Free  ;
@@ -249,6 +254,7 @@ int iniHandler( const char *mainCfg )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return sysRc ;
 }
 
@@ -263,6 +269,8 @@ int iniHandler( const char *mainCfg )
 /******************************************************************************/
 char** getInclude( char *mem, int inclLevel )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   #define MAX_FILE_NAME   512
 
   char *inclMem ;
@@ -379,6 +387,7 @@ char** getInclude( char *mem, int inclLevel )
                                           //
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return fileName ;   
 }
 
@@ -387,6 +396,7 @@ char** getInclude( char *mem, int inclLevel )
 /******************************************************************************/
 void freeFileName( char** _fileName )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   char **fileName ;
 
   if( _fileName == NULL ) goto _door ;
@@ -404,6 +414,7 @@ void freeFileName( char** _fileName )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return ;
 }
 
@@ -412,6 +423,7 @@ void freeFileName( char** _fileName )
 /******************************************************************************/
 char** uniqueFileName( char** _fileName )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   char  **p ;
   char  **q ;
 
@@ -442,6 +454,7 @@ char** uniqueFileName( char** _fileName )
  
   _door :
   
+  logger( LSYS_FUNC_EXIT ) ;
   return _fileName ;
 }
 

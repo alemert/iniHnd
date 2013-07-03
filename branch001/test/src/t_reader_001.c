@@ -59,5 +59,9 @@ int main( int argc, const char** argv )
 #endif
 
 _door:
+
+#if(0)
+  logger( LSYS_FLOW_DUMP ) ;
+#endif
   return sysRc ;
 }
