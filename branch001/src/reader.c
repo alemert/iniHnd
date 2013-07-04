@@ -4,8 +4,8 @@
 /* functions:                                                                 */
 /*   - iniReader                                                              */
 /*   - iniHandler                                                             */
-/*   - getInclude                                                          */
-/*   - freeFileName                                                    */
+/*   - getInclude                                                             */
+/*   - freeFileName                                                           */
 /*   - uniqueFileName                                                         */
 /******************************************************************************/
 
@@ -67,6 +67,8 @@
 /******************************************************************************/
 int iniReader( char* fileName, char **_iniMem )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   int sysRc = 0 ;
   long memSize ;
   int  realSize ;

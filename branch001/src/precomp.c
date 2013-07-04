@@ -6,7 +6,7 @@
 /*  - isIntiger                                                               */
 /*  - rmInclude                                                               */
 /*  - getLinkString                                                           */
-/*  - getLinkEnd                                                      */
+/*  - getLinkEnd                                                              */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -54,10 +54,12 @@
 /******************************************************************************/
 
 /******************************************************************************/
-/* precompile                                    */
+/* precompile                                                                 */
 /******************************************************************************/
 char* precompile( const char* inMem )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   char *outMem = NULL ;
 
   char *pIn ;
@@ -208,18 +210,21 @@ char* precompile( const char* inMem )
 
 _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return outMem ;
 
 }
 
 /******************************************************************************/
-/* is initger                               */
+/* is initger                                                                 */
 /******************************************************************************/
 
 int isIntiger( const char* mem)
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   int lng = 0 ;
   char *p = (char*) mem ;
+  int sysRc ;
 
   if( *p == '-' ) 
   {
@@ -250,22 +255,31 @@ int isIntiger( const char* mem)
       case '\n' :
       case '\0' :
       {
-        return lng ;
+        sysRc = lng ;
+        goto _door ;
       }
       default :
       {
-        return -1 ;
+        sysRc = -1 ;
+        goto _door ;
       }
     }
   p++ ;
   }
+
+  _door :
+
+  logger( LSYS_FUNC_EXIT ) ;
+  return sysRc ;
 }
 
 /******************************************************************************/
-/* remove include                                */
+/* remove include                                                             */
 /******************************************************************************/
 char* rmInclude( char *_mem )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   char *mem = _mem ;
   char *openIncl ;
   char *closeIncl ;
@@ -302,22 +316,25 @@ char* rmInclude( char *_mem )
 
   _door :
 
+  logger( LSYS_FUNC_EXIT ) ;
   return _mem ;
 }
 
 /******************************************************************************/
-/*  get link string                                */
-/*                                                          */
-/*  description:                                      */
-/*    check for link at adress _stream                   */
-/*                                                          */
-/*  return code :                                        */
+/*  get link string                                                           */
+/*                                                                            */
+/*  description:                                                              */
+/*    check for link at adress _stream                                        */
+/*                                                                            */
+/*  return code :                                                             */
 /*    if link:  pointer to the first link argument <!link="tag","key","value">*/
-/*    if not : NULL                                        */
-/*                                                                    */
+/*    if not : NULL                                                           */
+/*                                                                            */
 /******************************************************************************/
 char* getLinkString( char* _stream )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
+
   char* stream = _stream ;
 
   int len ;
@@ -336,13 +353,15 @@ char* getLinkString( char* _stream )
 
   _door :
   
+  logger( LSYS_FUNC_EXIT ) ;
   return stream ; 
 }
 /******************************************************************************/
-/* get link end                                                 */
+/* get link end                                                               */
 /******************************************************************************/
 char* getLinkEnd( char* _stream )
 {
+  logger( LSYS_FUNC_ENTRY ) ;
   char *stream = _stream ;
 
   if( stream == NULL ) goto _door ;
@@ -360,5 +379,6 @@ char* getLinkEnd( char* _stream )
 
   _door :
   
+  logger( LSYS_FUNC_EXIT ) ;
   return stream ; 
 }

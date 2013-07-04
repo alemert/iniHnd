@@ -798,16 +798,16 @@ tIniNode* fSetIniSearchNode( int cnt , ... )
 }
 
 /******************************************************************************/
-/* set ini search node from array                    */
+/* set ini search node from array                                             */
 /*                                                                            */
 /*   description:                                                             */
 /*     this function convert string search attributes to the iniNode search   */
 /*     structure. it is an interface to setIniSearchFilter which only set     */
 /*     one search node.                                                       */
-/*                                                  */
+/*                                                                            */
 /*     the differance between this func and fSetIniSearchNode is that this    */
 /*     function handels attributes of a type char*, and fSetIniSearchNode     */
-/*     takes va_args                                */
+/*     takes va_args                                                          */
 /******************************************************************************/
 tIniNode* setIniSearchNodeArray( char** _attr )
 {
@@ -855,7 +855,7 @@ tIniNode* setIniSearchNodeArray( char** _attr )
 }
 
 /******************************************************************************/
-/* get string value                                    */
+/* get string value                                                           */
 /******************************************************************************/
 char* iniStrValue( tIniNode *_iniNode, char* _key )
 {
