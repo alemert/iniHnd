@@ -22,40 +22,12 @@
 /******************************************************************************/
 /*   T Y P E S                                                                */
 /******************************************************************************/
-typedef struct tagIniNode   tIniNode   ;
-typedef struct tagIniVal    tIniVal    ;
 typedef struct tagFileCfg   tFileCfg   ;
 typedef struct tagCfgCursor tCursorCfg ;
-typedef union  tagValue     tVal       ;
-typedef enum   tagValType   tValType   ;
 
 /******************************************************************************/
 /*   S T R U C T S                                                            */
 /******************************************************************************/
-enum tagValType { UNKNOWN, STRING, INTIGER } ;
-
-union tagValue 
-{
-  char* strVal ;
-  int   intVal ;
-} ;
-
-struct tagIniVal
-{
-  char      *key  ;
-  tVal      value ;
-  tValType  type  ;
-  tIniVal   *nextVal ;
-} ;
-
-struct tagIniNode
-{
-  char     *tag ;
-  tIniNode *nextNode ; 
-  tIniVal  *value ;
-  tIniNode *childNode ;
-} ;
-
 struct tagFileCfg
 {
   tIniNode *include ;

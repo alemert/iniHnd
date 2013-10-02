@@ -28,8 +28,8 @@
 // ---------------------------------------------------------
 // own 
 // ---------------------------------------------------------
-#include <initypes.h>
 #include <inihnd.h>
+#include <initypes.h>
 
 #include <msgcat/lgstd.h>
 #include <ctl.h>
