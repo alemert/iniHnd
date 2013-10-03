@@ -1,0 +1,45 @@
+# TEST START getIniNode >>basic failed test   << test/src/t_search_000.c(0053)
+# TEST OK    getIniNode >>basic failed test   << test/src/t_search_000.c(0053)
+null
+# TEST START getIniNode >>basic failed test   << test/src/t_search_000.c(0061)
+# TEST OK    getIniNode >>basic failed test   << test/src/t_search_000.c(0061)
+null
+# TEST START getIniNode >>basic failed test   << test/src/t_search_000.c(0069)
+# TEST OK    getIniNode >>basic failed test   << test/src/t_search_000.c(0069)
+<qmgr>
+  name = ADM01
+  <channel>
+    name = CHL1
+    logging = linear
+  <\channel>
+
+  <channel>
+    name = CHL2
+    logging = circular
+  <\channel>
+
+<\qmgr>
+
+# TEST START getIniNode >>basic failed test   << test/src/t_search_000.c(0079)
+# TEST OK    getIniNode >>basic failed test   << test/src/t_search_000.c(0079)
+<channel>
+  name = CHL1
+  logging = linear
+<\channel>
+
+<channel>
+  name = CHL2
+  logging = circular
+<\channel>
+
+# TEST START getNextIniNode >>basic failed test   << test/src/t_search_000.c(0090)
+# TEST OK    getNextIniNode >>basic failed test   << test/src/t_search_000.c(0090)
+<channel>
+  name = CHL2
+  logging = circular
+<\channel>
+
+# TEST START getNextIniNode >>basic failed test   << test/src/t_search_000.c(0101)
+# TEST OK    getNextIniNode >>basic failed test   << test/src/t_search_000.c(0101)
+null
+# CHECK OK   getIniNode >>                    << test/src/t_search_000.c(0106)
