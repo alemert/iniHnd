@@ -70,7 +70,7 @@ struct tagCfgCursor
    // for gcc
    // #define NR__VA_ARGS__ (sizeof((int[]){0,##__VA_ARGS__})/sizeof(int)-1)
 
-#if(0)
+#if(1)
 #define setIniSearchNode(  ... )    \
         fSetIniSearchNode( ( sizeof( (char*[]){NULL,##__VA_ARGS__} ) \
                              / sizeof(char*)-1), \
@@ -135,7 +135,7 @@ struct tagCfgCursor
   // -------------------------------------
   tIniNode* setIniSingleSearchNode( tIniNode* anchor, char* tag , char* key  , 
                                                       char* sVal, int iVal ) ;
-#if(0)
+#if(1)
   tIniNode* fSetIniSearchNode( int cnt, ... ) ;
   tIniNode* setIniSearchNodeArray( char** _attr ) ;
 #endif

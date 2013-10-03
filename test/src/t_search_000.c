@@ -2,7 +2,6 @@
 /* test c source template                                                     */
 /*                                                                            */
 /* testing file :                                                             */
-/*  node.c                                                                    */
 /*                                                                            */
 /* testing functions :                                                        */
 /*                                                                            */
@@ -37,37 +36,78 @@ int main( int argc, const char** argv )
 {
   int sysRc = NO_ERROR ;
 
-  sysRc = initLogging( "test/log/t_node_040.log", INF ) ;
+  sysRc = initLogging( "test/log/t_search_000.log", INF ) ;
   if( sysRc != 0 ) goto _door ;
 
-  iniHandler( "test/cfg/t_node_040_000.ini" );
 
   // -------------------------------------------------------
   // some test 
   // -------------------------------------------------------
-  #if(1)
+#if(1)
   {
-    tIniNode *filter = setIniSingleSearchNode(NULL,"qmgr","name","ADMT01",0 ) ;
-
-    filter = setIniSingleSearchNode( filter, "channel", "name", "CHL1", 0 ) ;
+    iniHandler( "test/cfg/t_search_000_000.ini" ) ;
 
     doPointTest( "basic failed test"  , \
-                  RC_NOT_NULL         , \
-                  existsIniNode       , \
-                  A_INCLUDE           , \
-                  NULL                , \
-                  filter              ) ;
+                 RC_IS_NULL           , \
+                 getIniNode           , \
+                 NULL                 ) ;
 
-    tIniNode* result = (tIniNode*) gRcVoidPointer ; 
+    tIniNode* result = (tIniNode*) gRcVoidPointer ;
+    printTree( result ) ;
+
+    doPointTest( "basic failed test"  , \
+                 RC_IS_NULL           , \
+                 getIniNode           , \
+                 "system"             ) ;
+
+    result = (tIniNode*) gRcVoidPointer ;
+    printTree( result ) ;
+
+    doPointTest( "basic failed test"  , \
+                 RC_NOT_NULL           , \
+                 getIniNode           , \
+                 "qmgr", NULL             ) ;
+
+    result = (tIniNode*) gRcVoidPointer ;
+    printTree( result ) ;
+
+    doPointTest( "basic failed test"  , \
+                 RC_NOT_NULL          , \
+                 getIniNode           , \
+                 "qmgr"               , \
+                 "channel"            , \
+                 NULL                 ) ;
+
+    result = (tIniNode*) gRcVoidPointer ;
     printTree( result ) ;
  
-    checkMessage( TEST_OK_TXT, setIniSearchFilter ) ;
+    doPointTest( "basic failed test"  , \
+                 RC_NOT_NULL          , \
+                 getNextIniNode       , \
+                 result               , \
+                 "qmgr"               , \
+                 "channel"            , \
+                 NULL                 ) ;
 
-    freeIniNode( filter ) ;
+    result = (tIniNode*) gRcVoidPointer ;
+    printTree( result ) ;
+
+    doPointTest( "basic failed test"  , \
+                 RC_IS_NULL          , \
+                 getNextIniNode       , \
+                 result               , \
+                 "qmgr"               , \
+                 "channel"            , \
+                 NULL                 ) ;
+
+    result = (tIniNode*) gRcVoidPointer ;
+    printTree( result ) ;
+
+    checkMessage( TEST_OK_TXT, getIniNode ) ;
+    
   }
-  #endif
+#endif
 
-  _door:
+_door:
   return sysRc ;
 }
-

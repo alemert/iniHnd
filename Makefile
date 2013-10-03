@@ -18,7 +18,7 @@ DBGOPT = -g
 # ------------------------------------------------------------------------------
 # sources
 # ------------------------------------------------------------------------------
-SOURCES = reader.c node.c precomp.c convert.c inidbg.c cursor.c
+SOURCES = reader.c node.c precomp.c convert.c inidbg.c cursor.c search.c
 
 AROWN = 
 LSOWN = msgcat sogen
@@ -49,6 +49,8 @@ ROLLOUT_INC = inihnd.h
 # ------------------------------------------------------------------------------
 include $(MAKE_INCLUDE_PATH)/general.modules.mk
 
+cleanlocal:
+
 # ------------------------------------------------------------------------------
 # tests
 # ------------------------------------------------------------------------------
@@ -64,7 +66,8 @@ TEST = t_node_000    t_node_001    t_node_002    t_node_003                   \
        t_node_030    t_node_031    t_node_032    t_node_033    t_node_034     \
        t_node_039    t_node_040                                               \
        t_node_050                      \
-       t_convert_030 t_convert_031 t_convert_032 t_convert_033
+       t_convert_030 t_convert_031 t_convert_032 t_convert_033      \
+       t_search_000  t_search_001
 
 include $(MAKE_INCLUDE_PATH)/test.mk
 

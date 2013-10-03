@@ -22,7 +22,7 @@
 // own 
 // ---------------------------------------------------------
 #include <tutl.h>
-
+#include <inihnd.h>
 #include <initypes.h>
 
 #include <ctl.h>

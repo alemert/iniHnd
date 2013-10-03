@@ -281,6 +281,7 @@ int addChildNode( tIniNode* parent, tIniNode* child )
 
   while( 1 )
   {
+    if( p == child ) goto _door ;
     if( p->nextNode == NULL ) 
     {
       p->nextNode = child ;
