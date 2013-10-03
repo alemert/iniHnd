@@ -69,6 +69,11 @@ struct tagIniNode
 #define existsMainIniNode( search   ) existsIniNode( A_MAIN,    NULL  , search )
 #define findIniNode( anchor, search ) existsIniNode( A_FREE,    anchor, search )
 
+#define setIniSearchNode(  ... )    \
+        fSetIniSearchNode( ( sizeof( (char*[]){NULL,##__VA_ARGS__} ) \
+                             / sizeof(char*)-1), \
+                           ##__VA_ARGS__    )
+
 /******************************************************************************/
 /*   P R O T O T Y P E S                                                      */
 /******************************************************************************/
@@ -77,3 +82,5 @@ tIniNode*  existsIniNode( int anchorType    ,
                           tIniNode *_anchor ,
                           tIniNode *_search ) ;
 char* iniStrValue( tIniNode *iniNode, char* key ) ;
+
+tIniNode* fSetIniSearchNode( int cnt, ... ) ;
