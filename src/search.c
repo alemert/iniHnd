@@ -3,14 +3,14 @@
 /*                                                                            */
 /*  description:                                                        */
 /*    get information from ini files                        */
-/*                                                    */
-/*  functions:                                          */
-/*    - getIniNode                                      */
-/*    - getNextIniNode                                  */
-/*    - getIniValue                                  */
-/*    - getIniStrValue                          */
-/*    - getIniIntValue                      */
-/*    - getIniTypeValue            */
+/*                                                          */
+/*  functions:                                              */
+/*    - getIniNode                                          */
+/*    - getNextIniNode                                      */
+/*    - getIniValue                                      */
+/*    - getIniStrValue                              */
+/*    - getIniIntValue                          */
+/*    - getIniTypeValue                          */
 /******************************************************************************/
 
 /******************************************************************************/
@@ -167,12 +167,15 @@ tIniVal* getIniValue( tIniNode *node, const char *key )
 }
 
 /******************************************************************************/
-/* get ini string value                                          */
+/* get ini string value                                                       */
 /******************************************************************************/
 const char* getIniStrValue( tIniNode *node, const char *key )
 {
-  tIniVal *val = getIniValue( node, key ) ;
   char *str = NULL ;
+
+  if( node == NULL ) goto _door ;
+
+  tIniVal *val = getIniValue( node, key ) ;
 
   if( !val )
   {
@@ -191,7 +194,7 @@ const char* getIniStrValue( tIniNode *node, const char *key )
 }
 
 /******************************************************************************/
-/* get ini intiger value                */
+/* get ini intiger value                        */
 /******************************************************************************/
 const int* getIniIntValue( tIniNode *node, const char *key )
 {
@@ -215,7 +218,7 @@ const int* getIniIntValue( tIniNode *node, const char *key )
 }
 
 /******************************************************************************/
-/* get ini type value                  */
+/* get ini type value                                */
 /******************************************************************************/
 tValType getIniTypeValue( tIniVal *val )
 {

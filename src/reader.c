@@ -162,8 +162,8 @@ int iniHandler( const char *mainCfg )
   free( mem ) ;                                //
   if( mainMem == NULL )                        // handle error 
   {                                            //
-    goto _door ;                               //
     sysRc = 1 ;                                //
+    goto _door ;                               //
   }                                            //
   if( strlen( mainMem ) == 0 )                 // handle main file empty
   {                                            //
@@ -411,8 +411,6 @@ void freeFileName( char** _fileName )
     *fileName = NULL ;
     fileName++ ;
   }
-
-  _fileName = NULL ;
 
   _door :
 
