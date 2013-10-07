@@ -169,7 +169,7 @@ tIniVal* getIniValue( tIniNode *node, const char *key )
 /******************************************************************************/
 /* get ini string value                                                       */
 /******************************************************************************/
-const char* getIniStrValue( tIniNode *node, const char *key )
+char* getIniStrValue( tIniNode *node, const char *key )
 {
   char *str = NULL ;
 
@@ -194,9 +194,9 @@ const char* getIniStrValue( tIniNode *node, const char *key )
 }
 
 /******************************************************************************/
-/* get ini intiger value                        */
+/* get ini intiger value                                    */
 /******************************************************************************/
-const int* getIniIntValue( tIniNode *node, const char *key )
+int* getIniIntValue( tIniNode *node, const char *key )
 {
   tIniVal *val = getIniValue( node, key ) ;
   int *digit = NULL ;
@@ -218,7 +218,7 @@ const int* getIniIntValue( tIniNode *node, const char *key )
 }
 
 /******************************************************************************/
-/* get ini type value                                */
+/* get ini type value                                  */
 /******************************************************************************/
 tValType getIniTypeValue( tIniVal *val )
 {

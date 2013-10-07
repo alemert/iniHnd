@@ -80,7 +80,7 @@ char* iniStrValue( tIniNode *iniNode, char* key ) ;
 
 tIniNode* getIniNode( char* first, ... );
 tIniNode* getNextIniNode( tIniNode* anchor, ... );
-const char* getIniStrValue( tIniNode *node, const char *key );
-const int* getIniIntValue( tIniNode *node, const char *key );
+char* getIniStrValue( tIniNode *node, const char *key );
+int* getIniIntValue( tIniNode *node, const char *key );
 tValType getIniTypeValue( tIniVal *val );
 

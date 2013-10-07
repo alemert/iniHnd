@@ -1,1 +1,2 @@
 ver 0.1.4 rebuild due msgCat bug(version) 0.4.13
+ver 0.1.5 getIniNode, getIniStrValue, getIniIntValue return type changed
